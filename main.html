@@ -13,6 +13,9 @@
                         'neon-pink': '#EC4899',
                         'neon-indigo': '#4F46E5',
                         'deep-black': '#050505',
+                        // Adding colors from the new background for CSS reference
+                        'dark-charcoal': '#10141D',
+                        'deep-navy': '#1D2A4A',
                     },
                     boxShadow: {
                         'neon-pink': '0 0 20px theme("colors.neon-pink"), 0 0 60px theme("colors.neon-pink")',
@@ -35,28 +38,30 @@
             scroll-margin-top: 6rem;
         }
 
-        /* --- NEW BACKGROUND STYLING: Animated Noise/Starfield --- */
-        .bg-noise {
-            /* Using a subtle dark noise texture (simulated with CSS for portability) */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            background-size: 100% 100%;
-            animation: move-background 15s linear infinite;
+        /* --- BACKGROUND STYLING (Kept Prominent Version) --- */
+        .bg-grid {
+            /* Adjusted dot color to #2E3A52 (brighter dark tone) and smaller size (30px) */
+            background-image: radial-gradient(#2E3A52 1px, transparent 1px),
+            radial-gradient(#2E3A52 1px, transparent 1px);
+            background-size: 30px 30px; /* Reduced size for more density */
+            background-position: 0 0, 15px 15px; /* Adjusted position based on new size */
+            animation: move-grid 45s linear infinite;
         }
 
-        @keyframes move-background {
-            0% { background-position: 0 0; }
-            100% { background-position: 100% 100%; }
+        @keyframes move-grid {
+            from { background-position: 0 0, 15px 15px; }
+            to { background-position: 30px 30px, 45px 45px; }
         }
-        /* --- END NEW BACKGROUND STYLING --- */
+        /* --- END BACKGROUND STYLING --- */
 
 
-        /* Vignette to fade noise at edges */
+        /* Vignette to fade noise at edges (Original) */
         .bg-vignette {
-            /* Adjusted blend to keep pattern visible but darker at edges */
+            /* Using deep-black from original site as the fade-out color */
             background: radial-gradient(circle at center, transparent 0%, rgba(5, 5, 5, 1) 100%);
         }
 
-        /* Ambient Background Animation */
+        /* Ambient Background Animation (Original) */
         @keyframes drift {
             0% { transform: translate(0px, 0px) scale(1); opacity: 0.3; }
             33% { transform: translate(30px, -50px) scale(1.1); opacity: 0.5; }
@@ -70,7 +75,7 @@
             animation: drift 10s ease-in-out infinite alternate-reverse;
         }
 
-        /* Gradient Button Effect - Sleek Neon Plasma */
+        /* Gradient Button Effect - Sleek Neon Plasma (Original) */
         .gradient-button {
             background-image: linear-gradient(to right, #4F46E5 0%, #EC4899 51%, #4F46E5 100%);
             text-align: center;
@@ -116,7 +121,7 @@
         }
 
 
-        /* Style for Skewed Dividers */
+        /* Style for Skewed Dividers (Original) */
         .skew-divider {
             position: relative;
             height: 8rem; /* Taller for more dramatic cut */
@@ -132,7 +137,7 @@
             transform-origin: top left;
         }
 
-        /* Glassmorphism Card Base Utility */
+        /* Glassmorphism Card Base Utility (Original) */
         .glass-card {
             background: rgba(10, 10, 10, 0.6); /* Slightly darker for better contrast on noise */
             backdrop-filter: blur(16px);
@@ -141,7 +146,7 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- LOGO SPIN STYLING (New) --- */
+        /* --- LOGO SPIN STYLING (Original) --- */
         .header-logo-img {
             /* Inherits existing Tailwind transition, but defining here for clarity */
             transition: transform 0.8s ease-in-out;
@@ -154,7 +159,7 @@
     </style>
 </head>
 
-<body class="bg-[#050505] bg-noise text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white overflow-x-hidden">
+<body class="bg-[#050505] bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white overflow-x-hidden">
 
 <div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
 
@@ -233,10 +238,10 @@
                     </p>
                     <ul class="text-left text-slate-400 space-y-4 px-4 inline-block">
                         <li class="flex items-start font-medium">
-                            <span class="text-pink-500 mr-3 text-xl leading-none font-black group-hover:text-pink-300 transition">&#10095;</span> Define goals like improving squat depth or reducing back pain.
+                            <span class="text-pink-500 mr-3 text-xl leading-none font-black">&#10095;</span> Define goals like improving squat depth or reducing back pain.
                         </li>
                         <li class="flex items-start font-medium">
-                            <span class="text-pink-500 mr-3 text-xl leading-none font-black group-hover:text-pink-300 transition">&#10095;</span> Choose the duration: e.g., 4 weeks or 90 days.
+                            <span class="text-pink-500 mr-3 text-xl leading-none font-black">&#10095;</span> Choose the duration: e.g., 4 weeks or 90 days.
                         </li>
                     </ul>
                 </div>
@@ -255,10 +260,10 @@
                     </p>
                     <ul class="text-left text-slate-400 space-y-4 px-4 inline-block">
                         <li class="flex items-start font-medium">
-                            <span class="text-indigo-500 mr-3 text-xl leading-none font-black group-hover:text-indigo-300 transition">&#10095;</span> Request to instantly adjust the length of your plan.
+                            <span class="text-indigo-500 mr-3 text-xl leading-none font-black">&#10095;</span> Request to instantly adjust the length of your plan.
                         </li>
                         <li class="flex items-start font-medium">
-                            <span class="text-indigo-500 mr-3 text-xl leading-none font-black group-hover:text-indigo-300 transition">&#10095;</span> Ask “Why this exercise?” and discover the science behind it.
+                            <span class="text-indigo-500 mr-3 text-xl leading-none font-black">&#10095;</span> Ask “Why this exercise?” and discover the science behind it.
                         </li>
                     </ul>
                 </div>
@@ -281,14 +286,20 @@
 
                 <p class="text-2xl font-bold text-indigo-400 mb-12 uppercase tracking-wider">Seamless integration with your favorite devices:</p>
                 <div class="flex justify-center gap-16 flex-wrap">
-                    <div class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-8 transition-all duration-500 hover:scale-110 hover:border-pink-500/80 hover:shadow-neon-pink">
-                        <img src="media/garmin.png" alt="Garmin Logo" class="w-full h-full object-contain filter grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 transition duration-500">
+                    <!-- Garmin Card - Size is now w-40 h-40, padding reduced to p-4 to make logo visually bigger -->
+                    <div class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-1 transition-all duration-500 hover:scale-110 hover:border-pink-500/80 hover:shadow-neon-pink">
+                        <img src="media/garmin.png" alt="Garmin Logo" class="w-full h-full object-contain transition duration-500">
                     </div>
+                    <!-- Strava Card - Standard size (w-40 h-40, p-8) -->
                     <div class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-8 transition-all duration-500 hover:scale-110 hover:border-indigo-500/80 hover:shadow-neon-indigo">
-                        <img src="media/strava.svg" alt="Strava Logo" class="w-full h-full object-contain filter grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 transition duration-500">
+                        <img src="media/strava.svg" alt="Strava Logo" class="w-full h-full object-contain transition duration-500">
+                    </div>
+                    <!-- Apple Health Card - Standard size (w-40 h-40, p-8) and correct image path -->
+                    <div class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-8 transition-all duration-500 hover:scale-110 hover:border-pink-500/80 hover:shadow-neon-pink">
+                        <img src="media/health.svg" alt="Apple Health Logo" class="w-full h-full object-contain transition duration-500">
                     </div>
                 </div>
-                <p class="text-sm text-slate-500 mt-12 tracking-wider uppercase font-semibold">Garmin Activity API & Strava API integration coming soon.</p>
+                <p class="text-sm text-slate-500 mt-12 tracking-wider uppercase font-semibold">Garmin Activity API, Strava API, & Apple Health integration coming soon.</p>
             </div>
 
             <div class="p-12 rounded-3xl glass-card bg-black/50 relative overflow-hidden">
