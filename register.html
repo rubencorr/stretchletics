@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Stretchletics | Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-pink': '#EC4899',
+            'neon-indigo': '#4F46E5',
+            'deep-black': '#050505',
+            'dark-charcoal': '#10141D',
+            'deep-navy': '#1D2A4A',
+          },
+          boxShadow: {
+            'neon-pink': '0 0 20px theme("colors.neon-pink"), 0 0 60px theme("colors.neon-pink")',
+            'neon-indigo': '0 0 20px theme("colors.neon-indigo"), 0 0 60px theme("colors.neon-indigo")',
+            'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+    :root {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Background Grid */
+    .bg-grid {
+      background-image: radial-gradient(#2E3A52 1px, transparent 1px),
+      radial-gradient(#2E3A52 1px, transparent 1px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+
+    /* Glassmorphism Card Base Utility */
+    .glass-card {
+      background: rgba(10, 10, 10, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Gradient Button Effect - Sleek Neon Plasma */
+    .gradient-button {
+      background-image: linear-gradient(to right, #4F46E5 0%, #EC4899 51%, #4F46E5 100%);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      background-size: 200% auto;
+      color: white;
+      box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+      border-radius: 8px;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+    }
+    .gradient-button:hover {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.7);
+    }
+  </style>
+</head>
+
+<body class="bg-[#050505] bg-grid text-slate-300 antialiased min-h-screen flex items-center justify-center p-4">
+
+<div class="w-full max-w-md">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-black tracking-wider text-white uppercase drop-shadow-lg">
+      Create Account
+    </h1>
+    <p class="text-slate-400 mt-2">Start your journey to better flexibility today.</p>
+  </div>
+
+  <div class="glass-card p-8 sm:p-10 rounded-xl bg-black/40">
+    <form id="registration-form" class="space-y-6">
+
+      <!-- NEW: Full Name Field -->
+      <div>
+        <label for="full-name" class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider">Full Name</label>
+        <input type="text" id="full-name" required
+               class="w-full p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none"
+               placeholder="John Doe">
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider">Email Address</label>
+        <input type="email" id="email" required
+               class="w-full p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none"
+               placeholder="you@example.com">
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider">Password</label>
+        <input type="password" id="password" required minlength="6"
+               class="w-full p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none"
+               placeholder="6+ characters">
+      </div>
+
+      <div>
+        <label for="confirm-password" class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider">Confirm Password</label>
+        <input type="password" id="confirm-password" required minlength="6"
+               class="w-full p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none"
+               placeholder="Re-enter password">
+      </div>
+
+      <button type="submit" id="register-button"
+              class="gradient-button w-full px-5 py-4 text-lg font-black shadow-xl mt-8">
+        REGISTER
+      </button>
+    </form>
+
+    <div id="message-box" class="mt-4 p-4 rounded-lg text-sm text-center font-medium hidden" role="alert"></div>
+
+    <div class="mt-8 text-center border-t border-white/10 pt-6">
+      <p class="text-slate-400">
+        Already have an account?
+        <a href="login.html" class="font-bold text-pink-400 hover:text-pink-300 transition duration-300">
+          Sign In here
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInAnonymously, signInWithCustomToken, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  setLogLevel('Debug'); // Set logging level
+
+  const registerForm = document.getElementById('registration-form');
+  const messageBox = document.getElementById('message-box');
+  const registerButton = document.getElementById('register-button');
+
+  let db;
+  let auth;
+  let appId;
+
+  // --- Firebase Initialization and Authentication Setup ---
+  function getFirebaseConfig() {
+    try {
+      if (typeof __firebase_config !== 'undefined') {
+        return JSON.parse(__firebase_config);
+      }
+      console.warn("Firebase config not found. Using dummy config.");
+      return { apiKey: "dummy", authDomain: "dummy", projectId: "dummy" };
+    } catch (e) {
+      console.error("Error parsing Firebase config:", e);
+      return { apiKey: "dummy", authDomain: "dummy", projectId: "dummy" };
+    }
+  }
+
+  async function initFirebase() {
+    const firebaseConfig = getFirebaseConfig();
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    auth = getAuth(app);
+    appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+    try {
+      // Sign in using the custom token provided by the environment
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
+        console.log("Signed in with custom token.");
+      } else {
+        // Fallback to anonymous sign-in if no token is provided
+        await signInAnonymously(auth);
+        console.log("Signed in anonymously.");
+      }
+    } catch (error) {
+      console.error("Error during initial authentication:", error.code, error.message);
+      // If custom token fails, try anonymous sign-in as a last resort
+      await signInAnonymously(auth);
+    }
+  }
+
+  // --- Message Display Utility ---
+  function showMessage(message, type = 'success') {
+    messageBox.textContent = message;
+    messageBox.classList.remove('hidden', 'bg-red-900/50', 'bg-green-900/50', 'text-red-300', 'text-green-300');
+    if (type === 'error') {
+      messageBox.classList.add('bg-red-900/50', 'text-red-300', 'shadow-neon-pink');
+    } else {
+      messageBox.classList.add('bg-green-900/50', 'text-green-300', 'shadow-neon-indigo');
+    }
+    messageBox.classList.remove('hidden');
+  }
+
+  function setFormEnabled(enabled) {
+    document.getElementById('full-name').disabled = !enabled; // Added
+    document.getElementById('email').disabled = !enabled;
+    document.getElementById('password').disabled = !enabled;
+    document.getElementById('confirm-password').disabled = !enabled;
+    registerButton.disabled = !enabled;
+    registerButton.textContent = enabled ? 'REGISTER' : 'PROCESSING...';
+  }
+
+  // --- Registration Logic ---
+  async function handleRegistration(event) {
+    event.preventDefault();
+
+    setFormEnabled(false);
+    messageBox.classList.add('hidden');
+
+    const fullName = document.getElementById('full-name').value.trim(); // Added
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if (!fullName || !email || !password || !confirmPassword) {
+      showMessage('Please fill out all fields.', 'error');
+      setFormEnabled(true);
+      return;
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      showMessage('Passwords do not match.', 'error');
+      setFormEnabled(true);
+      return;
+    }
+
+    try {
+      // 1. Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // 2. Update Firebase Authentication profile (display name)
+      await updateProfile(user, {
+        displayName: fullName
+      });
+
+      // 3. Store initial user data in Firestore
+      // Path: /artifacts/{appId}/users/{userId}/user_data/profile
+      const userDocRef = doc(db, `artifacts/${appId}/users/${user.uid}/user_data/profile`);
+      await setDoc(userDocRef, {
+        fullName: fullName, // Saved full name
+        email: user.email,
+        createdAt: new Date().toISOString(),
+        // Placeholder for future user profile fields (e.g., goals)
+        goals: "Not set",
+        flexibility_score: 0
+      });
+
+      showMessage('Registration successful! Redirecting to login...', 'success');
+
+      // Optional: Redirect to login page after a short delay
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1500);
+
+    } catch (error) {
+      console.error("Registration Error:", error.code, error.message);
+
+      let errorMessage = 'An unknown error occurred during registration.';
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage = 'This email address is already in use.';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'The email address is not valid.';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Password should be at least 6 characters.';
+          break;
+        default:
+          errorMessage = `Registration failed: ${error.message}`;
+      }
+
+      showMessage(errorMessage, 'error');
+      setFormEnabled(true);
+    }
+  }
+
+  // --- Main Execution ---
+  window.onload = async () => {
+    await initFirebase();
+    registerForm.addEventListener('submit', handleRegistration);
+  };
+
+</script>
+
+</body>
+</html>

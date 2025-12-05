@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Secure Checkout - Stretchletics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-pink': '#EC4899',
+            'neon-indigo': '#4F46E5',
+            'deep-black': '#050505',
+            'dark-charcoal': '#10141D',
+            'deep-navy': '#1D2A4A',
+          },
+          boxShadow: {
+            'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Tailwind config (optional, for Inter font) */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+    :root {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* --- BACKGROUND STYLING --- */
+    .bg-grid {
+      background-image: radial-gradient(#2E3A52 1px, transparent 1px),
+      radial-gradient(#2E3A52 1px, transparent 1px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      animation: move-grid 45s linear infinite;
+    }
+
+    @keyframes move-grid {
+      from { background-position: 0% 0%; }
+      to { background-position: 30px 30px, 45px 45px; }
+    }
+
+    .bg-vignette {
+      background: radial-gradient(circle at center, transparent 0%, rgba(5, 5, 5, 1) 100%);
+    }
+    /* --- END BACKGROUND STYLING --- */
+
+    /* Glassmorphism Card Base Utility */
+    .glass-card {
+      background: rgba(10, 10, 10, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- LOGO SPIN STYLING --- */
+    .header-logo-img {
+      transition: transform 0.8s ease-in-out;
+    }
+
+    .header-logo-img:hover {
+      transform: rotate(360deg);
+    }
+    /* --- END LOGO SPIN STYLING --- */
+
+    /* Gradient Button Effect - Sleek Neon Plasma */
+    .gradient-button {
+      background-image: linear-gradient(to right, #4F46E5 0%, #EC4899 51%, #4F46E5 100%);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      background-size: 200% auto;
+      color: white;
+      box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+      border-radius: 4px;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .gradient-button::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(to right, #4F46E5, #EC4899, #4F46E5);
+      background-size: 200% auto;
+      filter: blur(10px);
+      opacity: 0.4;
+      z-index: -1;
+      transition: opacity 0.3s ease-out;
+      border-radius: inherit;
+    }
+
+    .gradient-button:hover::before {
+      opacity: 0.8;
+      animation: gradient-shift 3s linear infinite;
+    }
+
+    .gradient-button:hover {
+      background-position: right center;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.7);
+    }
+
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+  </style>
+</head>
+<body class="bg-deep-black bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white">
+
+<div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
+
+<main class="min-h-screen flex items-center justify-center p-4">
+  <div class="glass-card w-full max-w-4xl p-10 rounded-3xl relative z-10 grid lg:grid-cols-3 gap-10">
+
+    <!-- Column 1: Payment Summary & Plan Selection -->
+    <div class="lg:col-span-1 border-b lg:border-r lg:border-b-0 border-white/10 pb-8 lg:pb-0 lg:pr-10">
+      <h2 class="text-3xl font-black text-white uppercase tracking-widest mb-6 border-b border-indigo-500/50 pb-3">SELECT PLAN</h2>
+
+      <div id="plan-selection-container" class="space-y-4 mb-8">
+        <!-- Radio Button for Elite Plan (Default Selected) -->
+        <label for="plan-elite" id="label-elite" class="flex items-center glass-card p-4 rounded-xl border-pink-500/80 cursor-pointer transition duration-300 hover:bg-black/80">
+          <input type="radio" id="plan-elite" name="plan" value="elite" checked class="h-5 w-5 text-pink-500 focus:ring-pink-500 border-gray-600 mr-4">
+          <div>
+            <p class="text-xl font-bold text-pink-400 uppercase tracking-wider">ELITE Plan</p>
+            <p class="text-slate-400 text-sm">Max flexibility gains & custom training plans. (20.00 €/mo)</p>
+          </div>
+        </label>
+
+        <!-- Radio Button for Standard Plan -->
+        <label for="plan-standard" id="label-standard" class="flex items-center glass-card p-4 rounded-xl border-white/10 cursor-pointer transition duration-300 hover:bg-black/80">
+          <input type="radio" id="plan-standard" name="plan" value="standard" class="h-5 w-5 text-pink-500 focus:ring-pink-500 border-gray-600 mr-4">
+          <div>
+            <p class="text-xl font-bold text-slate-300 uppercase tracking-wider">STANDARD Plan</p>
+            <p class="text-slate-400 text-sm">Access to core stretching routines & progress tracking. (10.00 €/mo)</p>
+          </div>
+        </label>
+      </div>
+
+      <h2 class="text-2xl font-black text-white uppercase tracking-widest mb-6 border-b border-indigo-500/50 pb-3">ORDER SUMMARY</h2>
+
+      <div class="space-y-4 text-lg">
+        <!-- Keeping only the total for a clean summary -->
+        <div class="flex justify-between items-center text-2xl font-black text-pink-400 pt-2">
+          <span>TOTAL DUE NOW</span>
+          <span id="total-display">20.00 €</span>
+        </div>
+      </div>
+
+      <p class="text-sm text-slate-500 mt-6 text-center">
+        Your subscription will automatically renew monthly. Cancel anytime.
+      </p>
+    </div>
+
+
+    <!-- Column 2 & 3: Payment Form -->
+    <div class="lg:col-span-2">
+      <!-- Logo Header -->
+      <a href="main.html" class="flex items-center space-x-3 group justify-start mb-8">
+        <div class="relative">
+          <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-30 group-hover:opacity-70 transition duration-500"></div>
+          <img alt="Stretchletics Logo" class="relative h-8 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
+               src="/media/Logo2-1.jpg">
+        </div>
+        <p class="text-2xl font-black tracking-[0.2em] text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Stretchletics Checkout</p>
+      </a>
+      <!-- End Logo Header -->
+
+      <h2 class="text-3xl font-black text-white uppercase tracking-widest mb-8">PAYMENT DETAILS</h2>
+
+      <form action="#" method="POST" class="space-y-6">
+
+        <!-- Payment Method Toggle (Simple example) -->
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-slate-300">PAYMENT METHOD</label>
+          <div class="flex space-x-4">
+            <div class="flex items-center bg-black/50 p-3 rounded-lg border border-pink-500/30">
+              <input id="card" name="payment-method" type="radio" checked
+                     class="h-4 w-4 text-pink-500 focus:ring-pink-500 border-gray-600" value="card">
+              <label for="card" class="ml-3 block text-base font-medium text-white">
+                Credit Card
+              </label>
+            </div>
+            <div class="flex items-center bg-black/50 p-3 rounded-lg border border-white/10">
+              <input id="paypal" name="payment-method" type="radio" disabled
+                     class="h-4 w-4 text-pink-500 focus:ring-pink-500 border-gray-600" value="paypal">
+              <label for="paypal" class="ml-3 block text-base font-medium text-slate-500">
+                PayPal (Coming Soon)
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Number -->
+        <div>
+          <label for="card-number" class="block text-sm font-medium text-slate-300 mb-2">CARD NUMBER</label>
+          <input type="text" id="card-number" name="card-number" required
+                 class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
+                 placeholder="•••• •••• •••• ••••" maxlength="19">
+        </div>
+
+        <div class="grid grid-cols-3 gap-6">
+          <!-- Expiration Date -->
+          <div class="col-span-2">
+            <label for="expiry-date" class="block text-sm font-medium text-slate-300 mb-2">EXPIRY DATE (MM/YY)</label>
+            <input type="text" id="expiry-date" name="expiry-date" required
+                   class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
+                   placeholder="MM / YY" maxlength="5">
+          </div>
+          <!-- CVV -->
+          <div class="col-span-1">
+            <label for="cvv" class="block text-sm font-medium text-slate-300 mb-2">CVV</label>
+            <input type="text" id="cvv" name="cvv" required
+                   class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
+                   placeholder="123" maxlength="4">
+          </div>
+        </div>
+
+        <h3 class="text-xl font-black text-white uppercase tracking-wider pt-4 border-t border-white/10">BILLING ADDRESS</h3>
+
+        <!-- Name on Card -->
+        <div>
+          <label for="card-name" class="block text-sm font-medium text-slate-300 mb-2">NAME ON CARD</label>
+          <input type="text" id="card-name" name="card-name" required
+                 class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
+                 placeholder="JANE DOE">
+        </div>
+
+        <!-- Country/Region -->
+        <div>
+          <label for="country" class="block text-sm font-medium text-slate-300 mb-2">COUNTRY / REGION</label>
+          <select id="country" name="country" required
+                  class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none appearance-none cursor-pointer">
+            <option value="" disabled selected class="text-slate-500 bg-deep-black">Select Country...</option>
+            <option value="us" class="bg-deep-black">United States</option>
+            <option value="ca" class="bg-deep-black">Canada</option>
+            <option value="de" class="bg-deep-black">Germany</option>
+            <option value="gb" class="bg-deep-black">United Kingdom</option>
+            <option value="other" class="bg-deep-black">Other</option>
+          </select>
+        </div>
+
+        <!-- Terms Checkbox -->
+        <div class="pt-2">
+          <div class="flex items-start">
+            <input id="subscribe-elite" name="subscribe-elite" type="checkbox" checked
+                   class="mt-1 h-5 w-5 rounded border-gray-600 bg-black/50 text-pink-500 focus:ring-pink-500">
+            <label for="subscribe-elite" id="confirmation-label" class="ml-3 block text-sm text-slate-400">
+              I confirm the monthly subscription of 20.00 € for the Elite plan.
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" id="pay-button" class="gradient-button w-full px-5 py-4 text-xl font-black shadow-xl mt-8">
+          CONFIRM & PAY 20.00 €
+        </button>
+      </form>
+
+      <p class="mt-8 text-center text-sm">
+        <a href="main.html" class="text-slate-500 hover:text-white transition">← Back to Stretchletics Home</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Define the available plans and their details
+  const plans = {
+    elite: { name: "Elite", price: 20.00 },
+    standard: { name: "Standard", price: 10.00 }
+  };
+
+  // Function to update the UI based on the selected plan
+  function updatePlanDisplay(planKey) {
+    const plan = plans[planKey];
+    const priceFormatted = plan.price.toFixed(2) + ' €';
+
+    // 1. Update price displays in the summary (now only updating the total)
+    document.getElementById('total-display').textContent = priceFormatted;
+
+    // 2. Update button and confirmation text
+    document.getElementById('pay-button').textContent = `CONFIRM & PAY ${priceFormatted}`;
+    document.getElementById('confirmation-label').textContent = `I confirm the monthly subscription of ${priceFormatted} for the ${plan.name} plan.`;
+
+    // 3. Update active visual state for labels
+    const eliteLabel = document.getElementById('label-elite');
+    const standardLabel = document.getElementById('label-standard');
+
+    // Remove active state borders
+    eliteLabel.classList.remove('border-pink-500/80', 'border-white/10');
+    standardLabel.classList.remove('border-pink-500/80', 'border-white/10');
+
+    // Remove active text color
+    eliteLabel.querySelector('p:first-child').classList.remove('text-pink-400', 'text-slate-300');
+    standardLabel.querySelector('p:first-child').classList.remove('text-pink-400', 'text-slate-300');
+
+    if (planKey === 'elite') {
+      eliteLabel.classList.add('border-pink-500/80');
+      standardLabel.classList.add('border-white/10');
+      eliteLabel.querySelector('p:first-child').classList.add('text-pink-400');
+      standardLabel.querySelector('p:first-child').classList.add('text-slate-300');
+    } else {
+      standardLabel.classList.add('border-pink-500/80');
+      eliteLabel.classList.add('border-white/10');
+      standardLabel.querySelector('p:first-child').classList.add('text-pink-400');
+      eliteLabel.querySelector('p:first-child').classList.add('text-slate-300');
+    }
+  }
+
+  // Add event listeners when the window loads
+  window.addEventListener('load', () => {
+    const planInputs = document.querySelectorAll('input[name="plan"]');
+
+    planInputs.forEach(input => {
+      input.addEventListener('change', (event) => {
+        updatePlanDisplay(event.target.value);
+      });
+    });
+
+    // Initialize the display with the default (Elite) plan
+    updatePlanDisplay('elite');
+  });
+</script>
+
+</body>
+</html>
