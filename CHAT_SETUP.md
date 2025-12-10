@@ -3,6 +3,7 @@
 ## Setup Instructions
 
 1. **Install dependencies** (Flask was just added):
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -15,6 +16,7 @@
 ## Running the Application
 
 Start the Flask server:
+
 ```bash
 python app.py
 ```

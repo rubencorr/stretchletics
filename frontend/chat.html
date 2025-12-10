@@ -239,127 +239,146 @@
     </div>
 
     <script>
-          const chatMessages = document.getElementById('chat-messages');
-          const chatForm = document.getElementById('chat-form');
-          const chatInput = document.getElementById('chat-input');
-          const sendButton = document.getElementById('send-button');
-          const lastWorkoutBtn = document.getElementById('last-workout-btn');
-          const lastWorkoutStatus = document.getElementById('last-workout-status');
+      const chatMessages = document.getElementById("chat-messages");
+      const chatForm = document.getElementById("chat-form");
+      const chatInput = document.getElementById("chat-input");
+      const sendButton = document.getElementById("send-button");
+      const lastWorkoutBtn = document.getElementById("last-workout-btn");
+      const lastWorkoutStatus = document.getElementById("last-workout-status");
 
-          // --- Mock Data ---
-          const mockLastWorkout = {
-              type: 'Running',
-              duration: '1 hour 15 minutes',
-              intensity: 'Moderate',
-              muscleGroupsUsed: ['Quadriceps', 'Hamstrings', 'Glutes', 'Calves', 'Core'],
-              date: new Date().toLocaleDateString(),
-              distance: '12 km'
-          };
+      // --- Mock Data ---
+      const mockLastWorkout = {
+        type: "Running",
+        duration: "1 hour 15 minutes",
+        intensity: "Moderate",
+        muscleGroupsUsed: [
+          "Quadriceps",
+          "Hamstrings",
+          "Glutes",
+          "Calves",
+          "Core",
+        ],
+        date: new Date().toLocaleDateString(),
+        distance: "12 km",
+      };
 
-          // --- Helper Functions ---
+      // --- Helper Functions ---
 
-          function scrollToBottom() {
-              chatMessages.scrollTop = chatMessages.scrollHeight;
-          }
+      function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
 
-          function addMessage(text, sender = 'bot', isRoutine = false) {
-              const messageWrapper = document.createElement('div');
-              const messageBox = document.createElement('div');
+      function addMessage(text, sender = "bot", isRoutine = false) {
+        const messageWrapper = document.createElement("div");
+        const messageBox = document.createElement("div");
 
-              if (sender === 'user') {
-                  messageWrapper.className = 'flex justify-end';
-                  messageBox.className = 'p-4 max-w-xs sm:max-w-md user-message-bubble';
-                  messageBox.textContent = text;
-              } else {
-                  messageWrapper.className = 'flex justify-start';
-                  messageBox.className = 'p-4 max-w-xs sm:max-w-md bot-message-bubble';
+        if (sender === "user") {
+          messageWrapper.className = "flex justify-end";
+          messageBox.className = "p-4 max-w-xs sm:max-w-md user-message-bubble";
+          messageBox.textContent = text;
+        } else {
+          messageWrapper.className = "flex justify-start";
+          messageBox.className = "p-4 max-w-xs sm:max-w-md bot-message-bubble";
 
-                  const senderTag = document.createElement('p');
-                  senderTag.className = 'font-bold uppercase text-xs tracking-wider ' + (isRoutine ? 'text-neon-pink' : 'text-neon-indigo');
-                  senderTag.textContent = isRoutine ? 'Recommended Routine' : 'Stretchletics';
+          const senderTag = document.createElement("p");
+          senderTag.className =
+            "font-bold uppercase text-xs tracking-wider " +
+            (isRoutine ? "text-neon-pink" : "text-neon-indigo");
+          senderTag.textContent = isRoutine
+            ? "Recommended Routine"
+            : "Stretchletics";
 
-                  const messageContent = document.createElement('p');
-                  messageContent.className = 'mt-1 text-sm whitespace-pre-wrap';
-                  messageContent.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+          const messageContent = document.createElement("p");
+          messageContent.className = "mt-1 text-sm whitespace-pre-wrap";
+          messageContent.innerHTML = text.replace(
+            /\*\*(.*?)\*\*/g,
+            "<strong>$1</strong>"
+          );
 
-                  messageBox.appendChild(senderTag);
-                  messageBox.appendChild(messageContent);
-              }
+          messageBox.appendChild(senderTag);
+          messageBox.appendChild(messageContent);
+        }
 
-              messageWrapper.appendChild(messageBox);
-              chatMessages.appendChild(messageWrapper);
-              scrollToBottom();
-          }
+        messageWrapper.appendChild(messageBox);
+        chatMessages.appendChild(messageWrapper);
+        scrollToBottom();
+      }
 
-          function toggleForm(enabled) {
-              chatInput.disabled = !enabled;
-              sendButton.disabled = !enabled;
-              lastWorkoutBtn.disabled = !enabled;
-              chatInput.placeholder = enabled ? 'Ask me for a routine...' : 'Generating routine...';
+      function toggleForm(enabled) {
+        chatInput.disabled = !enabled;
+        sendButton.disabled = !enabled;
+        lastWorkoutBtn.disabled = !enabled;
+        chatInput.placeholder = enabled
+          ? "Ask me for a routine..."
+          : "Generating routine...";
 
-              // Change button icon/state when disabled (loading)
-              sendButton.innerHTML = enabled ?
-                  `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.428a1 1 0 00.931-.693l2.4-7.202 5.235 5.235a1 1 0 001.414-1.414l-8-8z" /></svg>` :
-                  `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
-          }
+        // Change button icon/state when disabled (loading)
+        sendButton.innerHTML = enabled
+          ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.428a1 1 0 00.931-.693l2.4-7.202 5.235 5.235a1 1 0 001.414-1.414l-8-8z" /></svg>`
+          : `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+      }
 
-          // --- LLM/Routine Generation via Backend ---
-          async function generateRoutine(prompt) {
-              toggleForm(false);
+      // --- LLM/Routine Generation via Backend ---
+      async function generateRoutine(prompt) {
+        toggleForm(false);
 
-              try {
-                  const response = await fetch('/api/chat', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify({ message: prompt })
-                  });
-
-                  if (!response.ok) {
-                      throw new Error(`Server error: ${response.status}`);
-                  }
-
-                  const data = await response.json();
-                  const routineText = data.response;
-
-                  addMessage(routineText, 'bot', true);
-              } catch (error) {
-                  addMessage(`Error generating routine: ${error.message}`, 'bot', false);
-              }
-
-              toggleForm(true);
-              chatInput.value = '';
-          }
-
-          // --- Event Listeners ---
-
-          // 1. Handle LLM Chat Request
-          chatForm.addEventListener('submit', (e) => {
-              e.preventDefault();
-              const prompt = chatInput.value.trim();
-              if (prompt) {
-                  addMessage(prompt, 'user');
-                  generateRoutine(prompt);
-              }
+        try {
+          const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ message: prompt }),
           });
 
-          // 2. Handle Last Workout Button Click
-          lastWorkoutBtn.addEventListener('click', () => {
-              const workout = mockLastWorkout;
-              const userPrompt = `Generate a cool-down routine for my last workout: a ${workout.type} of ${workout.duration}.`;
+          if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+          }
 
-              addMessage(userPrompt, 'user');
+          const data = await response.json();
+          const routineText = data.response;
 
-              // Trigger the routine generation via backend
-              generateRoutine(userPrompt);
-          });
+          addMessage(routineText, "bot", true);
+        } catch (error) {
+          addMessage(
+            `Error generating routine: ${error.message}`,
+            "bot",
+            false
+          );
+        }
 
-          // --- Initialization ---
-          document.addEventListener('DOMContentLoaded', () => {
-              // Update status with mock data
-              lastWorkoutStatus.textContent = `(Last Synced Workout: ${mockLastWorkout.type} on ${mockLastWorkout.date} - ${mockLastWorkout.distance})`;
-          });
+        toggleForm(true);
+        chatInput.value = "";
+      }
+
+      // --- Event Listeners ---
+
+      // 1. Handle LLM Chat Request
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const prompt = chatInput.value.trim();
+        if (prompt) {
+          addMessage(prompt, "user");
+          generateRoutine(prompt);
+        }
+      });
+
+      // 2. Handle Last Workout Button Click
+      lastWorkoutBtn.addEventListener("click", () => {
+        const workout = mockLastWorkout;
+        const userPrompt = `Generate a cool-down routine for my last workout: a ${workout.type} of ${workout.duration}.`;
+
+        addMessage(userPrompt, "user");
+
+        // Trigger the routine generation via backend
+        generateRoutine(userPrompt);
+      });
+
+      // --- Initialization ---
+      document.addEventListener("DOMContentLoaded", () => {
+        // Update status with mock data
+        lastWorkoutStatus.textContent = `(Last Synced Workout: ${mockLastWorkout.type} on ${mockLastWorkout.date} - ${mockLastWorkout.distance})`;
+      });
     </script>
   </body>
 </html>
