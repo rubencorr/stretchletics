@@ -1,0 +1,8 @@
+backports.tarfile==1.2.0
+importlib-metadata==8.0.0
+jaraco.collections==5.1.0
+langgraph==1.0.4
+openai==2.9.0
+pip-chill==1.0.3
+platformdirs==4.2.2
+tomli==2.0.1
