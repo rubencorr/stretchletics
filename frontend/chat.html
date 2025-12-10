@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Stretchletics | Routine Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "neon-pink": "#EC4899",
+              "neon-indigo": "#4F46E5",
+              "deep-black": "#050505",
+              "dark-charcoal": "#10141D",
+              "deep-navy": "#1D2A4A",
+            },
+            boxShadow: {
+              "neon-pink":
+                '0 0 20px theme("colors.neon-pink"), 0 0 60px theme("colors.neon-pink")',
+              "neon-indigo":
+                '0 0 20px theme("colors.neon-indigo"), 0 0 60px theme("colors.neon-indigo")',
+              glass: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap");
+      :root {
+        font-family: "Inter", sans-serif;
+      }
+      /* Background Grid */
+      .bg-grid {
+        background-image: radial-gradient(#2e3a52 1px, transparent 1px),
+          radial-gradient(#2e3a52 1px, transparent 1px);
+        background-size: 30px 30px;
+        background-position: 0 0, 15px 15px;
+      }
+
+      /* Glassmorphism Card Base Utility */
+      .glass-card {
+        background: rgba(10, 10, 10, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Gradient Button Effect - Sleek Neon Plasma */
+      .gradient-button {
+        background-image: linear-gradient(
+          to right,
+          #4f46e5 0%,
+          #ec4899 51%,
+          #4f46e5 100%
+        );
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        background-size: 200% auto;
+        color: white;
+        box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+        border-radius: 8px;
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+      }
+      .gradient-button:hover {
+        background-position: right center;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.7);
+      }
+
+      /* Custom scrollbar for chat area */
+      .chat-area::-webkit-scrollbar {
+        width: 8px;
+      }
+      .chat-area::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      .chat-area::-webkit-scrollbar-thumb {
+        background: rgba(236, 72, 153, 0.4); /* neon-pink/40 */
+        border-radius: 10px;
+      }
+      .chat-area::-webkit-scrollbar-thumb:hover {
+        background: rgba(79, 70, 229, 0.6); /* neon-indigo/60 */
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-[#050505] bg-grid text-slate-300 antialiased min-h-screen flex items-center justify-center p-4"
+  >
+    <div class="w-full max-w-2xl h-[90vh] flex flex-col">
+      <div class="text-center mb-6">
+        <h1
+          class="text-4xl font-black tracking-wider text-white uppercase drop-shadow-lg"
+        >
+          Stretchletics
+        </h1>
+        <p class="text-slate-400 mt-2">Your AI flexibility coach.</p>
+      </div>
+
+      <div
+        class="glass-card flex-grow flex flex-col rounded-xl overflow-hidden"
+      >
+        <div
+          id="chat-messages"
+          class="chat-area flex-grow p-6 space-y-4 overflow-y-auto"
+        >
+          <div class="flex justify-start">
+            <div
+              class="bg-deep-navy p-3 rounded-lg max-w-xs sm:max-w-md shadow-lg border border-neon-indigo/30"
+            >
+              <p class="font-semibold text-neon-indigo">Stretchbot</p>
+              <p class="mt-1 text-sm">
+                Hello! I can help you find the perfect stretching routine. You
+                can ask for a specific goal (e.g., "routine for tight
+                hamstrings") or click **"Use Last Workout"** to get a recovery
+                routine based on your synced data.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 border-t border-white/10 bg-black/40">
+          <div class="flex items-center space-x-3 mb-4">
+            <button
+              id="last-workout-btn"
+              class="gradient-button flex-shrink-0 px-4 py-2 text-sm font-bold shadow-md hover:shadow-neon-pink"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 inline-block mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 4v5h.582m15.836 2.5a8.25 8.25 0 11-16.174 0l.208-.667A5.999 5.999 0 0110 8.25c.877 0 1.708.242 2.453.667l-2.008 2.008.012-.012zM12 2v5l2.67 2.67"
+                />
+              </svg>
+              Use Last Workout
+            </button>
+            <div
+              id="last-workout-status"
+              class="text-sm text-slate-400 italic flex-grow truncate"
+            >
+              (Ready to sync)
+            </div>
+          </div>
+
+          <form id="chat-form" class="flex space-x-3">
+            <input
+              type="text"
+              id="chat-input"
+              required
+              placeholder="e.g., Routine for hip openers after a run"
+              class="flex-grow p-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+            />
+            <button
+              type="submit"
+              id="send-button"
+              class="gradient-button flex-shrink-0 px-4 py-3 text-base font-bold shadow-xl hover:shadow-neon-indigo"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.428a1 1 0 00.931-.693l2.4-7.202 5.235 5.235a1 1 0 001.414-1.414l-8-8z"
+                />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const chatMessages = document.getElementById("chat-messages");
+      const chatForm = document.getElementById("chat-form");
+      const chatInput = document.getElementById("chat-input");
+      const sendButton = document.getElementById("send-button");
+      const lastWorkoutBtn = document.getElementById("last-workout-btn");
+      const lastWorkoutStatus = document.getElementById("last-workout-status");
+
+      // --- Mock Data ---
+      // This simulates the data fetched from a third-party API (e.g., Strava, Apple Health)
+      const mockLastWorkout = {
+        type: "Running",
+        duration: "1 hour 15 minutes",
+        intensity: "Moderate",
+        muscleGroupsUsed: [
+          "Quadriceps",
+          "Hamstrings",
+          "Glutes",
+          "Calves",
+          "Core",
+        ],
+        date: new Date().toLocaleDateString(),
+        distance: "12 km",
+      };
+
+      // --- Helper Functions ---
+
+      function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function addMessage(text, sender = "bot", isRoutine = false) {
+        const messageWrapper = document.createElement("div");
+        const messageBox = document.createElement("div");
+
+        if (sender === "user") {
+          messageWrapper.className = "flex justify-end";
+          messageBox.className =
+            "bg-neon-pink p-3 rounded-lg max-w-xs sm:max-w-md shadow-lg text-deep-black font-medium";
+          messageBox.textContent = text;
+        } else {
+          // bot or routine
+          messageWrapper.className = "flex justify-start";
+          messageBox.className =
+            "bg-deep-navy p-3 rounded-lg max-w-xs sm:max-w-md shadow-lg border border-neon-indigo/30";
+
+          const senderTag = document.createElement("p");
+          senderTag.className =
+            "font-semibold " +
+            (isRoutine ? "text-neon-pink" : "text-neon-indigo");
+          senderTag.textContent = isRoutine
+            ? "Recommended Routine"
+            : "Stretchbot";
+
+          const messageContent = document.createElement("p");
+          messageContent.className = "mt-1 text-sm whitespace-pre-wrap"; // Use pre-wrap for preserving LLM line breaks
+          messageContent.innerHTML = text.replace(
+            /\*\*(.*?)\*\*/g,
+            "<b>$1</b>"
+          ); // Simple markdown bolding
+
+          messageBox.appendChild(senderTag);
+          messageBox.appendChild(messageContent);
+        }
+
+        messageWrapper.appendChild(messageBox);
+        chatMessages.appendChild(messageWrapper);
+        scrollToBottom();
+      }
+
+      function toggleForm(enabled) {
+        chatInput.disabled = !enabled;
+        sendButton.disabled = !enabled;
+        lastWorkoutBtn.disabled = !enabled;
+        chatInput.placeholder = enabled
+          ? "e.g., Routine for hip openers after a run"
+          : "Generating routine...";
+        sendButton.innerHTML = enabled
+          ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.428a1 1 0 00.931-.693l2.4-7.202 5.235 5.235a1 1 0 001.414-1.414l-8-8z" /></svg>`
+          : `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+      }
+
+      // --- LLM/Routine Generation Mock Logic ---
+      async function generateRoutine(prompt) {
+        toggleForm(false);
+
+        // Simulate API call delay
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        let routineText;
+        if (prompt.startsWith("[LAST_WORKOUT]")) {
+          const workout = mockLastWorkout;
+          routineText =
+            `Based on your **${workout.type}** of **${workout.duration}** on ${workout.date}, here is a targeted lower-body cool-down routine:\n\n` +
+            `1. **Quad Stretch (Standing/Lying)**: 30 seconds per leg (Targets: Quads)\n` +
+            `2. **Seated Hamstring Stretch (Forward Fold)**: 45 seconds (Targets: Hamstrings, Lower Back)\n` +
+            `3. **Figure-Four Stretch (Supine)**: 45 seconds per side (Targets: Glutes, Hips)\n` +
+            `4. **Calf Stretch (Wall Assisted)**: 30 seconds per leg (Targets: Calves)\n` +
+            `5. **Reclined Spinal Twist**: 60 seconds per side (Targets: Core, Hips, Lower Back)\n\n` +
+            `*Focus on gentle, sustained tension, not pain.*`;
+        } else {
+          // Simulated LLM response for a general request
+          const generalRoutine = {
+            hamstrings:
+              "Seated Forward Fold, Standing Half Split, Downward-Facing Dog (pedaling feet). Hold each for 60 seconds. Repeat 2 times.",
+            "hip openers":
+              "Butterfly Stretch, Pigeon Pose, Lizard Lunge. Hold each for 90 seconds per side. These are great for improving mobility.",
+            run: "Quad Stretch, Figure-Four, Calf Stretch (Wall Assisted). Hold each for 30-45 seconds per side. Focus on active recovery.",
+          };
+
+          let key = Object.keys(generalRoutine).find((k) =>
+            prompt.toLowerCase().includes(k)
+          );
+          if (key) {
+            routineText = `For your request: "**${prompt}**"\n\nHere is a quick routine:\n${generalRoutine[key]}`;
+          } else {
+            routineText = `I recommend starting with **Cat-Cow (1 minute)** to warm up your spine, followed by **Standing Side Bend (30s/side)** and **Child's Pose (1 minute)** for general mobility.`;
+          }
+        }
+
+        addMessage(routineText, "bot", true);
+        toggleForm(true);
+        chatInput.value = "";
+      }
+
+      // --- Event Listeners ---
+
+      // 1. Handle LLM Chat Request
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const prompt = chatInput.value.trim();
+        if (prompt) {
+          addMessage(prompt, "user");
+          generateRoutine(prompt);
+        }
+      });
+
+      // 2. Handle Last Workout Button Click
+      lastWorkoutBtn.addEventListener("click", () => {
+        const workout = mockLastWorkout;
+        const userPrompt = `Generate a cool-down routine for my last workout: a ${workout.type} of ${workout.duration}.`;
+
+        // Display user intent
+        addMessage(userPrompt, "user");
+
+        // Use a special internal prompt to trigger the API-based routine generation
+        generateRoutine("[LAST_WORKOUT]");
+      });
+
+      // --- Initialization ---
+      document.addEventListener("DOMContentLoaded", () => {
+        // Update status with mock data
+        lastWorkoutStatus.textContent = `(Last Synced Workout: ${mockLastWorkout.type} on ${mockLastWorkout.date})`;
+      });
+    </script>
+  </body>
+</html>
