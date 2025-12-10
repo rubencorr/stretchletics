@@ -303,64 +303,31 @@
                   `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
           }
 
-          // --- LLM/Routine Generation Mock Logic ---
+          // --- LLM/Routine Generation via Backend ---
           async function generateRoutine(prompt) {
               toggleForm(false);
-              await new Promise(resolve => setTimeout(resolve, 2500));
 
-              let routineText;
-              let requiresDiagram = false;
-
-              if (prompt.startsWith('[LAST_WORKOUT]')) {
-                  const workout = mockLastWorkout;
-                  routineText =
-                      `Based on your **${workout.type}** of **${workout.duration}** on ${workout.date}, here is a targeted lower-body cool-down routine:\n\n` +
-                      `1. **Quad Stretch (Standing/Lying)**: 30 seconds per leg (Targets: Quads)\n` +
-                      `2. **Seated Hamstring Stretch (Forward Fold)**: 45 seconds (Targets: Hamstrings, Lower Back)\n` +
-                      `3. **Figure-Four Stretch (Supine)**: 45 seconds per side (Targets: Glutes, Hips) \n` +
-                      `4. **Calf Stretch (Wall Assisted)**: 30 seconds per leg (Targets: Calves)\n` +
-                      `5. **Reclined Spinal Twist**: 60 seconds per side (Targets: Core, Hips, Lower Back)\n\n` +
-                      `*Focus on gentle, sustained tension, not pain.*`;
-                  requiresDiagram = true;
-
-              } else {
-                  const generalRoutine = {
-                      'hamstrings': {
-                          text: '1. **Seated Forward Fold** (90s)\n2. **Standing Half Split** (60s/side)\n3. **Seated Straddle** (90s).\nRepeat the set twice. Focus on breathing.',
-                          diagram: '
-
-      [Image of hamstring stretches routine]
-      '
+              try {
+                  const response = await fetch('/api/chat', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
                       },
-                      'hip openers': {
-                          text: '1. **Butterfly Stretch** (2 mins) \n2. **Pigeon Pose** (90s/side)\n3. **Lizard Lunge** (60s/side).\nThese will significantly improve your hip mobility.',
-                          diagram: '
+                      body: JSON.stringify({ message: prompt })
+                  });
 
-      [Image of Pigeon Pose stretch]
-      '
-                      },
-                      'run': {
-                          text: '1. **Standing Quad Stretch** (30s/side)\n2. **Figure-Four Stretch** (45s/side)\n3. **Calf Stretch (Wall)** (30s/side).\nPerfect for post-run recovery.'
-                      },
-                      'shoulders': {
-                          text: '1. **Cross-Body Shoulder Stretch** (30s/side)\n2. **Triceps Stretch** (30s/side)\n3. **Chest Opener (Clasped Hands)** (60s).',
-                          diagram: ''
-                      }
-                  };
-
-                  let key = Object.keys(generalRoutine).find(k => prompt.toLowerCase().includes(k));
-                  if (key) {
-                      routineText = `I hear you're looking for a **${key}** routine. Here it is:\n\n${generalRoutine[key].text}`;
-                      if (generalRoutine[key].diagram) {
-                          routineText += `\n\n**Visual Guide:** ${generalRoutine[key].diagram}`;
-                          requiresDiagram = true;
-                      }
-                  } else {
-                      routineText = `I recommend starting with **Cat-Cow (1 minute)** to warm up your spine, followed by **Standing Side Bend (30s/side)** and **Child's Pose (1 minute)** for general mobility. Try asking for a specific muscle group, like "routine for tight shoulders"!`;
+                  if (!response.ok) {
+                      throw new Error(`Server error: ${response.status}`);
                   }
+
+                  const data = await response.json();
+                  const routineText = data.response;
+
+                  addMessage(routineText, 'bot', true);
+              } catch (error) {
+                  addMessage(`Error generating routine: ${error.message}`, 'bot', false);
               }
 
-              addMessage(routineText, 'bot', true);
               toggleForm(true);
               chatInput.value = '';
           }
@@ -384,8 +351,8 @@
 
               addMessage(userPrompt, 'user');
 
-              // Trigger the API-based routine generation
-              generateRoutine('[LAST_WORKOUT]');
+              // Trigger the routine generation via backend
+              generateRoutine(userPrompt);
           });
 
           // --- Initialization ---
