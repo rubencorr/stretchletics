@@ -17,10 +17,13 @@ if not key:
 client = OpenAI(api_key=key)
 
 
-response = client.responses.create(
-    model="gpt-5-nano",
-    input="I need a training plan for my legs."
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": "I need a training plan for my legs."}
+    ]
 )
 
-output = response.output_text
+output = response.choices[0].message.content
 print(output)
