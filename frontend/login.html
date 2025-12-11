@@ -1,226 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Register - Stretchletics</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Custom Tailwind Configuration
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'neon-pink': '#EC4899',
-                        'neon-indigo': '#4F46E5',
-                        'deep-black': '#050505',
-                        'dark-charcoal': '#10141D',
-                        'deep-navy': '#1D2A4A',
-                    },
-                    boxShadow: {
-                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-                    }
-                }
-            }
-        }
+      // Custom Tailwind Configuration
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "neon-pink": "#EC4899",
+              "neon-indigo": "#4F46E5",
+              "deep-black": "#050505",
+              "dark-charcoal": "#10141D",
+              "deep-navy": "#1D2A4A",
+            },
+            boxShadow: {
+              glass: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+            },
+          },
+        },
+      };
     </script>
     <style>
-        /* Custom Tailwind config (optional, for Inter font) */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
-        :root {
-            font-family: 'Inter', sans-serif;
-        }
+      /* Custom Tailwind config (optional, for Inter font) */
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap");
+      :root {
+        font-family: "Inter", sans-serif;
+      }
 
-        /* --- BACKGROUND STYLING --- */
-        .bg-grid {
-            background-image: radial-gradient(#2E3A52 1px, transparent 1px),
-            radial-gradient(#2E3A52 1px, transparent 1px);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
-            animation: move-grid 45s linear infinite;
-        }
+      /* --- BACKGROUND STYLING --- */
+      .bg-grid {
+        background-image: radial-gradient(#2e3a52 1px, transparent 1px),
+          radial-gradient(#2e3a52 1px, transparent 1px);
+        background-size: 30px 30px;
+        background-position: 0 0, 15px 15px;
+        animation: move-grid 45s linear infinite;
+      }
 
-        @keyframes move-grid {
-            from { background-position: 0 0, 15px 15px; }
-            to { background-position: 30px 30px, 45px 45px; }
+      @keyframes move-grid {
+        from {
+          background-position: 0 0, 15px 15px;
         }
-
-        .bg-vignette {
-            background: radial-gradient(circle at center, transparent 0%, rgba(5, 5, 5, 1) 100%);
+        to {
+          background-position: 30px 30px, 45px 45px;
         }
-        /* --- END BACKGROUND STYLING --- */
+      }
 
+      .bg-vignette {
+        background: radial-gradient(
+          circle at center,
+          transparent 0%,
+          rgba(5, 5, 5, 1) 100%
+        );
+      }
+      /* --- END BACKGROUND STYLING --- */
 
-        /* Glassmorphism Card Base Utility */
-        .glass-card {
-            background: rgba(10, 10, 10, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      /* Glassmorphism Card Base Utility */
+      .glass-card {
+        background: rgba(10, 10, 10, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      /* --- LOGO SPIN STYLING --- */
+      .header-logo-img {
+        transition: transform 0.8s ease-in-out;
+      }
+
+      .header-logo-img:hover {
+        transform: rotate(360deg);
+      }
+      /* --- END LOGO SPIN STYLING --- */
+
+      /* Gradient Button Effect - Sleek Neon Plasma */
+      .gradient-button {
+        background-image: linear-gradient(
+          to right,
+          #4f46e5 0%,
+          #ec4899 51%,
+          #4f46e5 100%
+        );
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        background-size: 200% auto;
+        color: white;
+        box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+        border-radius: 12px; /* Adjusted from 4px to 12px for consistency with the card */
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+      }
+
+      .gradient-button::before {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        background: linear-gradient(to right, #4f46e5, #ec4899, #4f46e5);
+        background-size: 200% auto;
+        filter: blur(10px);
+        opacity: 0.4;
+        z-index: -1;
+        transition: opacity 0.3s ease-out;
+        border-radius: inherit;
+      }
+
+      .gradient-button:hover::before {
+        opacity: 0.8;
+        animation: gradient-shift 3s linear infinite;
+      }
+
+      .gradient-button:hover {
+        background-position: right center;
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.7);
+      }
+
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
         }
-
-        /* --- LOGO SPIN STYLING --- */
-        .header-logo-img {
-            transition: transform 0.8s ease-in-out;
+        100% {
+          background-position: 200% 50%;
         }
+      }
 
-        .header-logo-img:hover {
-            transform: rotate(360deg);
-        }
-        /* --- END LOGO SPIN STYLING --- */
-
-
-        /* Gradient Button Effect - Sleek Neon Plasma */
-        .gradient-button {
-            background-image: linear-gradient(to right, #4F46E5 0%, #EC4899 51%, #4F46E5 100%);
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            background-size: 200% auto;
-            color: white;
-            box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
-            border-radius: 12px; /* Adjusted from 4px to 12px for consistency with the card */
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-        }
-
-        .gradient-button::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            background: linear-gradient(to right, #4F46E5, #EC4899, #4F46E5);
-            background-size: 200% auto;
-            filter: blur(10px);
-            opacity: 0.4;
-            z-index: -1;
-            transition: opacity 0.3s ease-out;
-            border-radius: inherit;
-        }
-
-        .gradient-button:hover::before {
-            opacity: 0.8;
-            animation: gradient-shift 3s linear infinite;
-        }
-
-        .gradient-button:hover {
-            background-position: right center;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.7);
-        }
-
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
-        }
-
-        /* SSO Button Styling (Glass with Hover Effect) */
-        .sso-button {
-            transition: all 0.3s ease-in-out;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-        }
-        .sso-button:hover {
-            border-color: #EC4899;
-            box-shadow: 0 0 15px rgba(236, 72, 153, 0.2);
-            transform: translateY(-2px);
-        }
+      /* SSO Button Styling (Glass with Hover Effect) */
+      .sso-button {
+        transition: all 0.3s ease-in-out;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+      }
+      .sso-button:hover {
+        border-color: #ec4899;
+        box-shadow: 0 0 15px rgba(236, 72, 153, 0.2);
+        transform: translateY(-2px);
+      }
     </style>
-</head>
-<body class="bg-deep-black bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white">
+  </head>
+  <body
+    class="bg-deep-black bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white"
+  >
+    <div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
 
-<div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
-
-<main class="min-h-screen flex items-center justify-center p-4">
-    <!-- Login Card (Glassmorphism) -->
-    <div class="glass-card w-full max-w-md p-6 sm:p-10 rounded-3xl relative z-10">
-
+    <main class="min-h-screen flex items-center justify-center p-4">
+      <!-- Login Card (Glassmorphism) -->
+      <div
+        class="glass-card w-full max-w-md p-6 sm:p-10 rounded-3xl relative z-10"
+      >
         <!-- Logo and Title -->
-        <a href="index.html" class="flex items-center space-x-3 group justify-center mb-12">
-            <div class="relative">
-                <!-- Neon glow effect for logo -->
-                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-30 group-hover:opacity-70 transition duration-500"></div>
-                <!-- Placeholder Image (replace with your logo path) -->
-                <img alt="Stretchletics Logo" class="relative h-10 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
-                     src="https://placehold.co/40x40/4F46E5/ffffff?text=S" onerror="this.src='https://placehold.co/40x40/4F46E5/ffffff?text=S'">
-            </div>
-            <p class="text-3xl font-black tracking-[0.2em] text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Stretchletics</p>
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 group justify-center mb-12"
+        >
+          <div class="relative">
+            <!-- Neon glow effect for logo -->
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-30 group-hover:opacity-70 transition duration-500"
+            ></div>
+            <!-- Placeholder Image (replace with your logo path) -->
+            <img
+              alt="Stretchletics Logo"
+              class="relative h-10 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
+              src="https://placehold.co/40x40/4F46E5/ffffff?text=S"
+              onerror="this.src='https://placehold.co/40x40/4F46E5/ffffff?text=S'"
+            />
+          </div>
+          <p
+            class="text-3xl font-black tracking-[0.2em] text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400"
+          >
+            Stretchletics
+          </p>
         </a>
 
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-black text-white uppercase tracking-widest mb-2">LOGIN</h1>
-            <p class="text-lg text-slate-400">Sign in to access your AI Stretching Coach.</p>
+          <h1
+            class="text-3xl font-black text-white uppercase tracking-widest mb-2"
+          >
+            LOGIN
+          </h1>
+          <p class="text-lg text-slate-400">
+            Sign in to access your AI Stretching Coach.
+          </p>
         </div>
 
         <!-- Email/Password Form -->
         <form onsubmit="event.preventDefault()" class="space-y-6">
-            <div>
-                <label for="email" class="block text-sm font-medium text-slate-300 mb-2">EMAIL ADDRESS</label>
-                <input type="email" id="email" name="email" required
-                       class="w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
-                       placeholder="you@example.com">
-            </div>
-            <div>
-                <label for="password" class="block text-sm font-medium text-slate-300 mb-2">PASSWORD</label>
-                <input type="password" id="password" name="password" required
-                       class="w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
-                       placeholder="••••••••">
-            </div>
-            <div class="text-right">
-                <a href="#" class="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition">Forgot Password?</a>
-            </div>
-            <button type="submit" class="gradient-button w-full px-5 py-3.5 text-lg font-black shadow-xl mt-6">
-                LOG IN
-            </button>
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-slate-300 mb-2"
+              >EMAIL ADDRESS</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
+              placeholder="you@example.com"
+            />
+          </div>
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium text-slate-300 mb-2"
+              >PASSWORD</label
+            >
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
+              placeholder="••••••••"
+            />
+          </div>
+          <div class="text-right">
+            <a
+              href="#"
+              class="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition"
+              >Forgot Password?</a
+            >
+          </div>
+          <a
+            href="chat.html"
+            class="gradient-button w-full px-5 py-3.5 text-lg font-black shadow-xl mt-6 text-center inline-block"
+          >
+            LOG IN
+          </a>
         </form>
 
         <!-- SSO Options -->
         <div class="mt-8 space-y-3">
-            <!-- Separator -->
-            <div class="relative flex items-center justify-center mb-6">
-                <div class="absolute w-full border-t border-white/10"></div>
-                <span class="bg-deep-black px-3 text-sm font-medium text-slate-500 rounded-full relative z-10">
-                    OR CONTINUE WITH
-                </span>
-            </div>
+          <!-- Separator -->
+          <div class="relative flex items-center justify-center mb-6">
+            <div class="absolute w-full border-t border-white/10"></div>
+            <span
+              class="bg-deep-black px-3 text-sm font-medium text-slate-500 rounded-full relative z-10"
+            >
+              OR CONTINUE WITH
+            </span>
+          </div>
 
-            <!-- Google Button -->
-            <button class="sso-button bg-black/50 hover:bg-black/80 transition duration-300 w-full p-3.5 rounded-xl flex items-center justify-center space-x-3">
-                <!-- Google SVG Icon (small, simplified version) -->
-                <svg viewBox="0 0 48 48" width="24" height="24" class="h-6 w-6">
-                    <path fill="#FFC107" d="M43.6 20.4H24v-6h11.9c.7-4-2.2-8.5-7-8.5-4 0-7.2 3.1-7.2 7s3.2 7 7.2 7c2.1 0 3.8-.8 5.2-1.9l3.5 3.5c-2.3 2.1-5.6 3.4-9.7 3.4-6.8 0-12.4-5.6-12.4-12.4S17.2 8 24 8s10.3 4.2 12.2 11.2h7.4z"/>
-                    <path fill="#4CAF50" d="M24 44c6.8 0 12.4-5.6 12.4-12.4S30.8 19.2 24 19.2s-12.4 5.6-12.4 12.4S17.2 44 24 44zM39.6 20.4c-.7 4-3.6 7.2-7.8 7.2s-7.1-3.2-7.1-7.2c0-4 3.1-7.2 7.1-7.2s7.1 3.2 7.8 7.2z"/>
-                    <path fill="#1976D2" d="M43.6 20.4c0-1.8-.2-3.6-.6-5.2H24v6h19.6z"/>
-                    <path fill="#F44336" d="M24 19.2c-6.8 0-12.4 5.6-12.4 12.4s5.6 12.4 12.4 12.4 12.4-5.6 12.4-12.4S30.8 19.2 24 19.2zm0 20.2c-4 0-7.2-3.1-7.2-7s3.2-7 7.2-7c4 0 7.2 3.1 7.2 7s-3.2 7-7.2 7z"/>
-                </svg>
-                <span class="text-white font-semibold tracking-wider">Sign in with Google</span>
-            </button>
+          <!-- Google Button -->
+          <button
+            class="sso-button bg-black/50 hover:bg-black/80 transition duration-300 w-full p-3.5 rounded-xl flex items-center justify-center space-x-3"
+          >
+            <!-- Google SVG Icon (small, simplified version) -->
+            <svg viewBox="0 0 48 48" width="24" height="24" class="h-6 w-6">
+              <path
+                fill="#FFC107"
+                d="M43.6 20.4H24v-6h11.9c.7-4-2.2-8.5-7-8.5-4 0-7.2 3.1-7.2 7s3.2 7 7.2 7c2.1 0 3.8-.8 5.2-1.9l3.5 3.5c-2.3 2.1-5.6 3.4-9.7 3.4-6.8 0-12.4-5.6-12.4-12.4S17.2 8 24 8s10.3 4.2 12.2 11.2h7.4z"
+              />
+              <path
+                fill="#4CAF50"
+                d="M24 44c6.8 0 12.4-5.6 12.4-12.4S30.8 19.2 24 19.2s-12.4 5.6-12.4 12.4S17.2 44 24 44zM39.6 20.4c-.7 4-3.6 7.2-7.8 7.2s-7.1-3.2-7.1-7.2c0-4 3.1-7.2 7.1-7.2s7.1 3.2 7.8 7.2z"
+              />
+              <path
+                fill="#1976D2"
+                d="M43.6 20.4c0-1.8-.2-3.6-.6-5.2H24v6h19.6z"
+              />
+              <path
+                fill="#F44336"
+                d="M24 19.2c-6.8 0-12.4 5.6-12.4 12.4s5.6 12.4 12.4 12.4 12.4-5.6 12.4-12.4S30.8 19.2 24 19.2zm0 20.2c-4 0-7.2-3.1-7.2-7s3.2-7 7.2-7c4 0 7.2 3.1 7.2 7s-3.2 7-7.2 7z"
+              />
+            </svg>
+            <span class="text-white font-semibold tracking-wider"
+              >Sign in with Google</span
+            >
+          </button>
 
-            <!-- Apple Button -->
-            <button class="sso-button bg-black/50 hover:bg-black/80 transition duration-300 w-full p-3.5 rounded-xl flex items-center justify-center space-x-3">
-                <!-- Apple SVG Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6 text-white">
-                    <path d="M12.4 6.7c-.5-1.1-.2-2.3.8-3 .9-.6 2.1-.5 3 .1-.4-1.1-1.2-2.4-2.8-2.5-1.5-.1-2.9.8-3.6 2.1-.4-.1-.8-.1-1.2 0-1.5.1-2.9.8-3.6 2.1-.7 1.3-.8 2.8-.2 4.1.6 1.1 1.6 2.1 2.9 2.4.2.1.4.1.6.1.1 0 .2 0 .3-.1 1.2-.5 1.8-1.5 1.9-2.7h.1c-.2 1.3-.8 2.3-1.9 2.8-.2.1-.4.2-.6.2-.1 0-.3 0-.5-.1-1.4-.4-2.6-1.5-3.3-2.7-.6-1.2-.5-2.6.2-3.9.7-1.3 1.9-2.1 3.5-2.1s3.1.8 3.8 2.1c.1.2.2.4.3.6h-.1zm-1.1 8c-.6 0-1.1.2-1.6.5-.5.3-1.1.5-1.7.5-1.3 0-2.5-.7-3.4-1.9-.9-1.2-1.3-2.8-.9-4.3.5-1.6 1.8-2.9 3.5-3.1 1.4-.2 2.7.4 3.7 1.4.1.1.3.1.4 0 .9-.9 2.2-1.5 3.6-1.5 1.3 0 2.6.5 3.5 1.4s1.6 2.2 1.6 3.6c0 1.5-.6 2.9-1.6 3.9-1 .9-2.2 1.5-3.6 1.5-1.3 0-2.5-.5-3.4-1.3-.1-.1-.3-.1-.4 0-.1.1-.3.2-.4.3-1 .9-2.2 1.5-3.6 1.5z"/>
-                </svg>
-                <span class="text-white font-semibold tracking-wider">Sign in with Apple</span>
-            </button>
+          <!-- Apple Button -->
+          <button
+            class="sso-button bg-black/50 hover:bg-black/80 transition duration-300 w-full p-3.5 rounded-xl flex items-center justify-center space-x-3"
+          >
+            <!-- Apple SVG Icon -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="h-6 w-6 text-white"
+            >
+              <path
+                d="M12.4 6.7c-.5-1.1-.2-2.3.8-3 .9-.6 2.1-.5 3 .1-.4-1.1-1.2-2.4-2.8-2.5-1.5-.1-2.9.8-3.6 2.1-.4-.1-.8-.1-1.2 0-1.5.1-2.9.8-3.6 2.1-.7 1.3-.8 2.8-.2 4.1.6 1.1 1.6 2.1 2.9 2.4.2.1.4.1.6.1.1 0 .2 0 .3-.1 1.2-.5 1.8-1.5 1.9-2.7h.1c-.2 1.3-.8 2.3-1.9 2.8-.2.1-.4.2-.6.2-.1 0-.3 0-.5-.1-1.4-.4-2.6-1.5-3.3-2.7-.6-1.2-.5-2.6.2-3.9.7-1.3 1.9-2.1 3.5-2.1s3.1.8 3.8 2.1c.1.2.2.4.3.6h-.1zm-1.1 8c-.6 0-1.1.2-1.6.5-.5.3-1.1.5-1.7.5-1.3 0-2.5-.7-3.4-1.9-.9-1.2-1.3-2.8-.9-4.3.5-1.6 1.8-2.9 3.5-3.1 1.4-.2 2.7.4 3.7 1.4.1.1.3.1.4 0 .9-.9 2.2-1.5 3.6-1.5 1.3 0 2.6.5 3.5 1.4s1.6 2.2 1.6 3.6c0 1.5-.6 2.9-1.6 3.9-1 .9-2.2 1.5-3.6 1.5-1.3 0-2.5-.5-3.4-1.3-.1-.1-.3-.1-.4 0-.1.1-.3.2-.4.3-1 .9-2.2 1.5-3.6 1.5z"
+              />
+            </svg>
+            <span class="text-white font-semibold tracking-wider"
+              >Sign in with Apple</span
+            >
+          </button>
         </div>
 
         <!-- Register Link -->
         <p class="mt-8 text-center text-slate-400">
-            Don't have an account?
-            <a href="register.html" class="font-bold text-pink-400 hover:text-pink-300 transition">Register Now</a>
+          Don't have an account?
+          <a
+            href="register.html"
+            class="font-bold text-pink-400 hover:text-pink-300 transition"
+            >Register Now</a
+          >
         </p>
 
         <!-- Back to Home Link -->
         <p class="mt-10 text-center text-sm">
-            <a href="index.html" class="text-slate-500 hover:text-white transition">← Back to Stretchletics Home</a>
+          <a
+            href="index.html"
+            class="text-slate-500 hover:text-white transition"
+            >← Back to Stretchletics Home</a
+          >
         </p>
-    </div>
-</main>
-
-</body>
+      </div>
+    </main>
+  </body>
 </html>

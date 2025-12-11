@@ -1,501 +1,859 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Stretchletics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'neon-pink': '#EC4899',
-                        'neon-indigo': '#4F46E5',
-                        'deep-black': '#050505',
-                        // Adding colors from the new background for CSS reference
-                        'dark-charcoal': '#10141D',
-                        'deep-navy': '#1D2A4A',
-                    },
-                    boxShadow: {
-                        'neon-pink': '0 0 20px theme("colors.neon-pink"), 0 0 60px theme("colors.neon-pink")',
-                        'neon-indigo': '0 0 20px theme("colors.neon-indigo"), 0 0 60px theme("colors.neon-indigo")',
-                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "neon-pink": "#EC4899",
+              "neon-indigo": "#4F46E5",
+              "deep-black": "#050505",
+              // Adding colors from the new background for CSS reference
+              "dark-charcoal": "#10141D",
+              "deep-navy": "#1D2A4A",
+            },
+            boxShadow: {
+              "neon-pink":
+                '0 0 20px theme("colors.neon-pink"), 0 0 60px theme("colors.neon-pink")',
+              "neon-indigo":
+                '0 0 20px theme("colors.neon-indigo"), 0 0 60px theme("colors.neon-indigo")',
+              glass: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+            },
+          },
+        },
+      };
     </script>
     <style>
-        /* Custom Tailwind config (optional, for Inter font) */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
-        :root {
-            font-family: 'Inter', sans-serif;
-        }
+      /* Custom Tailwind config (optional, for Inter font) */
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap");
+      :root {
+        font-family: "Inter", sans-serif;
+      }
 
-        /* Custom scroll-margin for smooth navigation */
-        .section-anchor {
-            scroll-margin-top: 6rem;
-        }
+      /* Custom scroll-margin for smooth navigation */
+      .section-anchor {
+        scroll-margin-top: 6rem;
+      }
 
-        /* --- BACKGROUND STYLING (Kept Prominent Version) --- */
-        .bg-grid {
-            /* Adjusted dot color to #2E3A52 (brighter dark tone) and smaller size (30px) */
-            background-image: radial-gradient(#2E3A52 1px, transparent 1px),
-            radial-gradient(#2E3A52 1px, transparent 1px);
-            background-size: 30px 30px; /* Reduced size for more density */
-            background-position: 0 0, 15px 15px; /* Adjusted position based on new size */
-            animation: move-grid 45s linear infinite;
-        }
+      /* --- BACKGROUND STYLING (Kept Prominent Version) --- */
+      .bg-grid {
+        /* Adjusted dot color to #2E3A52 (brighter dark tone) and smaller size (30px) */
+        background-image: radial-gradient(#2e3a52 1px, transparent 1px),
+          radial-gradient(#2e3a52 1px, transparent 1px);
+        background-size: 30px 30px; /* Reduced size for more density */
+        background-position: 0 0, 15px 15px; /* Adjusted position based on new size */
+        animation: move-grid 45s linear infinite;
+      }
 
-        @keyframes move-grid {
-            from { background-position: 0 0, 15px 15px; }
-            to { background-position: 30px 30px, 45px 45px; }
+      @keyframes move-grid {
+        from {
+          background-position: 0 0, 15px 15px;
         }
-        /* --- END BACKGROUND STYLING --- */
+        to {
+          background-position: 30px 30px, 45px 45px;
+        }
+      }
+      /* --- END BACKGROUND STYLING --- */
 
+      /* Vignette to fade noise at edges (Original) */
+      .bg-vignette {
+        /* Using deep-black from original site as the fade-out color */
+        background: radial-gradient(
+          circle at center,
+          transparent 0%,
+          rgba(5, 5, 5, 1) 100%
+        );
+      }
 
-        /* Vignette to fade noise at edges (Original) */
-        .bg-vignette {
-            /* Using deep-black from original site as the fade-out color */
-            background: radial-gradient(circle at center, transparent 0%, rgba(5, 5, 5, 1) 100%);
+      /* Ambient Background Animation (Original) */
+      @keyframes drift {
+        0% {
+          transform: translate(0px, 0px) scale(1);
+          opacity: 0.3;
         }
+        33% {
+          transform: translate(30px, -50px) scale(1.1);
+          opacity: 0.5;
+        }
+        66% {
+          transform: translate(-20px, 20px) scale(0.9);
+          opacity: 0.3;
+        }
+        100% {
+          transform: translate(0px, 0px) scale(1);
+          opacity: 0.3;
+        }
+      }
+      .animate-drift-slow {
+        animation: drift 15s ease-in-out infinite alternate;
+      }
+      .animate-drift-medium {
+        animation: drift 10s ease-in-out infinite alternate-reverse;
+      }
 
-        /* Ambient Background Animation (Original) */
-        @keyframes drift {
-            0% { transform: translate(0px, 0px) scale(1); opacity: 0.3; }
-            33% { transform: translate(30px, -50px) scale(1.1); opacity: 0.5; }
-            66% { transform: translate(-20px, 20px) scale(0.9); opacity: 0.3; }
-            100% { transform: translate(0px, 0px) scale(1); opacity: 0.3; }
-        }
-        .animate-drift-slow {
-            animation: drift 15s ease-in-out infinite alternate;
-        }
-        .animate-drift-medium {
-            animation: drift 10s ease-in-out infinite alternate-reverse;
-        }
+      /* Gradient Button Effect - Sleek Neon Plasma (Original) */
+      .gradient-button {
+        background-image: linear-gradient(
+          to right,
+          #4f46e5 0%,
+          #ec4899 51%,
+          #4f46e5 100%
+        );
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        background-size: 200% auto;
+        color: white;
+        box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+        border-radius: 4px; /* Sharper corners for sleek look */
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+      }
 
-        /* Gradient Button Effect - Sleek Neon Plasma (Original) */
-        .gradient-button {
-            background-image: linear-gradient(to right, #4F46E5 0%, #EC4899 51%, #4F46E5 100%);
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            background-size: 200% auto;
-            color: white;
-            box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
-            border-radius: 4px; /* Sharper corners for sleek look */
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-        }
+      .gradient-button::before {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        background: linear-gradient(to right, #4f46e5, #ec4899, #4f46e5);
+        background-size: 200% auto;
+        filter: blur(10px);
+        opacity: 0.4;
+        z-index: -1;
+        transition: opacity 0.3s ease-out;
+        border-radius: inherit;
+      }
 
-        .gradient-button::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            background: linear-gradient(to right, #4F46E5, #EC4899, #4F46E5);
-            background-size: 200% auto;
-            filter: blur(10px);
-            opacity: 0.4;
-            z-index: -1;
-            transition: opacity 0.3s ease-out;
-            border-radius: inherit;
-        }
+      .gradient-button:hover::before {
+        opacity: 0.8;
+        animation: gradient-shift 3s linear infinite;
+      }
 
-        .gradient-button:hover::before {
-            opacity: 0.8;
-            animation: gradient-shift 3s linear infinite;
-        }
+      .gradient-button:hover {
+        background-position: right center;
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.7);
+      }
 
-        .gradient-button:hover {
-            background-position: right center;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.7);
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
         }
-
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
+        100% {
+          background-position: 200% 50%;
         }
+      }
 
+      /* Style for Skewed Dividers (Original) */
+      .skew-divider {
+        position: relative;
+        height: 8rem; /* Taller for more dramatic cut */
+        margin-top: -8rem;
+        z-index: 10;
+        pointer-events: none;
+      }
 
-        /* Style for Skewed Dividers (Original) */
-        .skew-divider {
-            position: relative;
-            height: 8rem; /* Taller for more dramatic cut */
-            margin-top: -8rem;
-            z-index: 10;
-            pointer-events: none;
-        }
+      .skew-divider > div {
+        position: absolute;
+        inset: 0;
+        transform: skewY(4deg); /* More aggressive skew */
+        transform-origin: top left;
+      }
 
-        .skew-divider > div {
-            position: absolute;
-            inset: 0;
-            transform: skewY(4deg); /* More aggressive skew */
-            transform-origin: top left;
-        }
+      /* Glassmorphism Card Base Utility (Original) */
+      .glass-card {
+        background: rgba(
+          10,
+          10,
+          10,
+          0.6
+        ); /* Slightly darker for better contrast on noise */
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
 
-        /* Glassmorphism Card Base Utility (Original) */
-        .glass-card {
-            background: rgba(10, 10, 10, 0.6); /* Slightly darker for better contrast on noise */
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
+      /* --- LOGO SPIN STYLING (Original) --- */
+      .header-logo-img {
+        /* Inherits existing Tailwind transition, but defining here for clarity */
+        transition: transform 0.8s ease-in-out;
+      }
 
-        /* --- LOGO SPIN STYLING (Original) --- */
-        .header-logo-img {
-            /* Inherits existing Tailwind transition, but defining here for clarity */
-            transition: transform 0.8s ease-in-out;
-        }
-
-        .header-logo-img:hover {
-            transform: rotate(360deg);
-        }
-        /* --- END LOGO SPIN STYLING --- */
+      .header-logo-img:hover {
+        transform: rotate(360deg);
+      }
+      /* --- END LOGO SPIN STYLING --- */
     </style>
-</head>
+  </head>
 
-<body class="bg-[#050505] bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white overflow-x-hidden">
+  <body
+    class="bg-[#050505] bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white overflow-x-hidden"
+  >
+    <div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
 
-<div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
-
-<header class="sticky top-0 z-50 bg-[#050505]/80 backdrop-blur-xl border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex justify-between items-center">
+    <header
+      class="sticky top-0 z-50 bg-[#050505]/80 backdrop-blur-xl border-b border-white/10"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex justify-between items-center"
+      >
         <div class="flex items-center space-x-4 group">
-            <div class="relative">
-                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-30 group-hover:opacity-70 transition duration-500"></div>
-                <img alt="Stretchletics Logo" class="relative h-10 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
-                     src="/media/Logo2-1.jpg">
-            </div>
-            <p class="text-2xl sm:text-3xl font-black tracking-[0.2em] text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Stretchletics</p>
+          <div class="relative">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-30 group-hover:opacity-70 transition duration-500"
+            ></div>
+            <img
+              alt="Stretchletics Logo"
+              class="relative h-10 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
+              src="/media/Logo2-1.jpg"
+            />
+          </div>
+          <p
+            class="text-2xl sm:text-3xl font-black tracking-[0.2em] text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400"
+          >
+            Stretchletics
+          </p>
         </div>
 
-        <nav class="hidden md:flex space-x-10 font-extrabold tracking-wide uppercase">
-            <a class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500" href="#hero">HOME</a>
-            <a class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500" href="#features">WHY US?</a>
-            <a class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500" href="#data">DATA & API</a>
-            <a class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500" href="#pricing">PRICING</a>
-            <a class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500" href="#compliance">TRUST</a>
+        <nav
+          class="hidden md:flex space-x-10 font-extrabold tracking-wide uppercase"
+        >
+          <a
+            class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500"
+            href="#hero"
+            >HOME</a
+          >
+          <a
+            class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500"
+            href="#features"
+            >WHY US?</a
+          >
+          <a
+            class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500"
+            href="#data"
+            >DATA & API</a
+          >
+          <a
+            class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500"
+            href="#pricing"
+            >PRICING</a
+          >
+          <a
+            class="relative text-lg text-gray-200 hover:text-pink-400 transition duration-300 ease-in-out after:absolute after:bottom-[-4px] after:left-0 after:h-1 after:w-0 hover:after:w-full after:bg-pink-500 after:transition-all after:duration-500"
+            href="#compliance"
+            >TRUST</a
+          >
         </nav>
 
-        <a href="login.html" class="gradient-button hidden sm:inline-block px-6 py-3 font-bold text-sm shadow-lg">
-            LOGIN
+        <a
+          href="login.html"
+          class="gradient-button hidden sm:inline-block px-6 py-3 font-bold text-sm shadow-lg"
+        >
+          LOGIN
         </a>
-    </div>
-</header>
+      </div>
+    </header>
 
-<main class="relative z-10">
-    <section class="max-w-[90rem] mx-auto pt-32 pb-48 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden" id="hero">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/30 rounded-full blur-[128px] -z-10 animate-drift-slow pointer-events-none mix-blend-screen"></div>
-        <div class="absolute bottom-0 right-1/4 w-[30rem] h-[30rem] bg-pink-600/30 rounded-full blur-[128px] -z-10 animate-drift-medium pointer-events-none mix-blend-screen" style="animation-delay: -5s;"></div>
+    <main class="relative z-10">
+      <section
+        class="max-w-[90rem] mx-auto pt-32 pb-48 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden"
+        id="hero"
+      >
+        <div
+          class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/30 rounded-full blur-[128px] -z-10 animate-drift-slow pointer-events-none mix-blend-screen"
+        ></div>
+        <div
+          class="absolute bottom-0 right-1/4 w-[30rem] h-[30rem] bg-pink-600/30 rounded-full blur-[128px] -z-10 animate-drift-medium pointer-events-none mix-blend-screen"
+          style="animation-delay: -5s"
+        ></div>
 
-        <span class="inline-block border border-pink-500/50 bg-pink-500/5 backdrop-blur-md text-pink-400 text-sm font-black tracking-[0.3em] uppercase px-6 py-2 rounded-full mb-10 shadow-[0_0_20px_rgba(236,72,153,0.2)] z-10 relative">
-            The Future of Flexibility
+        <span
+          class="inline-block border border-pink-500/50 bg-pink-500/5 backdrop-blur-md text-pink-400 text-sm font-black tracking-[0.3em] uppercase px-6 py-2 rounded-full mb-10 shadow-[0_0_20px_rgba(236,72,153,0.2)] z-10 relative"
+        >
+          The Future of Flexibility
         </span>
 
-        <h1 class="text-6xl sm:text-8xl font-black leading-none tracking-tighter text-white mb-12 z-10 relative drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-            YOUR AI PERSONAL <br class="hidden sm:inline-block">
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500">STRETCHING COACH.</span>
+        <h1
+          class="text-6xl sm:text-8xl font-black leading-none tracking-tighter text-white mb-12 z-10 relative drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+        >
+          YOUR AI PERSONAL <br class="hidden sm:inline-block" />
+          <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500"
+            >STRETCHING COACH.</span
+          >
         </h1>
-        <p class="text-xl sm:text-2xl text-slate-300 max-w-4xl mx-auto mb-16 font-medium leading-relaxed z-10 relative">
-            Stretchletics is the leading AI for creating individualized, data-driven stretching plans that perfectly
-            align with your fitness goals and biometric data.
+        <p
+          class="text-xl sm:text-2xl text-slate-300 max-w-4xl mx-auto mb-16 font-medium leading-relaxed z-10 relative"
+        >
+          Stretchletics is the leading AI for creating individualized,
+          data-driven stretching plans that perfectly align with your fitness
+          goals and biometric data.
         </p>
         <!-- Updated: Changed button to an anchor tag linking to payment.html -->
-        <a href="payment.html" class="gradient-button inline-block px-16 py-5 text-xl font-black shadow-2xl mx-auto">
-            GET STARTED NOW!
+        <a
+          href="payment.html"
+          class="gradient-button inline-block px-16 py-5 text-xl font-black shadow-2xl mx-auto"
+        >
+          GET STARTED NOW!
         </a>
-    </section>
+      </section>
 
-    <div class="skew-divider bg-[#050505]">
+      <div class="skew-divider bg-[#050505]">
         <div class="bg-black/80 backdrop-blur-sm"></div>
-    </div>
+      </div>
 
-    <section class="section-anchor py-24 px-4 sm:px-6 lg:px-8 relative z-20"
-             id="features">
+      <section
+        class="section-anchor py-24 px-4 sm:px-6 lg:px-8 relative z-20"
+        id="features"
+      >
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-24">
-                <h2 class="text-5xl font-extrabold mb-6 text-white uppercase tracking-widest drop-shadow-lg">WHY STRETCHLETICS?</h2>
-                <p class="text-slate-400 text-2xl max-w-3xl mx-auto">Functionality designed to fit your high-performance life.</p>
+          <div class="text-center mb-24">
+            <h2
+              class="text-5xl font-extrabold mb-6 text-white uppercase tracking-widest drop-shadow-lg"
+            >
+              WHY STRETCHLETICS?
+            </h2>
+            <p class="text-slate-400 text-2xl max-w-3xl mx-auto">
+              Functionality designed to fit your high-performance life.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-12 lg:gap-20">
+            <div
+              class="group glass-card p-12 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-pink-500/80 hover:shadow-neon-pink bg-black/40"
+            >
+              <div
+                class="w-20 h-20 mb-8 mx-auto bg-black/50 rounded-2xl flex items-center justify-center group-hover:bg-pink-500/10 transition duration-500"
+              >
+                <svg
+                  class="w-10 h-10 text-pink-500 group-hover:text-pink-300 transition duration-300 transform group-hover:scale-110"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  ></path>
+                </svg>
+              </div>
+              <h3
+                class="text-3xl font-black mb-4 text-white uppercase tracking-widest text-center group-hover:text-pink-400 transition duration-300"
+              >
+                Individual Plans
+              </h3>
+              <p class="text-slate-300 mb-8 text-xl text-center">
+                Get a routine that's unique to you. The AI crafts plans based on
+                your specific needs.
+              </p>
+              <ul class="text-left text-slate-400 space-y-4 px-4 inline-block">
+                <li class="flex items-start font-medium">
+                  <span
+                    class="text-pink-500 mr-3 text-xl leading-none font-black"
+                    >&#10095;</span
+                  >
+                  Define goals like improving squat depth or reducing back pain.
+                </li>
+                <li class="flex items-start font-medium">
+                  <span
+                    class="text-pink-500 mr-3 text-xl leading-none font-black"
+                    >&#10095;</span
+                  >
+                  Choose the duration: e.g., 4 weeks or 90 days.
+                </li>
+              </ul>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-12 lg:gap-20">
-
-                <div class="group glass-card p-12 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-pink-500/80 hover:shadow-neon-pink bg-black/40">
-                    <div class="w-20 h-20 mb-8 mx-auto bg-black/50 rounded-2xl flex items-center justify-center group-hover:bg-pink-500/10 transition duration-500">
-                        <svg class="w-10 h-10 text-pink-500 group-hover:text-pink-300 transition duration-300 transform group-hover:scale-110" fill="none" stroke="currentColor"
-                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" stroke-linecap="round" stroke-linejoin="round"
-                                  stroke-width="2"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-3xl font-black mb-4 text-white uppercase tracking-widest text-center group-hover:text-pink-400 transition duration-300">Individual Plans</h3>
-                    <p class="text-slate-300 mb-8 text-xl text-center">
-                        Get a routine that's unique to you. The AI crafts plans based on your specific needs.
-                    </p>
-                    <ul class="text-left text-slate-400 space-y-4 px-4 inline-block">
-                        <li class="flex items-start font-medium">
-                            <span class="text-pink-500 mr-3 text-xl leading-none font-black">&#10095;</span> Define goals like improving squat depth or reducing back pain.
-                        </li>
-                        <li class="flex items-start font-medium">
-                            <span class="text-pink-500 mr-3 text-xl leading-none font-black">&#10095;</span> Choose the duration: e.g., 4 weeks or 90 days.
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="group glass-card p-12 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-indigo-500/80 hover:shadow-neon-indigo bg-black/40">
-                    <div class="w-20 h-20 mb-8 mx-auto bg-black/50 rounded-2xl flex items-center justify-center group-hover:bg-indigo-500/10 transition duration-500">
-                        <svg class="w-10 h-10 text-indigo-500 group-hover:text-indigo-300 transition duration-300 transform group-hover:scale-110" fill="none" stroke="currentColor"
-                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.692A13.62 13.62 0 0012 21c4.97 0 9-3.582-9-8s-4.03-8-9-8-9 3.582-9 8c0 1.996.78 3.864 2.05 5.342L3 20l1.395-3.692A13.62 13.62 0 0012 21z" stroke-linecap="round" stroke-linejoin="round"
-                                  stroke-width="2"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-3xl font-black mb-4 text-white uppercase tracking-widest text-center group-hover:text-indigo-400 transition duration-300">AI Coach & Adjustments</h3>
-                    <p class="text-slate-300 mb-8 text-xl text-center">
-                        Need a change? Your AI coach handles dynamic adjustments and answers any 'why'.
-                    </p>
-                    <ul class="text-left text-slate-400 space-y-4 px-4 inline-block">
-                        <li class="flex items-start font-medium">
-                            <span class="text-indigo-500 mr-3 text-xl leading-none font-black">&#10095;</span> Request to instantly adjust the length of your plan.
-                        </li>
-                        <li class="flex items-start font-medium">
-                            <span class="text-indigo-500 mr-3 text-xl leading-none font-black">&#10095;</span> Ask “Why this exercise?” and discover the science behind it.
-                        </li>
-                    </ul>
-                </div>
+            <div
+              class="group glass-card p-12 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-indigo-500/80 hover:shadow-neon-indigo bg-black/40"
+            >
+              <div
+                class="w-20 h-20 mb-8 mx-auto bg-black/50 rounded-2xl flex items-center justify-center group-hover:bg-indigo-500/10 transition duration-500"
+              >
+                <svg
+                  class="w-10 h-10 text-indigo-500 group-hover:text-indigo-300 transition duration-300 transform group-hover:scale-110"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.692A13.62 13.62 0 0012 21c4.97 0 9-3.582-9-8s-4.03-8-9-8-9 3.582-9 8c0 1.996.78 3.864 2.05 5.342L3 20l1.395-3.692A13.62 13.62 0 0012 21z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  ></path>
+                </svg>
+              </div>
+              <h3
+                class="text-3xl font-black mb-4 text-white uppercase tracking-widest text-center group-hover:text-indigo-400 transition duration-300"
+              >
+                AI Coach & Adjustments
+              </h3>
+              <p class="text-slate-300 mb-8 text-xl text-center">
+                Need a change? Your AI coach handles dynamic adjustments and
+                answers any 'why'.
+              </p>
+              <ul class="text-left text-slate-400 space-y-4 px-4 inline-block">
+                <li class="flex items-start font-medium">
+                  <span
+                    class="text-indigo-500 mr-3 text-xl leading-none font-black"
+                    >&#10095;</span
+                  >
+                  Request to instantly adjust the length of your plan.
+                </li>
+                <li class="flex items-start font-medium">
+                  <span
+                    class="text-indigo-500 mr-3 text-xl leading-none font-black"
+                    >&#10095;</span
+                  >
+                  Ask “Why this exercise?” and discover the science behind it.
+                </li>
+              </ul>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <div class="skew-divider bg-transparent">
-        <div class="bg-black/90 backdrop-blur-sm transform -skew-y-6 origin-top-right"></div>
-    </div>
+      <div class="skew-divider bg-transparent">
+        <div
+          class="bg-black/90 backdrop-blur-sm transform -skew-y-6 origin-top-right"
+        ></div>
+      </div>
 
-    <section class="section-anchor py-32 px-4 sm:px-6 lg:px-8 relative z-20" id="data">
+      <section
+        class="section-anchor py-32 px-4 sm:px-6 lg:px-8 relative z-20"
+        id="data"
+      >
         <div class="absolute inset-0 bg-black/80 -z-10"></div>
 
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-5xl font-extrabold text-center mb-24 text-white uppercase tracking-widest drop-shadow-lg">POWERED BY YOUR PERFORMANCE DATA</h2>
+          <h2
+            class="text-5xl font-extrabold text-center mb-24 text-white uppercase tracking-widest drop-shadow-lg"
+          >
+            POWERED BY YOUR PERFORMANCE DATA
+          </h2>
 
-            <div class="mb-32 text-center relative">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[20rem] bg-indigo-500/10 blur-[100px] -z-10 pointer-events-none"></div>
+          <div class="mb-32 text-center relative">
+            <div
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[20rem] bg-indigo-500/10 blur-[100px] -z-10 pointer-events-none"
+            ></div>
 
-                <p class="text-2xl font-bold text-indigo-400 mb-12 uppercase tracking-wider">Seamless integration with your favorite devices:</p>
-                <div class="flex justify-center gap-16 flex-wrap">
-                    <!-- Garmin Card - Size is now w-40 h-40, padding reduced to p-4 to make logo visually bigger -->
-                    <div class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-0 transition-all duration-500 hover:scale-110 hover:border-pink-500/80 hover:shadow-neon-pink">
-                        <img src="/media/garmin.png" alt="Garmin Logo" class="w-full h-full object-contain transition duration-500">
-                    </div>
-                    <!-- Strava Card - Standard size (w-40 h-40, p-8) -->
-                    <div class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-8 transition-all duration-500 hover:scale-110 hover:border-indigo-500/80 hover:shadow-neon-indigo">
-                        <img src="/media/strava.svg" alt="Strava Logo" class="w-full h-full object-contain transition duration-500">
-                    </div>
-                    <!-- Apple Health Card - Standard size (w-40 h-40, p-8) and correct image path -->
-                    <div class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-8 transition-all duration-500 hover:scale-110 hover:border-pink-500/80 hover:shadow-neon-pink">
-                        <img src="/media/health.svg" alt="Apple Health Logo" class="w-full h-full object-contain transition duration-500">
-                    </div>
-                </div>
-                <p class="text-sm text-slate-500 mt-12 tracking-wider uppercase font-semibold">Garmin Activity API, Strava API, & Apple Health integration coming soon.</p>
-            </div>
-
-            <div class="p-12 rounded-3xl glass-card bg-black/50 relative overflow-hidden">
-                <div class="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.8)_51%)] bg-[length:100%_4px] pointer-events-none opacity-20"></div>
-                <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-50"></div>
-
-                <h3 class="text-3xl font-black mb-12 text-center text-white uppercase tracking-[0.2em]">KEY PERFORMANCE PARAMETERS ANALYZED:</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center relative z-10">
-                    <div class="group p-6 rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 transition duration-500 hover:border-pink-500/50 hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] transform hover:-translate-y-2">
-                        <p class="font-black text-white text-xl uppercase group-hover:text-pink-400 transition">Activity Type</p>
-                        <p class="text-sm text-slate-400 mt-3 font-medium">e.g., Running, Weightlifting</p>
-                    </div>
-                    <div class="group p-6 rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 transition duration-500 hover:border-indigo-500/50 hover:shadow-[0_0_20px_rgba(79,70,229,0.3)] transform hover:-translate-y-2">
-                        <p class="font-black text-white text-xl uppercase group-hover:text-indigo-400 transition">Heart Rate</p>
-                        <p class="text-sm text-slate-400 mt-3 font-medium">Recovery and exertion zones</p>
-                    </div>
-                    <div class="group p-6 rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 transition duration-500 hover:border-pink-500/50 hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] transform hover:-translate-y-2">
-                        <p class="font-black text-white text-xl uppercase group-hover:text-pink-400 transition">Intensity</p>
-                        <p class="text-sm text-slate-400 mt-3 font-medium">Measured effort level</p>
-                    </div>
-                    <div class="group p-6 rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 transition duration-500 hover:border-indigo-500/50 hover:shadow-[0_0_20px_rgba(79,70,229,0.3)] transform hover:-translate-y-2">
-                        <p class="font-black text-white text-xl uppercase group-hover:text-indigo-400 transition">Activity Length</p>
-                        <p class="text-sm text-slate-400 mt-3 font-medium">Time spent on previous sessions</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="skew-divider bg-[#050505]">
-        <div class="bg-black/80 backdrop-blur-sm transform skew-y-6 origin-bottom-left"></div>
-    </div>
-
-    <section class="section-anchor py-32 px-4 sm:px-6 lg:px-8 relative z-20" id="pricing">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-5xl font-extrabold mb-8 text-white uppercase tracking-widest drop-shadow-lg">FLEXIBILITY THAT FITS YOUR BUDGET</h2>
-            <p class="text-slate-400 text-2xl max-w-4xl mx-auto mb-24">
-                Choose the plan that aligns with your fitness frequency and goals.
+            <p
+              class="text-2xl font-bold text-indigo-400 mb-12 uppercase tracking-wider"
+            >
+              Seamless integration with your favorite devices:
             </p>
-
-            <div class="grid lg:grid-cols-3 gap-8">
-
-                <div class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:scale-[1.03] hover:border-indigo-500/80 hover:shadow-neon-indigo group">
-                    <h3 class="text-4xl font-black mb-4 uppercase tracking-wide text-indigo-400">STARTER</h3>
-                    <p class="text-slate-300 text-6xl font-extrabold mb-8">
-                        <span class="text-white">FREE</span>
-                    </p>
-                    <p class="text-lg text-slate-300 mb-10 h-16 flex items-center justify-center border-b border-white/10">
-                        The perfect introduction to AI-guided stretching.
-                    </p>
-
-                    <ul class="text-left text-slate-400 space-y-4 mb-12">
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-indigo-500 mr-3 text-2xl leading-none font-black">&#10003;</span> One Personalized Plan/Week
-                        </li>
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-red-500 mr-3 text-2xl leading-none font-black">&#10007;</span> No daily sessions
-                        </li>
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-red-500 mr-3 text-2xl leading-none font-black">&#10007;</span> No custom plan editing
-                        </li>
-                    </ul>
-
-                    <!-- Updated: Link to payment.html -->
-                    <a class="gradient-button px-12 py-4 font-bold text-lg shadow-xl" href="payment.html">
-                        START FOR FREE
-                    </a>
-                </div>
-
-                <div class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:scale-[1.03] border-4 border-pink-500/50 shadow-neon-pink group relative">
-                    <div class="absolute -top-4 right-1/2 translate-x-1/2 bg-pink-500 text-deep-black font-black uppercase text-sm px-4 py-1.5 rounded-full shadow-lg tracking-widest">
-                        BEST VALUE
-                    </div>
-                    <h3 class="text-4xl font-black mb-4 uppercase tracking-wide text-pink-400">ADVANCED</h3>
-                    <p class="text-slate-300 text-6xl font-extrabold mb-8">
-                        <span class="text-white">10€</span>
-                        <span class="text-2xl font-normal text-slate-500">/mo</span>
-                    </p>
-                    <p class="text-lg text-slate-300 mb-10 h-16 flex items-center justify-center border-b border-white/10">
-                        Essential mobility for daily performance and recovery.
-                    </p>
-
-                    <ul class="text-left text-slate-400 space-y-4 mb-12">
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-pink-500 mr-3 text-2xl leading-none font-black">&#10003;</span> Daily Stretching & Mobility
-                        </li>
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-pink-500 mr-3 text-2xl leading-none font-black">&#10003;</span> Unlimited AI Coach Adjustments
-                        </li>
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-red-500 mr-3 text-2xl leading-none font-black">&#10007;</span> No custom training plan
-                        </li>
-                    </ul>
-
-                    <!-- Updated: Link to payment.html -->
-                    <a class="gradient-button px-12 py-4 font-bold text-lg shadow-2xl" href="payment.html">
-                        GO ADVANCED
-                    </a>
-                </div>
-
-                <div class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:scale-[1.03] hover:border-indigo-500/80 hover:shadow-neon-indigo group">
-                    <h3 class="text-4xl font-black mb-4 uppercase tracking-wide text-indigo-400">ELITE</h3>
-                    <p class="text-slate-300 text-6xl font-extrabold mb-8">
-                        <span class="text-white">20€</span>
-                        <span class="text-2xl font-normal text-slate-500">/mo</span>
-                    </p>
-                    <p class="text-lg text-slate-300 mb-10 h-16 flex items-center justify-center border-b border-white/10">
-                        Unrestricted access for maximum flexibility gains.
-                    </p>
-
-                    <ul class="text-left text-slate-400 space-y-4 mb-12">
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-indigo-500 mr-3 text-2xl leading-none font-black">&#10003;</span> Daily Stretching & Mobility
-                        </li>
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-indigo-500 mr-3 text-2xl leading-none font-black">&#10003;</span> Unlimited AI Coach Adjustments
-                        </li>
-                        <li class="flex items-start font-medium text-lg">
-                            <span class="text-indigo-500 mr-3 text-2xl leading-none font-black">&#10003;</span> Custom Training Plan Creation
-                        </li>
-                    </ul>
-
-                    <!-- Updated: Link to payment.html -->
-                    <a class="gradient-button px-12 py-4 font-bold text-lg shadow-xl" href="payment.html">
-                        GO ELITE
-                    </a>
-                </div>
+            <div class="flex justify-center gap-16 flex-wrap">
+              <!-- Garmin Card - Size is now w-40 h-40, padding reduced to p-4 to make logo visually bigger -->
+              <div
+                class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-0 transition-all duration-500 hover:scale-110 hover:border-pink-500/80 hover:shadow-neon-pink"
+              >
+                <img
+                  src="/media/garmin.png"
+                  alt="Garmin Logo"
+                  class="w-full h-full object-contain transition duration-500"
+                />
+              </div>
+              <!-- Strava Card - Standard size (w-40 h-40, p-8) -->
+              <div
+                class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-8 transition-all duration-500 hover:scale-110 hover:border-indigo-500/80 hover:shadow-neon-indigo"
+              >
+                <img
+                  src="/media/strava.svg"
+                  alt="Strava Logo"
+                  class="w-full h-full object-contain transition duration-500"
+                />
+              </div>
+              <!-- Apple Health Card - Standard size (w-40 h-40, p-8) and correct image path -->
+              <div
+                class="group w-40 h-40 glass-card bg-black/60 flex items-center justify-center rounded-3xl p-8 transition-all duration-500 hover:scale-110 hover:border-pink-500/80 hover:shadow-neon-pink"
+              >
+                <img
+                  src="/media/health.svg"
+                  alt="Apple Health Logo"
+                  class="w-full h-full object-contain transition duration-500"
+                />
+              </div>
             </div>
+            <p
+              class="text-sm text-slate-500 mt-12 tracking-wider uppercase font-semibold"
+            >
+              Garmin Activity API, Strava API, & Apple Health integration coming
+              soon.
+            </p>
+          </div>
+
+          <div
+            class="p-12 rounded-3xl glass-card bg-black/50 relative overflow-hidden"
+          >
+            <div
+              class="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.8)_51%)] bg-[length:100%_4px] pointer-events-none opacity-20"
+            ></div>
+            <div
+              class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-50"
+            ></div>
+
+            <h3
+              class="text-3xl font-black mb-12 text-center text-white uppercase tracking-[0.2em]"
+            >
+              KEY PERFORMANCE PARAMETERS ANALYZED:
+            </h3>
+            <div
+              class="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center relative z-10"
+            >
+              <div
+                class="group p-6 rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 transition duration-500 hover:border-pink-500/50 hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] transform hover:-translate-y-2"
+              >
+                <p
+                  class="font-black text-white text-xl uppercase group-hover:text-pink-400 transition"
+                >
+                  Activity Type
+                </p>
+                <p class="text-sm text-slate-400 mt-3 font-medium">
+                  e.g., Running, Weightlifting
+                </p>
+              </div>
+              <div
+                class="group p-6 rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 transition duration-500 hover:border-indigo-500/50 hover:shadow-[0_0_20px_rgba(79,70,229,0.3)] transform hover:-translate-y-2"
+              >
+                <p
+                  class="font-black text-white text-xl uppercase group-hover:text-indigo-400 transition"
+                >
+                  Heart Rate
+                </p>
+                <p class="text-sm text-slate-400 mt-3 font-medium">
+                  Recovery and exertion zones
+                </p>
+              </div>
+              <div
+                class="group p-6 rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 transition duration-500 hover:border-pink-500/50 hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] transform hover:-translate-y-2"
+              >
+                <p
+                  class="font-black text-white text-xl uppercase group-hover:text-pink-400 transition"
+                >
+                  Intensity
+                </p>
+                <p class="text-sm text-slate-400 mt-3 font-medium">
+                  Measured effort level
+                </p>
+              </div>
+              <div
+                class="group p-6 rounded-2xl border border-white/5 bg-black/40 hover:bg-black/60 transition duration-500 hover:border-indigo-500/50 hover:shadow-[0_0_20px_rgba(79,70,229,0.3)] transform hover:-translate-y-2"
+              >
+                <p
+                  class="font-black text-white text-xl uppercase group-hover:text-indigo-400 transition"
+                >
+                  Activity Length
+                </p>
+                <p class="text-sm text-slate-400 mt-3 font-medium">
+                  Time spent on previous sessions
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
-    <div class="skew-divider bg-transparent">
+      </section>
+
+      <div class="skew-divider bg-[#050505]">
+        <div
+          class="bg-black/80 backdrop-blur-sm transform skew-y-6 origin-bottom-left"
+        ></div>
+      </div>
+
+      <section
+        class="section-anchor py-32 px-4 sm:px-6 lg:px-8 relative z-20"
+        id="pricing"
+      >
+        <div class="max-w-7xl mx-auto text-center">
+          <h2
+            class="text-5xl font-extrabold mb-8 text-white uppercase tracking-widest drop-shadow-lg"
+          >
+            FLEXIBILITY THAT FITS YOUR BUDGET
+          </h2>
+          <p class="text-slate-400 text-2xl max-w-4xl mx-auto mb-24">
+            Choose the plan that aligns with your fitness frequency and goals.
+          </p>
+
+          <div class="grid lg:grid-cols-3 gap-8">
+            <div
+              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:scale-[1.03] hover:border-indigo-500/80 hover:shadow-neon-indigo group"
+            >
+              <h3
+                class="text-4xl font-black mb-4 uppercase tracking-wide text-indigo-400"
+              >
+                STARTER
+              </h3>
+              <p class="text-slate-300 text-6xl font-extrabold mb-8">
+                <span class="text-white">FREE</span>
+              </p>
+              <p
+                class="text-lg text-slate-300 mb-10 h-16 flex items-center justify-center border-b border-white/10"
+              >
+                The perfect introduction to AI-guided stretching.
+              </p>
+
+              <ul class="text-left text-slate-400 space-y-4 mb-12">
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-indigo-500 mr-3 text-2xl leading-none font-black"
+                    >&#10003;</span
+                  >
+                  One Personalized Plan/Week
+                </li>
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-red-500 mr-3 text-2xl leading-none font-black"
+                    >&#10007;</span
+                  >
+                  No daily sessions
+                </li>
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-red-500 mr-3 text-2xl leading-none font-black"
+                    >&#10007;</span
+                  >
+                  No custom plan editing
+                </li>
+              </ul>
+
+              <!-- Updated: Link to payment.html -->
+              <a
+                class="gradient-button px-12 py-4 font-bold text-lg shadow-xl"
+                href="payment.html"
+              >
+                START FOR FREE
+              </a>
+            </div>
+
+            <div
+              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:scale-[1.03] border-4 border-pink-500/50 shadow-neon-pink group relative"
+            >
+              <div
+                class="absolute -top-4 right-1/2 translate-x-1/2 bg-pink-500 text-deep-black font-black uppercase text-sm px-4 py-1.5 rounded-full shadow-lg tracking-widest"
+              >
+                BEST VALUE
+              </div>
+              <h3
+                class="text-4xl font-black mb-4 uppercase tracking-wide text-pink-400"
+              >
+                ADVANCED
+              </h3>
+              <p class="text-slate-300 text-6xl font-extrabold mb-8">
+                <span class="text-white">10€</span>
+                <span class="text-2xl font-normal text-slate-500">/mo</span>
+              </p>
+              <p
+                class="text-lg text-slate-300 mb-10 h-16 flex items-center justify-center border-b border-white/10"
+              >
+                Essential mobility for daily performance and recovery.
+              </p>
+
+              <ul class="text-left text-slate-400 space-y-4 mb-12">
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-pink-500 mr-3 text-2xl leading-none font-black"
+                    >&#10003;</span
+                  >
+                  Daily Stretching & Mobility
+                </li>
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-pink-500 mr-3 text-2xl leading-none font-black"
+                    >&#10003;</span
+                  >
+                  Unlimited AI Coach Adjustments
+                </li>
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-red-500 mr-3 text-2xl leading-none font-black"
+                    >&#10007;</span
+                  >
+                  No custom training plan
+                </li>
+              </ul>
+
+              <!-- Updated: Link to payment.html -->
+              <a
+                class="gradient-button px-12 py-4 font-bold text-lg shadow-2xl"
+                href="payment.html"
+              >
+                GO ADVANCED
+              </a>
+            </div>
+
+            <div
+              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:scale-[1.03] hover:border-indigo-500/80 hover:shadow-neon-indigo group"
+            >
+              <h3
+                class="text-4xl font-black mb-4 uppercase tracking-wide text-indigo-400"
+              >
+                ELITE
+              </h3>
+              <p class="text-slate-300 text-6xl font-extrabold mb-8">
+                <span class="text-white">20€</span>
+                <span class="text-2xl font-normal text-slate-500">/mo</span>
+              </p>
+              <p
+                class="text-lg text-slate-300 mb-10 h-16 flex items-center justify-center border-b border-white/10"
+              >
+                Unrestricted access for maximum flexibility gains.
+              </p>
+
+              <ul class="text-left text-slate-400 space-y-4 mb-12">
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-indigo-500 mr-3 text-2xl leading-none font-black"
+                    >&#10003;</span
+                  >
+                  Daily Stretching & Mobility
+                </li>
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-indigo-500 mr-3 text-2xl leading-none font-black"
+                    >&#10003;</span
+                  >
+                  Unlimited AI Coach Adjustments
+                </li>
+                <li class="flex items-start font-medium text-lg">
+                  <span
+                    class="text-indigo-500 mr-3 text-2xl leading-none font-black"
+                    >&#10003;</span
+                  >
+                  Custom Training Plan Creation
+                </li>
+              </ul>
+
+              <!-- Updated: Link to payment.html -->
+              <a
+                class="gradient-button px-12 py-4 font-bold text-lg shadow-xl"
+                href="payment.html"
+              >
+                GO ELITE
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="skew-divider bg-transparent">
         <div class="bg-[#050505] transform skew-y-6 origin-bottom-right"></div>
-    </div>
+      </div>
 
-    <section class="section-anchor py-32 px-4 sm:px-6 lg:px-8 relative z-20"
-             id="compliance">
+      <section
+        class="section-anchor py-32 px-4 sm:px-6 lg:px-8 relative z-20"
+        id="compliance"
+      >
         <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-5xl font-extrabold mb-8 text-white uppercase tracking-widest drop-shadow-lg">BUILT ON TRUST AND SECURITY</h2>
-            <p class="text-slate-400 text-2xl max-w-4xl mx-auto mb-24">
-                Your sensitive health data is handled with the highest standards of security and privacy.
-            </p>
+          <h2
+            class="text-5xl font-extrabold mb-8 text-white uppercase tracking-widest drop-shadow-lg"
+          >
+            BUILT ON TRUST AND SECURITY
+          </h2>
+          <p class="text-slate-400 text-2xl max-w-4xl mx-auto mb-24">
+            Your sensitive health data is handled with the highest standards of
+            security and privacy.
+          </p>
 
-            <div class="grid md:grid-cols-3 gap-12 text-left">
-                <div class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-indigo-500/80 hover:shadow-neon-indigo group">
-                    <p class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-indigo-400 transition">DSGVO Conform</p>
-                    <p class="text-slate-300 text-lg leading-relaxed">
-                        Fully compliant with the General Data Protection Regulation, guaranteeing your data rights and
-                        protection.
-                    </p>
-                </div>
-                <div class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-pink-500/80 hover:shadow-neon-pink group">
-                    <p class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-pink-400 transition">Secure Hosting</p>
-                    <p class="text-slate-300 text-lg leading-relaxed">
-                        Reliably hosted with IONOS, providing robust infrastructure and data security for our platform.
-                    </p>
-                </div>
-                <div class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-indigo-500/80 hover:shadow-neon-indigo group">
-                    <p class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-indigo-400 transition">Pre-trained LLM</p>
-                    <p class="text-slate-300 text-lg leading-relaxed">
-                        Our LLM is specialized in biomechanics and flexibility, giving you expert advice without generic
-                        results.
-                    </p>
-                </div>
+          <div class="grid md:grid-cols-3 gap-12 text-left">
+            <div
+              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-indigo-500/80 hover:shadow-neon-indigo group"
+            >
+              <p
+                class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-indigo-400 transition"
+              >
+                DSGVO Conform
+              </p>
+              <p class="text-slate-300 text-lg leading-relaxed">
+                Fully compliant with the General Data Protection Regulation,
+                guaranteeing your data rights and protection.
+              </p>
             </div>
+            <div
+              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-pink-500/80 hover:shadow-neon-pink group"
+            >
+              <p
+                class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-pink-400 transition"
+              >
+                Secure Hosting
+              </p>
+              <p class="text-slate-300 text-lg leading-relaxed">
+                Reliably hosted with IONOS, providing robust infrastructure and
+                data security for our platform.
+              </p>
+            </div>
+            <div
+              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-indigo-500/80 hover:shadow-neon-indigo group"
+            >
+              <p
+                class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-indigo-400 transition"
+              >
+                Pre-trained LLM
+              </p>
+              <p class="text-slate-300 text-lg leading-relaxed">
+                Our LLM is specialized in biomechanics and flexibility, giving
+                you expert advice without generic results.
+              </p>
+            </div>
+          </div>
         </div>
-    </section>
+      </section>
+    </main>
 
-</main>
+    <footer
+      class="section-anchor py-24 px-4 sm:px-6 lg:px-8 text-center bg-black/90 relative z-30 border-t border-white/10"
+      id="newsletter"
+    >
+      <div
+        class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-64 bg-gradient-to-t from-pink-900/20 to-transparent blur-[100px] -z-10 pointer-events-none"
+      ></div>
 
-<footer class="section-anchor py-24 px-4 sm:px-6 lg:px-8 text-center bg-black/90 relative z-30 border-t border-white/10"
-        id="newsletter">
-    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-64 bg-gradient-to-t from-pink-900/20 to-transparent blur-[100px] -z-10 pointer-events-none"></div>
-
-    <div class="max-w-2xl mx-auto">
-        <h2 class="text-4xl font-black mb-8 text-white uppercase tracking-[0.2em] drop-shadow-lg">DON'T MISS AN UPDATE!</h2>
+      <div class="max-w-2xl mx-auto">
+        <h2
+          class="text-4xl font-black mb-8 text-white uppercase tracking-[0.2em] drop-shadow-lg"
+        >
+          DON'T MISS AN UPDATE!
+        </h2>
         <p class="text-slate-400 text-xl mb-12 leading-relaxed">
-            Subscribe to our newsletter to not miss the latest news, updates on API integrations, and new AI features.
+          Subscribe to our newsletter to not miss the latest news, updates on
+          API integrations, and new AI features.
         </p>
 
-        <form class="flex flex-col sm:flex-row gap-5 justify-center relative z-10">
-            <label class="sr-only" for="emailfield">E-Mail:</label>
-            <input class="w-full sm:w-96 p-5 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 placeholder-slate-500 text-lg font-medium backdrop-blur-md outline-none" id="emailfield" placeholder="EMAIL ADDRESS" required
-                   type="email">
-            <button class="gradient-button flex-shrink-0 px-10 py-5 font-black text-xl w-full sm:w-auto mt-4 sm:mt-0 shadow-xl"
-                    type="submit">
-                SUBSCRIBE
-            </button>
+        <form
+          class="flex flex-col sm:flex-row gap-5 justify-center relative z-10"
+        >
+          <label class="sr-only" for="emailfield">E-Mail:</label>
+          <input
+            class="w-full sm:w-96 p-5 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 placeholder-slate-500 text-lg font-medium backdrop-blur-md outline-none"
+            id="emailfield"
+            placeholder="EMAIL ADDRESS"
+            required
+            type="email"
+          />
+          <button
+            class="gradient-button flex-shrink-0 px-10 py-5 font-black text-xl w-full sm:w-auto mt-4 sm:mt-0 shadow-xl"
+            type="submit"
+          >
+            SUBSCRIBE
+          </button>
         </form>
 
-        <div class="mt-20 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-slate-500 text-sm font-bold uppercase tracking-wider">
-            <p>© 2025 STRETCHLETICS.</p>
-            <p class="mt-2 sm:mt-0">ALL RIGHTS RESERVED.</p>
+        <div
+          class="mt-20 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-slate-500 text-sm font-bold uppercase tracking-wider"
+        >
+          <p>© 2025 STRETCHLETICS.</p>
+          <p class="mt-2 sm:mt-0">ALL RIGHTS RESERVED.</p>
         </div>
-    </div>
-</footer>
-
-</body>
+      </div>
+    </footer>
+  </body>
 </html>
