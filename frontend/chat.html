@@ -504,8 +504,8 @@
 Additional Parameters:
 - Duration: ${duration} minutes
 - Difficulty Level: ${difficulty}
-- Equipment Available: ${equipment.join(", ")}
-- Focus Areas: ${focusAreas.join(", ")}
+${equipment.length > 0 ? `- Equipment Available: ${equipment.join(", ")}` : ""}
+${focusAreas.length > 0 ? `- Focus Areas: ${focusAreas.join(", ")}` : ""}
 ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
           const response = await fetch("http://127.0.0.1:5500/api/chat", {
