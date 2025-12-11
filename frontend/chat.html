@@ -174,7 +174,7 @@
               id="duration-input"
               min="5"
               max="60"
-              value="15"
+              value="10"
               class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
             />
           </div>
@@ -202,6 +202,15 @@
               >Equipment</label
             >
             <div class="space-y-2">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="equipment-none"
+                  class="w-4 h-4 rounded"
+                  checked
+                />
+                <span class="ml-2 text-sm">No Equipment</span>
+              </label>
               <label class="flex items-center">
                 <input
                   type="checkbox"
@@ -234,15 +243,6 @@
                 />
                 <span class="ml-2 text-sm">Stability Ball</span>
               </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="equipment-none"
-                  class="w-4 h-4 rounded"
-                  checked
-                />
-                <span class="ml-2 text-sm">No Equipment</span>
-              </label>
             </div>
           </div>
 
@@ -253,6 +253,15 @@
               >Focus Areas</label
             >
             <div class="space-y-2">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="focus-none"
+                  class="w-4 h-4 rounded"
+                  checked
+                />
+                <span class="ml-2 text-sm">No Special Area</span>
+              </label>
               <label class="flex items-center">
                 <input
                   type="checkbox"
@@ -282,7 +291,6 @@
                   type="checkbox"
                   id="focus-full"
                   class="w-4 h-4 rounded"
-                  checked
                 />
                 <span class="ml-2 text-sm">Full Body</span>
               </label>
@@ -471,6 +479,8 @@
 
           // Gather focus areas
           const focusAreas = [];
+          if (document.getElementById("focus-none").checked)
+            focusAreas.push("No Special Area");
           if (document.getElementById("focus-upper").checked)
             focusAreas.push("Upper Body");
           if (document.getElementById("focus-lower").checked)
