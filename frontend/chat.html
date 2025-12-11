@@ -142,9 +142,9 @@
   </head>
 
   <body
-    class="bg-[#050505] bg-grid text-slate-300 antialiased min-h-screen flex items-center justify-center p-4"
+    class="bg-[#050505] bg-grid text-slate-300 antialiased min-h-screen p-4"
   >
-    <div class="w-full max-w-2xl h-[90vh] flex flex-col">
+    <div class="w-full h-[90vh] flex flex-col">
       <div class="text-center mb-6">
         <h1
           class="text-4xl font-black tracking-wider text-white uppercase drop-shadow-lg"
@@ -154,62 +154,214 @@
         <p class="text-slate-400 mt-2">Your AI flexibility coach.</p>
       </div>
 
-      <div
-        class="glass-card flex-grow flex flex-col rounded-xl overflow-hidden"
-      >
-        <div
-          id="chat-messages"
-          class="chat-area flex-grow p-6 space-y-6 overflow-y-auto"
-        >
-          <div class="flex justify-start">
-            <div class="bot-message-bubble p-4 max-w-xs sm:max-w-md">
-              <p
-                class="font-bold text-neon-indigo uppercase text-xs tracking-wider"
-              >
-                Stretchletics
-              </p>
-              <p class="mt-1 text-sm">
-                Welcome to Stretchletics, your mobility coach! Get your optimal
-                cool-down routine by either describing your workout below or
-                tapping Sync Last Workout.
-              </p>
+      <div class="flex gap-6 flex-grow">
+        <!-- LEFT SIDEBAR: PARAMETERS -->
+        <div class="w-72 glass-card rounded-xl p-6 overflow-y-auto">
+          <h2
+            class="text-lg font-black text-white uppercase mb-6 tracking-wider"
+          >
+            Routine Parameters
+          </h2>
+
+          <!-- Duration -->
+          <div class="mb-6">
+            <label
+              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
+              >Duration (minutes)</label
+            >
+            <input
+              type="number"
+              id="duration-input"
+              min="5"
+              max="60"
+              value="15"
+              class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+            />
+          </div>
+
+          <!-- Difficulty Level -->
+          <div class="mb-6">
+            <label
+              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
+              >Difficulty</label
+            >
+            <select
+              id="difficulty-input"
+              class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+            >
+              <option value="beginner">Beginner</option>
+              <option value="intermediate" selected>Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+
+          <!-- Equipment Available -->
+          <div class="mb-6">
+            <label
+              class="block text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider"
+              >Equipment</label
+            >
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="equipment-roller"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2 text-sm">Foam Roller</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="equipment-bands"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2 text-sm">Resistance Bands</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="equipment-mat"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2 text-sm">Yoga Mat</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="equipment-ball"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2 text-sm">Stability Ball</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="equipment-none"
+                  class="w-4 h-4 rounded"
+                  checked
+                />
+                <span class="ml-2 text-sm">No Equipment</span>
+              </label>
             </div>
+          </div>
+
+          <!-- Focus Areas -->
+          <div class="mb-6">
+            <label
+              class="block text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider"
+              >Focus Areas</label
+            >
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="focus-upper"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2 text-sm">Upper Body</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="focus-lower"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2 text-sm">Lower Body</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="focus-core"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2 text-sm">Core</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="focus-full"
+                  class="w-4 h-4 rounded"
+                  checked
+                />
+                <span class="ml-2 text-sm">Full Body</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Injuries/Restrictions -->
+          <div class="mb-6">
+            <label
+              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
+              >Restrictions</label
+            >
+            <textarea
+              id="restrictions-input"
+              placeholder="Any injuries or restrictions..."
+              class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none text-sm"
+              rows="3"
+            ></textarea>
           </div>
         </div>
 
-        <div class="p-4 border-t border-white/10 bg-black/50">
-          <div class="flex items-center space-x-3 mb-4">
-            <button
-              id="last-workout-btn"
-              class="gradient-button flex-shrink-0 px-4 py-3 text-sm font-bold tracking-wider"
-            >
-              <i class="fa-solid fa-rotate inline-block mr-2"></i>
-              Sync Last Workout
-            </button>
-            <div
-              id="last-workout-status"
-              class="text-xs text-slate-500 italic flex-grow truncate"
-            >
-              (Ready to sync)
+        <!-- RIGHT SIDE: CHAT -->
+        <div
+          class="flex-grow glass-card flex flex-col rounded-xl overflow-hidden"
+        >
+          <div
+            id="chat-messages"
+            class="chat-area flex-grow p-6 space-y-6 overflow-y-auto"
+          >
+            <div class="flex justify-start">
+              <div class="bot-message-bubble p-4 max-w-xs sm:max-w-md">
+                <p
+                  class="font-bold text-neon-indigo uppercase text-xs tracking-wider"
+                >
+                  Stretchletics
+                </p>
+                <p class="mt-1 text-sm">
+                  Welcome to Stretchletics, your mobility coach! Get your
+                  optimal cool-down routine by either describing your workout
+                  below or tapping Sync Last Workout.
+                </p>
+              </div>
             </div>
           </div>
 
-          <form id="chat-form" class="flex space-x-3">
-            <input
-              type="text"
-              id="chat-input"
-              required
-              placeholder="Ask me for a routine..."
-              class="flex-grow p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none shadow-inner"
-            />
-            <button
-              type="submit"
-              id="send-button"
-              class="gradient-button flex-shrink-0 w-12 h-12 text-base font-bold flex items-center justify-center"
-            >
-              <i class="fa-solid fa-paper-plane"></i>
-            </button>
-          </form>
+          <div class="p-4 border-t border-white/10 bg-black/50">
+            <div class="flex items-center space-x-3 mb-4">
+              <button
+                id="last-workout-btn"
+                class="gradient-button flex-shrink-0 px-4 py-3 text-sm font-bold tracking-wider"
+              >
+                <i class="fa-solid fa-rotate inline-block mr-2"></i>
+                Sync Last Workout
+              </button>
+              <div
+                id="last-workout-status"
+                class="text-xs text-slate-500 italic flex-grow truncate"
+              >
+                (Ready to sync)
+              </div>
+            </div>
+
+            <form id="chat-form" class="flex space-x-3">
+              <input
+                type="text"
+                id="chat-input"
+                required
+                placeholder="Ask me for a routine..."
+                class="flex-grow p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none shadow-inner"
+              />
+              <button
+                type="submit"
+                id="send-button"
+                class="gradient-button flex-shrink-0 w-12 h-12 text-base font-bold flex items-center justify-center"
+              >
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -221,6 +373,11 @@
       const sendButton = document.getElementById("send-button");
       const lastWorkoutBtn = document.getElementById("last-workout-btn");
       const lastWorkoutStatus = document.getElementById("last-workout-status");
+
+      // Parameter inputs
+      const durationInput = document.getElementById("duration-input");
+      const difficultyInput = document.getElementById("difficulty-input");
+      const restrictionsInput = document.getElementById("restrictions-input");
 
       // --- Mock Data ---
       const mockLastWorkout = {
@@ -299,12 +456,50 @@
         toggleForm(false);
 
         try {
+          // Gather selected equipment
+          const equipment = [];
+          if (document.getElementById("equipment-roller").checked)
+            equipment.push("Foam Roller");
+          if (document.getElementById("equipment-bands").checked)
+            equipment.push("Resistance Bands");
+          if (document.getElementById("equipment-mat").checked)
+            equipment.push("Yoga Mat");
+          if (document.getElementById("equipment-ball").checked)
+            equipment.push("Stability Ball");
+          if (document.getElementById("equipment-none").checked)
+            equipment.push("No Equipment");
+
+          // Gather focus areas
+          const focusAreas = [];
+          if (document.getElementById("focus-upper").checked)
+            focusAreas.push("Upper Body");
+          if (document.getElementById("focus-lower").checked)
+            focusAreas.push("Lower Body");
+          if (document.getElementById("focus-core").checked)
+            focusAreas.push("Core");
+          if (document.getElementById("focus-full").checked)
+            focusAreas.push("Full Body");
+
+          // Build enhanced prompt with parameters
+          const duration = durationInput.value;
+          const difficulty = difficultyInput.value;
+          const restrictions = restrictionsInput.value;
+
+          const enhancedPrompt = `${prompt}
+
+Additional Parameters:
+- Duration: ${duration} minutes
+- Difficulty Level: ${difficulty}
+- Equipment Available: ${equipment.join(", ")}
+- Focus Areas: ${focusAreas.join(", ")}
+${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
+
           const response = await fetch("http://127.0.0.1:5500/api/chat", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ message: prompt }),
+            body: JSON.stringify({ message: enhancedPrompt }),
           });
 
           if (!response.ok) {
