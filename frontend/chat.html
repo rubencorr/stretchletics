@@ -138,6 +138,22 @@
         border-radius: 1rem 1rem 1rem 0.2rem;
         box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
       }
+
+      /* Select dropdown styling */
+      select {
+        background-color: #1a1a1a !important;
+        color: white !important;
+      }
+
+      select option {
+        background-color: #1a1a1a !important;
+        color: white !important;
+      }
+
+      select option:checked {
+        background-color: #4f46e5 !important;
+        color: white !important;
+      }
     </style>
   </head>
 
@@ -205,15 +221,6 @@
               <label class="flex items-center">
                 <input
                   type="checkbox"
-                  id="equipment-none"
-                  class="w-4 h-4 rounded"
-                  checked
-                />
-                <span class="ml-2 text-sm">No Equipment</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
                   id="equipment-roller"
                   class="w-4 h-4 rounded"
                 />
@@ -243,6 +250,14 @@
                 />
                 <span class="ml-2 text-sm">Stability Ball</span>
               </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="equipment-massage"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2 text-sm">Massage Ball</span>
+              </label>
             </div>
           </div>
 
@@ -253,15 +268,6 @@
               >Focus Areas</label
             >
             <div class="space-y-2">
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="focus-none"
-                  class="w-4 h-4 rounded"
-                  checked
-                />
-                <span class="ml-2 text-sm">No Special Area</span>
-              </label>
               <label class="flex items-center">
                 <input
                   type="checkbox"
@@ -474,13 +480,11 @@
             equipment.push("Yoga Mat");
           if (document.getElementById("equipment-ball").checked)
             equipment.push("Stability Ball");
-          if (document.getElementById("equipment-none").checked)
-            equipment.push("No Equipment");
+          if (document.getElementById("equipment-massage").checked)
+            equipment.push("Massage Ball");
 
           // Gather focus areas
           const focusAreas = [];
-          if (document.getElementById("focus-none").checked)
-            focusAreas.push("No Special Area");
           if (document.getElementById("focus-upper").checked)
             focusAreas.push("Upper Body");
           if (document.getElementById("focus-lower").checked)
