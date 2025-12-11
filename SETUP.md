@@ -3,6 +3,7 @@
 ## First Time Setup
 
 1. **Install dependencies:**
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -15,9 +16,11 @@
 ## Running the Application
 
 ### Option 1: Using Batch File (Windows)
+
 Double-click `run.bat` in the project folder.
 
 ### Option 2: Using PowerShell
+
 ```powershell
 cd C:\coding\stretchletics
 .\.venv\Scripts\Activate.ps1
@@ -44,12 +47,14 @@ The application will start at `http://localhost:5000`
 
 **Port Already in Use:**
 If port 5000 is already in use, modify the last line in `app.py`:
+
 ```python
 app.run(debug=True, port=5001)  # Change 5000 to another port
 ```
 
 **ModuleNotFoundError:**
 Make sure you've activated the virtual environment and installed requirements:
+
 ```bash
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
@@ -57,6 +62,7 @@ pip install -r requirements.txt
 
 **Chat not responding (405 error):**
 This is usually a CORS issue. Make sure Flask-CORS is installed:
+
 ```bash
 pip install flask-cors
 ```
