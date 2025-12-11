@@ -165,10 +165,9 @@
                 Stretchletics
               </p>
               <p class="mt-1 text-sm">
-                Hello! I can help you find the perfect stretching routine. You
-                can ask for a specific goal (e.g., "routine for tight
-                hamstrings") or click **"Use Last Workout"** to get a recovery
-                routine based on your synced data.
+                Hi there! I am Stretchletics and I am here to give you the
+                optimal mobility routine! Either tell what you have done today
+                or simply sync your workout!
               </p>
             </div>
           </div>
@@ -318,7 +317,7 @@
         toggleForm(false);
 
         try {
-          const response = await fetch("/api/chat", {
+          const response = await fetch("http://127.0.0.1:5000/api/chat", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
