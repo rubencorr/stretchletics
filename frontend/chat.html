@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Stretchletics | Routine Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -179,21 +183,8 @@
               id="last-workout-btn"
               class="gradient-button flex-shrink-0 px-4 py-3 text-sm font-bold tracking-wider"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 inline-block mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4 4v5h.582m15.836 2.5a8.25 8.25 0 11-16.174 0l.208-.667A5.999 5.999 0 0110 8.25c.877 0 1.708.242 2.453.667l-2.008 2.008.012-.012zM12 2v5l2.67 2.67"
-                />
-              </svg>
-              Use Last Workout
+              <i class="fa-solid fa-rotate inline-block mr-2"></i>
+              Sync Last Workout
             </button>
             <div
               id="last-workout-status"
@@ -216,16 +207,7 @@
               id="send-button"
               class="gradient-button flex-shrink-0 w-12 h-12 text-base font-bold flex items-center justify-center"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.428a1 1 0 00.931-.693l2.4-7.202 5.235 5.235a1 1 0 001.414-1.414l-8-8z"
-                />
-              </svg>
+              <i class="fa-solid fa-paper-plane"></i>
             </button>
           </form>
         </div>
