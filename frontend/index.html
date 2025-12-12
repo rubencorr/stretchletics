@@ -44,6 +44,40 @@
         scroll-margin-top: 6rem;
       }
 
+      /* Scroll Fade-In Animation */
+      .fade-in-section {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+      
+      .fade-in-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Reviews Section Fade Edges */
+      #reviews .overflow-hidden::before,
+      #reviews .overflow-hidden::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100px;
+        z-index: 10;
+        pointer-events: none;
+      }
+      
+      #reviews .overflow-hidden::before {
+        left: 0;
+        background: linear-gradient(to right, #050505, transparent);
+      }
+      
+      #reviews .overflow-hidden::after {
+        right: 0;
+        background: linear-gradient(to left, #050505, transparent);
+      }
+
       /* --- BACKGROUND STYLING (Kept Prominent Version) --- */
       .bg-grid {
         /* Adjusted dot color to #2E3A52 (brighter dark tone) and smaller size (30px) */
@@ -596,6 +630,11 @@
             <div
               class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:scale-[1.03] hover:border-indigo-500/80 hover:shadow-neon-indigo group"
             >
+              <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition duration-500">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+              </div>
               <h3
                 class="text-4xl font-black mb-4 uppercase tracking-wide text-indigo-400"
               >
@@ -651,6 +690,11 @@
               >
                 BEST VALUE
               </div>
+              <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition duration-500">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
               <h3
                 class="text-4xl font-black mb-4 uppercase tracking-wide text-pink-400"
               >
@@ -702,6 +746,11 @@
             <div
               class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:scale-[1.03] hover:border-indigo-500/80 hover:shadow-neon-indigo group"
             >
+              <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-indigo-500 to-cyan-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition duration-500">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                </svg>
+              </div>
               <h3
                 class="text-4xl font-black mb-4 uppercase tracking-wide text-indigo-400"
               >
@@ -768,42 +817,57 @@
             security and privacy.
           </p>
 
-          <div class="grid md:grid-cols-3 gap-12 text-left">
+          <div class="grid md:grid-cols-3 gap-12">
             <div
-              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-indigo-500/80 hover:shadow-neon-indigo group"
+              class="group p-10 rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-indigo-500/10 to-black/40 hover:from-indigo-500/20 hover:to-black/60 transition duration-500 hover:border-indigo-500 hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] transform hover:-translate-y-3 hover:scale-105"
             >
+              <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl flex items-center justify-center transform group-hover:rotate-12 transition duration-500">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+              </div>
               <p
-                class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-indigo-400 transition"
+                class="text-2xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-indigo-400 transition text-center"
               >
-                DSGVO Conform
+                GDPR Compliant
               </p>
-              <p class="text-slate-300 text-lg leading-relaxed">
+              <p class="text-slate-300 text-base leading-relaxed text-center">
                 Fully compliant with the General Data Protection Regulation,
                 guaranteeing your data rights and protection.
               </p>
             </div>
             <div
-              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-pink-500/80 hover:shadow-neon-pink group"
+              class="group p-10 rounded-2xl border border-pink-500/30 bg-gradient-to-br from-pink-500/10 to-black/40 hover:from-pink-500/20 hover:to-black/60 transition duration-500 hover:border-pink-500 hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] transform hover:-translate-y-3 hover:scale-105"
             >
+              <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center transform group-hover:rotate-12 transition duration-500">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                </svg>
+              </div>
               <p
-                class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-pink-400 transition"
+                class="text-2xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-pink-400 transition text-center"
               >
                 Secure Hosting
               </p>
-              <p class="text-slate-300 text-lg leading-relaxed">
+              <p class="text-slate-300 text-base leading-relaxed text-center">
                 Reliably hosted with IONOS, providing robust infrastructure and
                 data security for our platform.
               </p>
             </div>
             <div
-              class="glass-card bg-black/40 p-10 rounded-2xl transition-all duration-500 hover:-translate-y-3 hover:border-indigo-500/80 hover:shadow-neon-indigo group"
+              class="group p-10 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-500/10 to-black/40 hover:from-purple-500/20 hover:to-black/60 transition duration-500 hover:border-purple-500 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transform hover:-translate-y-3 hover:scale-105"
             >
+              <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center transform group-hover:rotate-12 transition duration-500">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+              </div>
               <p
-                class="text-3xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-indigo-400 transition"
+                class="text-2xl font-black text-white mb-4 uppercase tracking-wide group-hover:text-purple-400 transition text-center"
               >
-                Pre-trained LLM
+                AI Expertise
               </p>
-              <p class="text-slate-300 text-lg leading-relaxed">
+              <p class="text-slate-300 text-base leading-relaxed text-center">
                 Our LLM is specialized in biomechanics and flexibility, giving
                 you expert advice without generic results.
               </p>
@@ -825,7 +889,7 @@
 
         <div class="relative max-w-7xl mx-auto">
           <!-- Carousel Container -->
-          <div class="overflow-hidden">
+          <div class="overflow-hidden relative" id="reviews-container">
             <div id="reviews-track" class="flex">
               <!-- Review 1 -->
               <div class="flex-shrink-0 w-full md:w-1/3 px-4">
@@ -1064,15 +1128,56 @@
           }
           
           // Start the animation
-          continuousScroll();
+          let animationId = requestAnimationFrame(continuousScroll);
+          let isPaused = false;
+          
+          function continuousScrollWithPause() {
+            if (!isPaused) {
+              scrollPosition += scrollSpeed;
+              
+              const cardWidth = reviewCards[0].offsetWidth;
+              const totalOriginalWidth = cardWidth * 10;
+              
+              if (scrollPosition >= totalOriginalWidth) {
+                scrollPosition = 0;
+              }
+              
+              reviewsTrack.style.transform = `translateX(-${scrollPosition}px)`;
+            }
+            animationId = requestAnimationFrame(continuousScrollWithPause);
+          }
+          
+          continuousScrollWithPause();
           
           // Pause on hover
-          const section = document.getElementById('reviews');
-          section.addEventListener('mouseenter', () => {
-            reviewsTrack.style.animationPlayState = 'paused';
+          const container = document.getElementById('reviews-container');
+          container.addEventListener('mouseenter', () => {
+            isPaused = true;
           });
-          section.addEventListener('mouseleave', () => {
-            reviewsTrack.style.animationPlayState = 'running';
+          container.addEventListener('mouseleave', () => {
+            isPaused = false;
+          });
+        })();
+
+        // Scroll Fade-In Animation Observer
+        (function() {
+          const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+          };
+
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+              }
+            });
+          }, observerOptions);
+
+          // Observe all sections
+          document.querySelectorAll('.section-anchor').forEach(section => {
+            section.classList.add('fade-in-section');
+            observer.observe(section);
           });
         })();
       </script>
