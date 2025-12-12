@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Stretchletics | Routine Generator</title>
+    <title>Stretchletics</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -37,46 +37,147 @@
       :root {
         font-family: "Inter", sans-serif;
       }
-      /* Background Grid */
-      .bg-grid {
-        background-image: radial-gradient(#2e3a52 1px, transparent 1px),
-          radial-gradient(#2e3a52 1px, transparent 1px);
-        background-size: 30px 30px;
-        background-position: 0 0, 15px 15px;
+      /* Enhanced Animated Background */
+      body {
+        position: relative;
+        overflow-x: hidden;
+      }
+      
+      /* Animated Gradient Overlay */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+        animation: gradient-shift 15s ease infinite;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* Enhanced Moving Grid */
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          radial-gradient(circle, rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+          radial-gradient(circle, rgba(236, 72, 153, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        background-position: 0 0, 25px 25px;
+        z-index: 0;
+        pointer-events: none;
+        animation: grid-float 20s linear infinite;
+      }
+
+      @keyframes gradient-shift {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        33% {
+          transform: translate(10%, -10%) scale(1.1);
+          opacity: 0.8;
+        }
+        66% {
+          transform: translate(-10%, 10%) scale(0.9);
+          opacity: 0.9;
+        }
+      }
+
+      @keyframes grid-float {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(50px, 50px);
+        }
+      }
+
+      /* Floating Orbs */
+      .bg-orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.3;
+        animation: float-orb 20s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .bg-orb-1 {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(79, 70, 229, 0.4), transparent);
+        top: -250px;
+        left: -250px;
+        animation-delay: 0s;
+      }
+
+      .bg-orb-2 {
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(236, 72, 153, 0.4), transparent);
+        bottom: -200px;
+        right: -200px;
+        animation-delay: -7s;
+      }
+
+      .bg-orb-3 {
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent);
+        top: 50%;
+        left: 50%;
+        animation-delay: -14s;
+      }
+
+      @keyframes float-orb {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(100px, -50px) scale(1.1);
+        }
+        50% {
+          transform: translate(50px, 100px) scale(0.9);
+        }
+        75% {
+          transform: translate(-50px, 50px) scale(1.05);
+        }
+      }
+
+      /* Ensure content is above background */
+      body > div {
+        position: relative;
+        z-index: 1;
       }
 
       /* ---------------------------------- */
       /* --- 1. Neon Glow Keyframes CSS --- */
       /* ---------------------------------- */
 
-      @keyframes neon-pulse {
-        0% {
-          box-shadow: 0 0 10px rgba(79, 70, 229, 0.5),
-            /* Indigo */ 0 0 20px rgba(79, 70, 229, 0.3);
-        }
-        50% {
-          box-shadow: 0 0 15px rgba(236, 72, 153, 0.8),
-            /* Pink */ 0 0 30px rgba(236, 72, 153, 0.5);
-        }
-        100% {
-          box-shadow: 0 0 10px rgba(79, 70, 229, 0.5),
-            0 0 20px rgba(79, 70, 229, 0.3);
-        }
-      }
-
       /* ---------------------------------- */
-      /* --- 2. Element Styling & Glows --- */
+      /* --- 2. Element Styling --- */
       /* ---------------------------------- */
 
-      /* Glassmorphism Card Base Utility */
+      /* Enhanced Glassmorphism Card */
       .glass-card {
-        background: rgba(10, 10, 10, 0.6);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(10, 10, 10, 0.75);
+        backdrop-filter: blur(32px) saturate(200%);
+        -webkit-backdrop-filter: blur(32px) saturate(200%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                    0 0 80px rgba(79, 70, 229, 0.05);
         transition: all 0.5s ease-in-out;
-        /* Apply the animated glow */
-        animation: neon-pulse 4s ease-in-out infinite;
       }
 
       /* Gradient Button Effect - Sleek Neon Plasma */
@@ -102,9 +203,8 @@
       .gradient-button:hover {
         background-position: right center;
         transform: translateY(-2px);
-        /* More dramatic glow on hover */
-        box-shadow: 0 0 25px rgba(236, 72, 153, 0.8),
-          0 0 50px rgba(79, 70, 229, 0.6);
+        box-shadow: 0 0 15px rgba(236, 72, 153, 0.4),
+          0 0 25px rgba(79, 70, 229, 0.3);
       }
 
       /* Custom scrollbar for chat area */
@@ -128,15 +228,196 @@
         background: #ec4899; /* neon-pink */
         border-radius: 1rem 1rem 0.2rem 1rem;
         color: #050505; /* deep-black text */
-        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.2);
       }
 
       /* Bot Message Bubble Style */
       .bot-message-bubble {
         background: #1d2a4a; /* deep-navy */
-        border: 1px solid rgba(79, 70, 229, 0.5); /* Subtle neon-indigo border */
+        border: 1px solid rgba(79, 70, 229, 0.3);
         border-radius: 1rem 1rem 1rem 0.2rem;
-        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+      }
+
+      /* Custom Checkbox Styling */
+      input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(236, 72, 153, 0.3);
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+      input[type="checkbox"]:hover {
+        border-color: rgba(236, 72, 153, 0.6);
+        box-shadow: 0 0 8px rgba(236, 72, 153, 0.3);
+      }
+      input[type="checkbox"]:checked {
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        border-color: #ec4899;
+        box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
+      }
+      input[type="checkbox"]:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      /* Range Slider Styling */
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: linear-gradient(to right, #ec4899 0%, #4f46e5 100%);
+        outline: none;
+        cursor: pointer;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        cursor: pointer;
+        box-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
+        transition: all 0.2s ease;
+      }
+      input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 20px rgba(236, 72, 153, 0.8);
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
+        transition: all 0.2s ease;
+      }
+      input[type="range"]::-moz-range-thumb:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 20px rgba(236, 72, 153, 0.8);
+      }
+
+      /* Typing Indicator */
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4f46e5;
+        animation: typing-bounce 1.4s infinite;
+        display: inline-block;
+      }
+      .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes typing-bounce {
+        0%, 60%, 100% { transform: translateY(0); opacity: 0.7; }
+        30% { transform: translateY(-10px); opacity: 1; }
+      }
+
+      /* Action Buttons */
+      .action-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      .action-btn:hover {
+        background: rgba(236, 72, 153, 0.2);
+        border-color: rgba(236, 72, 153, 0.5);
+        transform: translateY(-1px);
+      }
+      .action-btn.success {
+        background: rgba(34, 197, 94, 0.2);
+        border-color: rgba(34, 197, 94, 0.5);
+      }
+
+      /* History Sidebar */
+      .history-sidebar {
+        position: fixed;
+        left: -320px;
+        top: 0;
+        width: 320px;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(32px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        transition: left 0.3s ease;
+        z-index: 1000;
+        overflow-y: auto;
+      }
+      .history-sidebar.open {
+        left: 0;
+      }
+      .history-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .history-item:hover {
+        background: rgba(79, 70, 229, 0.15);
+        border-color: rgba(79, 70, 229, 0.3);
+        transform: translateX(4px);
+      }
+      .burger-menu {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+        width: 40px;
+        height: 40px;
+        background: rgba(236, 72, 153, 0.2);
+        border: 1px solid rgba(236, 72, 153, 0.4);
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+      .burger-menu:hover {
+        background: rgba(236, 72, 153, 0.3);
+        transform: scale(1.05);
+      }
+
+      /* Example chip styling */
+      .example-chip {
+        background: rgba(236, 72, 153, 0.1);
+        border: 1px solid rgba(236, 72, 153, 0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .example-chip:hover {
+        background: rgba(236, 72, 153, 0.2);
+        border-color: rgba(236, 72, 153, 0.6);
+        transform: scale(1.05);
       }
 
       /* Select dropdown styling */
@@ -157,9 +438,35 @@
     </style>
   </head>
 
-  <body
-    class="bg-[#050505] bg-grid text-slate-300 antialiased min-h-screen p-4"
-  >
+  <body class="bg-[#050505] text-slate-300 antialiased min-h-screen p-4">
+    <!-- Floating background orbs -->
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+    
+    <!-- Burger Menu -->
+    <button id="burger-menu" class="burger-menu">
+      <i class="fa-solid fa-bars text-white text-lg"></i>
+    </button>
+
+    <!-- History Sidebar -->
+    <div id="history-sidebar" class="history-sidebar">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-black text-white uppercase tracking-wider">History</h2>
+          <button id="close-history" class="text-slate-400 hover:text-white transition">
+            <i class="fa-solid fa-times text-xl"></i>
+          </button>
+        </div>
+        <div id="history-list" class="space-y-3">
+          <p class="text-sm text-slate-500 italic text-center py-8">No chat history yet</p>
+        </div>
+        <button id="clear-history" class="w-full mt-6 px-4 py-2 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm font-bold hover:bg-red-500/30 transition">
+          <i class="fa-solid fa-trash mr-2"></i>Clear All History
+        </button>
+      </div>
+    </div>
+    
     <div class="w-full h-[95vh] flex flex-col">
       <div class="text-center mb-6">
         <h1
@@ -170,9 +477,10 @@
         <p class="text-slate-400 mt-2">Your AI flexibility coach.</p>
       </div>
 
-      <div class="flex gap-6 flex-grow">
+      <!-- Unified Single Window -->
+      <div class="glass-card rounded-xl overflow-hidden flex-grow flex max-h-[calc(95vh-120px)]">
         <!-- LEFT SIDEBAR: PARAMETERS -->
-        <div class="w-72 glass-card rounded-xl p-6 overflow-y-auto max-h-[calc(95vh-120px)]">
+        <div class="w-80 overflow-y-auto p-6" style="background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);">
           <h2
             class="text-lg font-black text-white uppercase mb-6 tracking-wider"
           >
@@ -196,17 +504,18 @@
 
           <!-- Duration -->
           <div class="mb-6">
-            <label
-              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
-              >Duration (minutes)</label
-            >
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-sm font-bold text-slate-300 uppercase tracking-wider">Duration</label>
+              <span id="duration-display" class="text-sm text-neon-pink font-bold">10 min</span>
+            </div>
             <input
-              type="number"
+              type="range"
               id="duration-input"
               min="5"
               max="60"
               value="10"
-              class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+              step="5"
+              class="w-full"
             />
           </div>
 
@@ -334,30 +643,52 @@
         </div>
 
         <!-- RIGHT SIDE: CHAT -->
-        <div
-          class="flex-grow glass-card flex flex-col rounded-xl overflow-hidden max-h-[calc(95vh-120px)]"
-        >
+        <div class="flex-grow flex flex-col overflow-hidden">
           <div
             id="chat-messages"
             class="chat-area p-6 space-y-6 overflow-y-auto flex-1"
           >
+            <!-- Welcome Message -->
             <div class="flex justify-start">
-              <div class="bot-message-bubble p-4 max-w-xs sm:max-w-md">
-                <p
-                  class="font-bold text-neon-indigo uppercase text-xs tracking-wider"
-                >
-                  Stretchletics
+              <div class="bot-message-bubble p-5 max-w-2xl">
+                <p class="font-bold text-neon-indigo uppercase text-xs tracking-wider">
+                  <i class="fa-solid fa-sparkles mr-1"></i> Stretchletics AI
                 </p>
-                <p class="mt-1 text-sm">
-                  Welcome to Stretchletics, your mobility coach! Get your
-                  optimal warm-up or cool-down routine by selecting the type,
-                  describing your workout below, or tapping Sync Last Workout.
+                <p class="mt-2 text-sm leading-relaxed">
+                  Welcome! I'm your AI flexibility coach. I'll create personalized stretching routines based on your workouts and goals.
                 </p>
+                <div class="mt-5 pt-4 border-t border-white/10">
+                  <p class="text-xs text-slate-400 mb-3 font-bold uppercase tracking-wider">Quick Examples:</p>
+                  <div class="flex gap-2 overflow-x-auto">
+                    <button class="example-chip px-3 py-2 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
+                      <i class="fa-solid fa-person-running mr-1"></i> Post-run cooldown
+                    </button>
+                    <button class="example-chip px-3 py-2 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
+                      <i class="fa-solid fa-dumbbell mr-1"></i> Upper body stretch
+                    </button>
+                    <button class="example-chip px-3 py-2 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
+                      <i class="fa-solid fa-bed mr-1"></i> Morning mobility
+                    </button>
+                    <button class="example-chip px-3 py-2 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
+                      <i class="fa-solid fa-briefcase mr-1"></i> Desk worker relief
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Typing indicator (hidden by default) -->
+            <div id="typing-indicator" class="flex justify-start hidden">
+              <div class="bot-message-bubble p-4">
+                <div class="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="p-4 border-t border-white/10 bg-black/50">
+          <div class="p-4 border-t border-white/10 bg-black/30">
             <div class="flex items-center space-x-3 mb-4">
               <button
                 id="last-workout-btn"
@@ -431,40 +762,118 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
       }
 
+      let lastUserPrompt = '';
+
       function addMessage(text, sender = "bot", isRoutine = false) {
         const messageWrapper = document.createElement("div");
         const messageBox = document.createElement("div");
 
         if (sender === "user") {
+          lastUserPrompt = text;
           messageWrapper.className = "flex justify-end";
           messageBox.className = "p-4 max-w-xs sm:max-w-md user-message-bubble";
           messageBox.textContent = text;
         } else {
           messageWrapper.className = "flex justify-start";
-          messageBox.className = "p-4 max-w-xs sm:max-w-md bot-message-bubble";
+          messageBox.className = "p-4 w-full max-w-4xl bot-message-bubble";
 
           const senderTag = document.createElement("p");
           senderTag.className =
             "font-bold uppercase text-xs tracking-wider " +
             (isRoutine ? "text-neon-pink" : "text-neon-indigo");
-          senderTag.textContent = isRoutine
-            ? "Stretchletics"
-            : "Stretchletics";
+          senderTag.innerHTML = isRoutine
+            ? '<i class="fa-solid fa-fire mr-1"></i> Your Routine'
+            : '<i class="fa-solid fa-robot mr-1"></i> Stretchletics';
 
           const messageContent = document.createElement("p");
-          messageContent.className = "mt-1 text-sm whitespace-pre-wrap";
+          messageContent.className = "mt-2 text-sm whitespace-pre-wrap message-content";
           messageContent.innerHTML = text.replace(
             /\*\*(.*?)\*\*/g,
-            "<strong>$1</strong>"
+            "<strong class='text-white'>$1</strong>"
           );
 
           messageBox.appendChild(senderTag);
           messageBox.appendChild(messageContent);
+          
+          // Add action buttons for bot messages
+          const actionsDiv = document.createElement('div');
+          actionsDiv.className = 'mt-4 pt-3 border-t border-white/10 flex gap-2 flex-wrap';
+          actionsDiv.innerHTML = `
+            <button class="action-btn" onclick="copyMessage(this)" title="Copy to clipboard">
+              <i class="fa-solid fa-copy mr-1"></i> Copy
+            </button>
+            <button class="action-btn" onclick="downloadMessage(this)" title="Download as text file">
+              <i class="fa-solid fa-download mr-1"></i> Download
+            </button>
+            <button class="action-btn" onclick="shareMessage(this)" title="Share message">
+              <i class="fa-solid fa-share-nodes mr-1"></i> Share
+            </button>
+          `;
+          messageBox.appendChild(actionsDiv);
+          
+          // Save to history if it's a routine
+          if (isRoutine && lastUserPrompt) {
+            saveToHistory(lastUserPrompt, text);
+          }
         }
 
         messageWrapper.appendChild(messageBox);
         chatMessages.appendChild(messageWrapper);
         scrollToBottom();
+      }
+
+      // Copy message to clipboard
+      window.copyMessage = function(btn) {
+        const messageText = btn.closest('.bot-message-bubble').querySelector('.message-content').innerText;
+        navigator.clipboard.writeText(messageText).then(() => {
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied!';
+          btn.classList.add('success');
+          setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('success');
+          }, 2000);
+        });
+      }
+
+      // Download message as text file
+      window.downloadMessage = function(btn) {
+        const messageText = btn.closest('.bot-message-bubble').querySelector('.message-content').innerText;
+        const blob = new Blob([messageText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `stretchletics-routine-${Date.now()}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Downloaded!';
+        btn.classList.add('success');
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('success');
+        }, 2000);
+      }
+
+      // Share message
+      window.shareMessage = function(btn) {
+        const messageText = btn.closest('.bot-message-bubble').querySelector('.message-content').innerText;
+        if (navigator.share) {
+          navigator.share({
+            title: 'My Stretchletics Routine',
+            text: messageText
+          }).catch(() => {});
+        } else {
+          navigator.clipboard.writeText(messageText);
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied!';
+          btn.classList.add('success');
+          setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('success');
+          }, 2000);
+        }
       }
 
       function toggleForm(enabled) {
@@ -475,9 +884,18 @@
           ? "Ask me for a routine..."
           : "Generating routine...";
 
+        // Show/hide typing indicator
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (!enabled) {
+          typingIndicator.classList.remove('hidden');
+          scrollToBottom();
+        } else {
+          typingIndicator.classList.add('hidden');
+        }
+
         // Change button icon/state when disabled (loading)
         sendButton.innerHTML = enabled
-          ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.428a1 1 0 00.931-.693l2.4-7.202 5.235 5.235a1 1 0 001.414-1.414l-8-8z" /></svg>`
+          ? '<i class="fa-solid fa-paper-plane"></i>'
           : `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
       }
 
@@ -579,10 +997,96 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
         generateRoutine(userPrompt);
       });
 
+      // Chat history storage
+      let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+
+      // Save to history
+      function saveToHistory(userPrompt, botResponse) {
+        const historyItem = {
+          id: Date.now(),
+          userPrompt: userPrompt,
+          preview: userPrompt.substring(0, 50) + (userPrompt.length > 50 ? '...' : ''),
+          response: botResponse,
+          timestamp: new Date().toLocaleString()
+        };
+        chatHistory.unshift(historyItem);
+        if (chatHistory.length > 20) chatHistory.pop();
+        localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+        renderHistory();
+      }
+
+      // Render history
+      function renderHistory() {
+        const historyList = document.getElementById('history-list');
+        if (chatHistory.length === 0) {
+          historyList.innerHTML = '<p class="text-sm text-slate-500 italic text-center py-8">No chat history yet</p>';
+          return;
+        }
+        historyList.innerHTML = chatHistory.map(item => `
+          <div class="history-item p-4 rounded-lg" data-id="${item.id}">
+            <p class="text-sm font-medium text-white truncate">${item.preview}</p>
+            <p class="text-xs text-slate-500 mt-1">${item.timestamp}</p>
+          </div>
+        `).join('');
+        
+        document.querySelectorAll('.history-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const id = parseInt(item.dataset.id);
+            const histItem = chatHistory.find(h => h.id === id);
+            if (histItem) {
+              addMessage(histItem.userPrompt, 'user');
+              addMessage(histItem.response, 'bot', true);
+              document.getElementById('history-sidebar').classList.remove('open');
+            }
+          });
+        });
+      }
+
       // --- Initialization ---
       document.addEventListener("DOMContentLoaded", () => {
         // Update status with mock data
         lastWorkoutStatus.textContent = `(Last Synced Workout: ${mockLastWorkout.type} on ${mockLastWorkout.date} - ${mockLastWorkout.distance})`;
+        
+        // Duration slider update
+        const durationInput = document.getElementById('duration-input');
+        const durationDisplay = document.getElementById('duration-display');
+        durationInput.addEventListener('input', (e) => {
+          durationDisplay.textContent = e.target.value + ' min';
+        });
+        
+        // Example chips click handlers
+        document.querySelectorAll('.example-chip').forEach(chip => {
+          chip.addEventListener('click', () => {
+            const text = chip.textContent.trim();
+            chatInput.value = text;
+            chatInput.focus();
+          });
+        });
+
+        // Burger menu toggle
+        const burgerMenu = document.getElementById('burger-menu');
+        const historySidebar = document.getElementById('history-sidebar');
+        const closeHistory = document.getElementById('close-history');
+        
+        burgerMenu.addEventListener('click', () => {
+          historySidebar.classList.toggle('open');
+        });
+        
+        closeHistory.addEventListener('click', () => {
+          historySidebar.classList.remove('open');
+        });
+
+        // Clear history
+        document.getElementById('clear-history').addEventListener('click', () => {
+          if (confirm('Clear all chat history?')) {
+            chatHistory = [];
+            localStorage.removeItem('chatHistory');
+            renderHistory();
+          }
+        });
+
+        // Initial history render
+        renderHistory();
       });
     </script>
   </body>
