@@ -179,6 +179,21 @@
             Routine Parameters
           </h2>
 
+          <!-- Routine Type -->
+          <div class="mb-6">
+            <label
+              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
+              >Routine Type</label
+            >
+            <select
+              id="routine-type-input"
+              class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+            >
+              <option value="warm-up">Warm-Up</option>
+              <option value="cool-down" selected>Cool-Down</option>
+            </select>
+          </div>
+
           <!-- Duration -->
           <div class="mb-6">
             <label
@@ -335,8 +350,8 @@
                 </p>
                 <p class="mt-1 text-sm">
                   Welcome to Stretchletics, your mobility coach! Get your
-                  optimal cool-down routine by either describing your workout
-                  below or tapping Sync Last Workout.
+                  optimal warm-up or cool-down routine by selecting the type,
+                  describing your workout below, or tapping Sync Last Workout.
                 </p>
               </div>
             </div>
@@ -389,6 +404,7 @@
       const lastWorkoutStatus = document.getElementById("last-workout-status");
 
       // Parameter inputs
+      const routineTypeInput = document.getElementById("routine-type-input");
       const durationInput = document.getElementById("duration-input");
       const difficultyInput = document.getElementById("difficulty-input");
       const restrictionsInput = document.getElementById("restrictions-input");
@@ -432,7 +448,7 @@
             "font-bold uppercase text-xs tracking-wider " +
             (isRoutine ? "text-neon-pink" : "text-neon-indigo");
           senderTag.textContent = isRoutine
-            ? "Recommended Routine"
+            ? "Stretchletics"
             : "Stretchletics";
 
           const messageContent = document.createElement("p");
@@ -495,6 +511,7 @@
             focusAreas.push("Full Body");
 
           // Build enhanced prompt with parameters
+          const routineType = routineTypeInput.value;
           const duration = durationInput.value;
           const difficulty = difficultyInput.value;
           const restrictions = restrictionsInput.value;
@@ -502,6 +519,7 @@
           const enhancedPrompt = `${prompt}
 
 Additional Parameters:
+- Routine Type: ${routineType}
 - Duration: ${duration} minutes
 - Difficulty Level: ${difficulty}
 ${equipment.length > 0 ? `- Equipment Available: ${equipment.join(", ")}` : ""}
@@ -551,7 +569,9 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
       // 2. Handle Last Workout Button Click
       lastWorkoutBtn.addEventListener("click", () => {
         const workout = mockLastWorkout;
-        const userPrompt = `Generate a cool-down routine for my last workout: a ${workout.type} of ${workout.duration}.`;
+        const routineType = routineTypeInput.value;
+        const routineLabel = routineType === "warm-up" ? "warm-up" : "cool-down";
+        const userPrompt = `Generate a ${routineLabel} routine for my last workout: a ${workout.type} of ${workout.duration}.`;
 
         addMessage(userPrompt, "user");
 
