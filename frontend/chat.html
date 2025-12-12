@@ -223,6 +223,42 @@
         background: rgba(79, 70, 229, 0.6);
       }
 
+      /* Custom scrollbar for parameters sidebar */
+      .params-sidebar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .params-sidebar::-webkit-scrollbar-track {
+        background: rgba(236, 72, 153, 0.05);
+        border-radius: 10px;
+      }
+      .params-sidebar::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #ec4899, #4f46e5);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .params-sidebar::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #f472b6, #6366f1);
+        box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
+      }
+
+      /* Custom scrollbar for parameters sidebar */
+      .params-sidebar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .params-sidebar::-webkit-scrollbar-track {
+        background: rgba(236, 72, 153, 0.05);
+        border-radius: 10px;
+      }
+      .params-sidebar::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #ec4899, #4f46e5);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .params-sidebar::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #f472b6, #6366f1);
+        box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
+      }
+
       /* User Message Bubble Style */
       .user-message-bubble {
         background: #ec4899; /* neon-pink */
@@ -451,7 +487,7 @@
 
     <!-- History Sidebar -->
     <div id="history-sidebar" class="history-sidebar">
-      <div class="p-6">
+      <div class="p-6 pl-16">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-xl font-black text-white uppercase tracking-wider">History</h2>
           <button id="close-history" class="text-slate-400 hover:text-white transition">
@@ -478,9 +514,9 @@
       </div>
 
       <!-- Unified Single Window -->
-      <div class="glass-card rounded-xl overflow-hidden flex-grow flex max-h-[calc(95vh-120px)]">
+      <div class="rounded-xl overflow-hidden flex-grow flex max-h-[calc(95vh-120px)]">
         <!-- LEFT SIDEBAR: PARAMETERS -->
-        <div class="w-80 overflow-y-auto p-6" style="background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);">
+        <div class="params-sidebar w-80 overflow-y-auto p-6" style="background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(20px); border-right: 1px solid rgba(236, 72, 153, 0.15); box-shadow: inset -1px 0 20px rgba(236, 72, 153, 0.05);">
           <h2
             class="text-lg font-black text-white uppercase mb-6 tracking-wider"
           >
@@ -643,7 +679,7 @@
         </div>
 
         <!-- RIGHT SIDE: CHAT -->
-        <div class="flex-grow flex flex-col overflow-hidden">
+        <div class="flex-grow flex flex-col overflow-hidden" style="background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px);">
           <div
             id="chat-messages"
             class="chat-area p-6 space-y-6 overflow-y-auto flex-1"
@@ -688,7 +724,7 @@
             </div>
           </div>
 
-          <div class="p-4 border-t border-white/10 bg-black/30">
+          <div class="p-4 border-t border-white/5 bg-black/20">
             <div class="flex items-center space-x-3 mb-4">
               <button
                 id="last-workout-btn"
