@@ -13,3 +13,7 @@ python app.py
 # If you want the terminal to stay open after the script finishes, 
 # you should launch it from a new terminal window rather than running 
 # the script directly from an existing terminal.
+
+
+# .venv/bin/activate
+# ./run.sh

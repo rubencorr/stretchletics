@@ -721,16 +721,6 @@
                 </div>
               </div>
             </div>
-            <!-- Typing indicator (hidden by default) -->
-            <div id="typing-indicator" class="flex justify-start hidden">
-              <div class="bot-message-bubble p-4">
-                <div class="typing-indicator">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div class="p-4 border-t border-white/5 bg-black/20">
@@ -929,13 +919,30 @@
           ? "Ask me for a routine..."
           : "Generating routine...";
 
-        // Show/hide typing indicator
-        const typingIndicator = document.getElementById('typing-indicator');
+        // Show/hide typing indicator dynamically
+        let typingIndicator = document.getElementById('typing-indicator');
         if (!enabled) {
-          typingIndicator.classList.remove('hidden');
+          // Remove old indicator if exists
+          if (typingIndicator) typingIndicator.remove();
+          
+          // Create and append new typing indicator at the end
+          typingIndicator = document.createElement('div');
+          typingIndicator.id = 'typing-indicator';
+          typingIndicator.className = 'flex justify-start';
+          typingIndicator.innerHTML = `
+            <div class="bot-message-bubble p-4">
+              <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          `;
+          chatMessages.appendChild(typingIndicator);
           scrollToBottom();
         } else {
-          typingIndicator.classList.add('hidden');
+          // Remove typing indicator
+          if (typingIndicator) typingIndicator.remove();
         }
 
         // Change button icon/state when disabled (loading)
@@ -946,6 +953,7 @@
 
       // --- LLM/Routine Generation via Backend ---
       async function generateRoutine(prompt) {
+        chatInput.value = "";
         toggleForm(false);
 
         try {
@@ -1104,7 +1112,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           chip.addEventListener('click', () => {
             const text = chip.textContent.trim();
             chatInput.value = text;
-            chatInput.focus();
+            addMessage(text, "user");
+            generateRoutine(text);
           });
         });
 
