@@ -259,6 +259,15 @@
         box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
       }
 
+      /* Hide scrollbar for quick examples */
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
       /* User Message Bubble Style */
       .user-message-bubble {
         background: #ec4899; /* neon-pink */
@@ -695,7 +704,7 @@
                 </p>
                 <div class="mt-5 pt-4 border-t border-white/10">
                   <p class="text-xs text-slate-400 mb-3 font-bold uppercase tracking-wider">Quick Examples:</p>
-                  <div class="flex gap-2 overflow-x-auto">
+                  <div class="flex gap-2 overflow-x-auto scrollbar-hide">
                     <button class="example-chip px-3 py-2 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
                       <i class="fa-solid fa-person-running mr-1"></i> Post-run cooldown
                     </button>
