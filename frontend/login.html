@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Register - Stretchletics</title>
+    <title>Login - Stretchletics</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -32,32 +36,124 @@
         font-family: "Inter", sans-serif;
       }
 
-      /* --- BACKGROUND STYLING --- */
-      .bg-grid {
-        background-image: radial-gradient(#2e3a52 1px, transparent 1px),
-          radial-gradient(#2e3a52 1px, transparent 1px);
-        background-size: 30px 30px;
-        background-position: 0 0, 15px 15px;
-        animation: move-grid 45s linear infinite;
+      /* Enhanced Animated Background */
+      body {
+        position: relative;
+        overflow-x: hidden;
+      }
+      
+      /* Animated Gradient Overlay */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+        animation: gradient-shift 15s ease infinite;
+        z-index: 0;
+        pointer-events: none;
       }
 
-      @keyframes move-grid {
-        from {
-          background-position: 0 0, 15px 15px;
+      /* Enhanced Moving Grid */
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          radial-gradient(circle, rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+          radial-gradient(circle, rgba(236, 72, 153, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        background-position: 0 0, 25px 25px;
+        z-index: 0;
+        pointer-events: none;
+        animation: grid-float 20s linear infinite;
+      }
+
+      @keyframes gradient-shift {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
         }
-        to {
-          background-position: 30px 30px, 45px 45px;
+        33% {
+          transform: translate(10%, -10%) scale(1.1);
+          opacity: 0.8;
+        }
+        66% {
+          transform: translate(-10%, 10%) scale(0.9);
+          opacity: 0.9;
         }
       }
 
-      .bg-vignette {
-        background: radial-gradient(
-          circle at center,
-          transparent 0%,
-          rgba(5, 5, 5, 1) 100%
-        );
+      @keyframes grid-float {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(50px, 50px);
+        }
       }
-      /* --- END BACKGROUND STYLING --- */
+
+      /* Floating Orbs */
+      .bg-orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.5;
+        animation: float-orb 20s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .bg-orb-1 {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(236, 72, 153, 0.4), transparent);
+        top: -50px;
+        left: -100px;
+        animation-delay: 0s;
+      }
+
+      .bg-orb-2 {
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(79, 70, 229, 0.4), transparent);
+        bottom: -50px;
+        right: -80px;
+        animation-delay: 5s;
+      }
+
+      .bg-orb-3 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(167, 139, 250, 0.3), transparent);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: 10s;
+      }
+
+      @keyframes float-orb {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(20px, -30px) scale(1.1);
+        }
+        50% {
+          transform: translate(-15px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(15px, -10px) scale(1.05);
+        }
+      }
 
       /* Glassmorphism Card Base Utility */
       .glass-card {
@@ -146,11 +242,14 @@
     </style>
   </head>
   <body
-    class="bg-deep-black bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white"
+    class="bg-deep-black text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white"
   >
-    <div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
+    <!-- Floating Orbs -->
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
 
-    <main class="min-h-screen flex items-center justify-center p-4">
+    <main class="min-h-screen flex items-center justify-center p-4 relative z-10">
       <!-- Login Card (Glassmorphism) -->
       <div
         class="glass-card w-full max-w-md p-6 sm:p-10 rounded-3xl relative z-10"
@@ -165,27 +264,21 @@
             <div
               class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-30 group-hover:opacity-70 transition duration-500"
             ></div>
-            <!-- Placeholder Image (replace with your logo path) -->
             <img
               alt="Stretchletics Logo"
               class="relative h-10 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
-              src="https://placehold.co/40x40/4F46E5/ffffff?text=S"
-              onerror="this.src='https://placehold.co/40x40/4F46E5/ffffff?text=S'"
+              src="/media/Logo2-1.jpg"
             />
           </div>
           <p
             class="text-3xl font-black tracking-[0.2em] text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400"
           >
-            Stretchletics
+            Login
           </p>
         </a>
 
         <div class="text-center mb-8">
-          <h1
-            class="text-3xl font-black text-white uppercase tracking-widest mb-2"
-          >
-            LOGIN
-          </h1>
+
           <p class="text-lg text-slate-400">
             Sign in to access your AI Stretching Coach.
           </p>
@@ -196,34 +289,51 @@
           <div>
             <label
               for="email"
-              class="block text-sm font-medium text-slate-300 mb-2"
+              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
               >EMAIL ADDRESS</label
             >
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              class="w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
-              placeholder="you@example.com"
-            />
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-envelope text-slate-500"></i>
+              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-pink-500 hover:border-white/20 transition duration-300 outline-none placeholder-slate-500"
+                placeholder="you@example.com"
+              />
+            </div>
           </div>
           <div>
             <label
               for="password"
-              class="block text-sm font-medium text-slate-300 mb-2"
+              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
               >PASSWORD</label
             >
-            <input
-              type="password"
-              id="password"
-              name="password"
-              required
-              class="w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
-              placeholder="••••••••"
-            />
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-slate-500"></i>
+              </div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-pink-500 hover:border-white/20 transition duration-300 outline-none placeholder-slate-500"
+                placeholder="••••••••"
+              />
+            </div>
           </div>
-          <div class="text-right">
+          <div class="flex items-center justify-between">
+            <label class="flex items-center space-x-2 cursor-pointer group">
+              <input
+                type="checkbox"
+                class="w-4 h-4 rounded border-white/10 bg-black/50 text-pink-500 focus:ring-pink-500 focus:ring-offset-0 cursor-pointer"
+              />
+              <span class="text-sm text-slate-400 group-hover:text-slate-300 transition">Remember me</span>
+            </label>
             <a
               href="#"
               class="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition"
