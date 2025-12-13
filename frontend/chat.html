@@ -272,9 +272,12 @@
 
       /* User Message Bubble Style */
       .user-message-bubble {
-        background: #ec4899; /* neon-pink */
+        background: rgba(236, 72, 153, 0.15);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(236, 72, 153, 0.3);
         border-radius: 1rem 1rem 0.2rem 1rem;
-        color: #050505; /* deep-black text */
+        color: #ffffff;
         box-shadow: 0 4px 15px rgba(236, 72, 153, 0.2);
       }
 
@@ -621,14 +624,14 @@
           <div class="mb-6">
             <div class="flex justify-between items-center mb-2">
               <label class="text-sm font-bold text-slate-300 uppercase tracking-wider">Duration</label>
-              <span id="duration-display" class="text-sm text-neon-pink font-bold">10 min</span>
+              <span id="duration-display" class="text-sm text-neon-pink font-bold">5 min</span>
             </div>
             <input
               type="range"
               id="duration-input"
               min="5"
               max="60"
-              value="10"
+              value="5"
               step="5"
               class="w-full"
             />
