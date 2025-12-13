@@ -435,14 +435,11 @@
       }
       .burger-menu {
         position: fixed;
-        top: 20px;
+        top: 16px;
         left: 20px;
         z-index: 1001;
         width: 40px;
         height: 40px;
-        background: rgba(236, 72, 153, 0.2);
-        border: 1px solid rgba(236, 72, 153, 0.4);
-        border-radius: 8px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -450,8 +447,8 @@
         transition: all 0.3s ease;
       }
       .burger-menu:hover {
-        background: rgba(236, 72, 153, 0.3);
-        transform: scale(1.05);
+        transform: scale(1.1);
+        color: #ec4899;
       }
 
       /* Example chip styling */
@@ -559,7 +556,7 @@
     </style>
   </head>
 
-  <body class="bg-[#050505] text-slate-300 antialiased min-h-screen p-4 pb-6">
+  <body class="bg-[#050505] text-slate-300 antialiased h-screen overflow-hidden p-4 pb-3">
     <!-- Floating background orbs -->
     <div class="bg-orb bg-orb-1"></div>
     <div class="bg-orb bg-orb-2"></div>
@@ -588,7 +585,7 @@
       </div>
     </div>
     
-    <div class="w-full h-screen flex flex-col">
+    <div class="w-full h-full flex flex-col">
       <!-- Header moved to top-left -->
       <div class="flex items-center justify-between mb-3 pl-16">
         <h1 class="text-2xl font-black tracking-wider text-white uppercase">
@@ -603,7 +600,6 @@
           <h2
             class="text-base font-black text-white uppercase mb-5 tracking-wider"
           >
-            Parameters
           </h2>
 
           <!-- Routine Type -->
@@ -771,7 +767,7 @@
             <div class="flex justify-start">
               <div class="bot-message-bubble p-4 max-w-2xl">
                 <p class="font-bold text-neon-indigo uppercase text-xs tracking-wider">
-                  <i class="fa-solid fa-sparkles mr-1"></i> Stretchletics AI
+                  <i class="fa-solid fa-sparkles mr-1"></i> Stretchletics
                 </p>
                 <p class="mt-1.5 text-sm leading-snug">
                   Welcome! I'll create personalized stretching routines based on your workouts and goals.
@@ -797,7 +793,7 @@
             </div>
           </div>
 
-          <div class="p-4 border-t border-white/5 bg-black/20">
+          <div class="pt-2 pb-4 px-4 border-t border-white/5 bg-black/20">
             <div class="flex items-center space-x-3 mb-4">
               <button
                 id="last-workout-btn"
@@ -820,7 +816,7 @@
                 id="chat-input"
                 required
                 placeholder="Ask me for a routine..."
-                class="flex-grow p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none shadow-inner"
+                class="flex-grow h-12 px-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none shadow-inner"
               />
               <button
                 type="button"
@@ -907,7 +903,7 @@
             "font-bold uppercase text-xs tracking-wider " +
             (isRoutine ? "text-neon-pink" : "text-neon-indigo");
           senderTag.innerHTML = isRoutine
-            ? '<i class="fa-solid fa-fire mr-1"></i> Your Routine'
+            ? '<i class="fa-solid fa-fire mr-1"></i> Stretchletics'
             : '<i class="fa-solid fa-robot mr-1"></i> Stretchletics';
 
           const messageContent = document.createElement("div");
@@ -929,7 +925,7 @@
             `;
             
             const routineContent = document.createElement('div');
-            routineContent.className = 'routine-content expanded';
+            routineContent.className = 'routine-content expanded text-sm';
             routineContent.innerHTML = text.replace(
               /\*\*(.*?)\*\*/g,
               "<strong class='text-white'>$1</strong>"
