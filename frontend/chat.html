@@ -692,7 +692,7 @@
       .timer-display {
         font-size: 24px;
         font-weight: 900;
-        font-family: 'Courier New', monospace;
+        font-family: "Courier New", monospace;
         color: #ec4899;
         min-width: 80px;
         text-align: center;
@@ -741,7 +741,8 @@
         animation: timerPulse 2s infinite;
       }
       @keyframes timerPulse {
-        0%, 100% {
+        0%,
+        100% {
           box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
         }
         50% {
@@ -752,9 +753,78 @@
         animation: timerComplete 0.5s ease;
       }
       @keyframes timerComplete {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Global routine timer */
+      .routine-timer {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2));
+        border: 2px solid rgba(236, 72, 153, 0.4);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+      }
+      .routine-timer.running {
+        border-color: #ec4899;
+        box-shadow: 0 0 30px rgba(236, 72, 153, 0.4);
+        animation: timerPulse 2s infinite;
+      }
+      .global-timer-display {
+        font-size: 36px;
+        font-weight: 900;
+        font-family: 'Courier New', monospace;
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        min-width: 120px;
+        text-align: center;
+      }
+      .global-timer-info {
+        flex-grow: 1;
+      }
+      .current-exercise-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 4px;
+      }
+      .routine-progress-text {
+        font-size: 12px;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .global-timer-controls {
+        display: flex;
+        gap: 8px;
+      }
+      .exercise-card.active {
+        background: rgba(236, 72, 153, 0.2);
+        border-color: #ec4899;
+        border-width: 2px;
+        transform: translateX(8px);
+        box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
+      }
+      .exercise-card.completed {
+        opacity: 0.6;
+        background: rgba(34, 197, 94, 0.1);
+        border-color: rgba(34, 197, 94, 0.3);
+      }
+      .exercise-card.completed .exercise-number {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
       }
 
       .exercise-number {
@@ -1485,6 +1555,34 @@
                 </div>
               `;
               messageContent.appendChild(summaryCard);
+              
+              // Create global routine timer
+              const routineTimerId = `routine-${Date.now()}`;
+              const globalTimer = document.createElement('div');
+              globalTimer.className = 'routine-timer';
+              globalTimer.id = routineTimerId;
+              globalTimer.innerHTML = `
+                <div class="global-timer-display" id="display-${routineTimerId}">0:00</div>
+                <div class="global-timer-info">
+                  <div class="current-exercise-name" id="current-${routineTimerId}">Ready to start</div>
+                  <div class="routine-progress-text" id="progress-text-${routineTimerId}">Exercise 0 of ${exercises.length}</div>
+                </div>
+                <div class="global-timer-controls">
+                  <button class="timer-btn" id="toggle-${routineTimerId}" onclick="toggleRoutineTimer('${routineTimerId}')" title="Start routine">
+                    <i class="fa-solid fa-play"></i>
+                  </button>
+                  <button class="timer-btn" onclick="skipExercise('${routineTimerId}')" title="Skip exercise">
+                    <i class="fa-solid fa-forward-step"></i>
+                  </button>
+                  <button class="timer-btn" onclick="resetRoutineTimer('${routineTimerId}')" title="Reset routine">
+                    <i class="fa-solid fa-rotate-left"></i>
+                  </button>
+                </div>
+                <div class="timer-progress-bar" style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; border-radius: 0 0 10px 10px;">
+                  <div class="timer-progress-fill" id="routine-progress-${routineTimerId}" style="width: 0%"></div>
+                </div>
+              `;
+              messageContent.appendChild(globalTimer);
 
               // Create exercise cards
               const exercisesContainer = document.createElement("div");
@@ -1493,8 +1591,12 @@
                 const card = document.createElement("div");
                 card.className = "exercise-card";
                 const exerciseId = `exercise-${Date.now()}-${index}`;
-                const durationSeconds = parseDurationToSeconds(exercise.duration);
-                
+                const durationSeconds = parseDurationToSeconds(
+                  exercise.duration
+                );
+
+                card.setAttribute('data-exercise-id', exerciseId);
+                card.setAttribute('data-duration', durationSeconds);
                 card.innerHTML = `
                   <div class="flex items-center gap-3">
                     <span class="exercise-number">${index + 1}</span>
@@ -1516,29 +1618,11 @@
                         "Click the exercise name for detailed instructions on proper form and technique."
                       }</p>
                     </div>
-                    <div class="timer-controls" onclick="event.stopPropagation()">
-                      <button class="timer-btn" onclick="startTimer('${exerciseId}', ${durationSeconds})" title="Start timer">
-                        <i class="fa-solid fa-play"></i>
-                      </button>
-                      <button class="timer-btn" onclick="pauseTimer('${exerciseId}')" title="Pause timer">
-                        <i class="fa-solid fa-pause"></i>
-                      </button>
-                      <button class="timer-btn" onclick="resetTimer('${exerciseId}', ${durationSeconds})" title="Reset timer">
-                        <i class="fa-solid fa-rotate-left"></i>
-                      </button>
-                      <div class="timer-display" id="timer-${exerciseId}">${formatTime(durationSeconds)}</div>
-                      <div class="timer-progress-bar">
-                        <div class="timer-progress-fill" id="progress-${exerciseId}" style="width: 0%"></div>
-                      </div>
-                    </div>
                   </div>
                 `;
 
                 // Add click handler
                 card.addEventListener("click", function (e) {
-                  // Don't toggle if clicking on timer controls
-                  if (e.target.closest('.timer-controls')) return;
-                  
                   this.classList.toggle("expanded");
                   const explanation = this.querySelector(
                     ".exercise-explanation"
@@ -2193,110 +2277,274 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           }
         };
 
-        // Timer functionality
-        const activeTimers = {};
-        
-        window.parseDurationToSeconds = function(duration) {
+        // Global routine timer functionality
+        const activeRoutineTimers = {};
+
+        window.parseDurationToSeconds = function (duration) {
           const match = duration.match(/(\d+)\s*(min|minute|sec|second)s?/i);
-          if (!match) return 30; // default 30 seconds
-          
+          if (!match) return 30;
+
           const value = parseInt(match[1]);
           const unit = match[2].toLowerCase();
-          
-          if (unit.startsWith('min')) {
+
+          if (unit.startsWith("min")) {
             return value * 60;
           }
           return value;
         };
-        
-        window.formatTime = function(seconds) {
+
+        window.formatTime = function (seconds) {
           const mins = Math.floor(seconds / 60);
           const secs = seconds % 60;
-          return `${mins}:${secs.toString().padStart(2, '0')}`;
+          return `${mins}:${secs.toString().padStart(2, "0")}`;
         };
-        
-        window.startTimer = function(exerciseId, totalSeconds) {
-          // Stop any existing timer for this exercise
-          if (activeTimers[exerciseId]) {
-            clearInterval(activeTimers[exerciseId].interval);
+
+        window.toggleRoutineTimer = function (routineId) {
+          const state = activeRoutineTimers[routineId];
+          const toggleBtn = document.getElementById(`toggle-${routineId}`);
+          
+          if (!state || !state.paused) {
+            // Currently running or not started, so pause
+            if (state) {
+              pauseRoutineTimer(routineId);
+              toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+              toggleBtn.title = 'Resume routine';
+            } else {
+              // Start new routine
+              startRoutineTimer(routineId);
+              toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+              toggleBtn.title = 'Pause routine';
+            }
+          } else {
+            // Currently paused, so resume
+            continueRoutineTimer(routineId, state);
+            toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            toggleBtn.title = 'Pause routine';
+          }
+        };
+
+        window.skipExercise = function (routineId) {
+          const state = activeRoutineTimers[routineId];
+          if (!state || state.paused) return;
+          
+          // Mark current as completed
+          const currentExercise = state.exercises[state.currentIndex];
+          if (currentExercise) {
+            currentExercise.card.classList.remove('active');
+            currentExercise.card.classList.add('completed');
           }
           
-          const timerDisplay = document.getElementById(`timer-${exerciseId}`);
-          const progressBar = document.getElementById(`progress-${exerciseId}`);
-          const card = timerDisplay.closest('.exercise-card');
+          // Move to next
+          state.currentIndex++;
           
-          // Get current remaining time or start fresh
-          let remainingSeconds = activeTimers[exerciseId]?.remainingSeconds ?? totalSeconds;
+          // Check if we've completed all exercises
+          if (state.currentIndex >= state.exercises.length) {
+            completeRoutine(routineId);
+            return;
+          }
           
-          card.classList.add('timer-active');
-          
-          const interval = setInterval(() => {
-            remainingSeconds--;
-            
-            // Update display
-            timerDisplay.textContent = formatTime(remainingSeconds);
-            
-            // Update progress bar
-            const progress = ((totalSeconds - remainingSeconds) / totalSeconds) * 100;
-            progressBar.style.width = progress + '%';
-            
-            // Check if done
-            if (remainingSeconds <= 0) {
-              clearInterval(interval);
-              delete activeTimers[exerciseId];
-              card.classList.remove('timer-active');
-              card.classList.add('timer-complete');
-              
-              // Play sound (simple beep)
-              try {
-                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZUQ0PVa3n77BdGQxIouH1wHAjBSuBzvLZiTYHGV+37OihUBELTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwQDE6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO');
-                audio.play().catch(() => {});
-              } catch (e) {}
-              
-              // Show notification
-              showNotification('Exercise complete! 🎉');
-              
-              setTimeout(() => {
-                card.classList.remove('timer-complete');
-                timerDisplay.textContent = formatTime(totalSeconds);
-                progressBar.style.width = '0%';
-              }, 2000);
-              
+          activeRoutineTimers[routineId] = state;
+          startNextExercise(routineId);
+        };
+
+        window.startRoutineTimer = function (routineId) {
+          const timerContainer = document.getElementById(routineId);
+          const exerciseCards = timerContainer.parentElement.querySelectorAll('.exercise-card');
+
+          if (!exerciseCards.length) return;
+
+          // If resuming, use existing state
+          if (activeRoutineTimers[routineId]?.paused) {
+            const state = activeRoutineTimers[routineId];
+            continueRoutineTimer(routineId, state);
+            return;
+          }
+
+          // Build exercise list
+          const exercises = Array.from(exerciseCards).map(card => ({
+            card: card,
+            duration: parseInt(card.getAttribute('data-duration')),
+            name: card.querySelector('h4').textContent
+          }));
+
+          const totalDuration = exercises.reduce((sum, ex) => sum + ex.duration, 0);
+
+          timerContainer.classList.add('running');
+
+          const state = {
+            exercises: exercises,
+            currentIndex: 0,
+            totalDuration: totalDuration,
+            elapsedTotal: 0,
+            paused: false,
+            interval: null
+          };
+
+          activeRoutineTimers[routineId] = state;
+          startNextExercise(routineId);
+        };
+
+        function continueRoutineTimer(routineId, state) {
+          state.paused = false;
+          activeRoutineTimers[routineId] = state;
+          const timerContainer = document.getElementById(routineId);
+          timerContainer.classList.add('running');
+
+          startNextExercise(routineId);
+        }
+
+        function startNextExercise(routineId) {
+          const state = activeRoutineTimers[routineId];
+          if (!state || state.paused) return;
+
+          // Clear any existing interval
+          if (state.interval) {
+            clearInterval(state.interval);
+            state.interval = null;
+          }
+
+          if (state.currentIndex >= state.exercises.length) {
+            completeRoutine(routineId);
+            return;
+          }
+
+          const currentExercise = state.exercises[state.currentIndex];
+          let remainingSeconds = currentExercise.duration;
+
+          // Update UI
+          const timerContainer = document.getElementById(routineId);
+          const display = document.getElementById(`display-${routineId}`);
+          const currentName = document.getElementById(`current-${routineId}`);
+          const progressText = document.getElementById(`progress-text-${routineId}`);
+          const routineProgress = document.getElementById(`routine-progress-${routineId}`);
+
+          // Highlight current exercise
+          state.exercises.forEach((ex, idx) => {
+            ex.card.classList.remove('active', 'completed');
+            if (idx < state.currentIndex) {
+              ex.card.classList.add('completed');
+            } else if (idx === state.currentIndex) {
+              ex.card.classList.add('active');
+            }
+          });
+
+          currentName.textContent = currentExercise.name;
+          progressText.textContent = `Exercise ${state.currentIndex + 1} of ${state.exercises.length}`;
+
+          // Scroll to current exercise
+          currentExercise.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          state.interval = setInterval(() => {
+            if (state.paused) {
+              clearInterval(state.interval);
+              state.interval = null;
               return;
             }
-            
-            activeTimers[exerciseId] = { interval, remainingSeconds, totalSeconds };
+
+            remainingSeconds--;
+            state.elapsedTotal++;
+
+            display.textContent = formatTime(remainingSeconds);
+
+            // Update overall progress
+            const overallProgress = (state.elapsedTotal / state.totalDuration) * 100;
+            routineProgress.style.width = overallProgress + '%';
+
+            if (remainingSeconds <= 0) {
+              clearInterval(state.interval);
+              state.interval = null;
+
+              // Mark as completed
+              currentExercise.card.classList.remove('active');
+              currentExercise.card.classList.add('completed');
+
+              // Move to next exercise
+              state.currentIndex++;
+              activeRoutineTimers[routineId] = state;
+
+              // Wait 1 second before next exercise
+              setTimeout(() => {
+                if (!state.paused) {
+                  startNextExercise(routineId);
+                }
+              }, 1000);
+            }
           }, 1000);
+        }
+
+        function completeRoutine(routineId) {
+          const timerContainer = document.getElementById(routineId);
+          const display = document.getElementById(`display-${routineId}`);
+          const currentName = document.getElementById(`current-${routineId}`);
+          const progressText = document.getElementById(`progress-text-${routineId}`);
+          const routineProgress = document.getElementById(`routine-progress-${routineId}`);
+
+          timerContainer.classList.remove('running');
+          timerContainer.classList.add('timer-complete');
+
+          // Hide the timer display
+          display.style.display = 'none';
           
-          activeTimers[exerciseId] = { interval, remainingSeconds, totalSeconds };
+          // Update text to completion message
+          currentName.textContent = 'Routine Complete! 🎉';
+          progressText.textContent = 'All exercises finished';
+          
+          // Hide the progress bar
+          routineProgress.parentElement.style.display = 'none';
+
+          showNotification('Routine complete! Great work! 💪');
+
+          delete activeRoutineTimers[routineId];
+
+          setTimeout(() => {
+            timerContainer.classList.remove('timer-complete');
+          }, 3000);
+        }
+
+        window.pauseRoutineTimer = function (routineId) {
+          const state = activeRoutineTimers[routineId];
+          if (!state) return;
+
+          state.paused = true;
+          const timerContainer = document.getElementById(routineId);
+          timerContainer.classList.remove('running');
         };
-        
-        window.pauseTimer = function(exerciseId) {
-          if (!activeTimers[exerciseId]) return;
-          
-          clearInterval(activeTimers[exerciseId].interval);
-          const card = document.getElementById(`timer-${exerciseId}`).closest('.exercise-card');
-          card.classList.remove('timer-active');
-          
-          // Keep the remaining seconds for resume
-          const remaining = activeTimers[exerciseId].remainingSeconds;
-          const total = activeTimers[exerciseId].totalSeconds;
-          activeTimers[exerciseId] = { remainingSeconds: remaining, totalSeconds: total };
-        };
-        
-        window.resetTimer = function(exerciseId, totalSeconds) {
-          if (activeTimers[exerciseId]) {
-            clearInterval(activeTimers[exerciseId].interval);
-            delete activeTimers[exerciseId];
+
+        window.resetRoutineTimer = function (routineId) {
+          const state = activeRoutineTimers[routineId];
+          if (state) {
+            // Clear any active interval
+            if (state.interval) {
+              clearInterval(state.interval);
+              state.interval = null;
+            }
+            state.paused = true;
+            delete activeRoutineTimers[routineId];
           }
-          
-          const timerDisplay = document.getElementById(`timer-${exerciseId}`);
-          const progressBar = document.getElementById(`progress-${exerciseId}`);
-          const card = timerDisplay.closest('.exercise-card');
-          
-          card.classList.remove('timer-active', 'timer-complete');
-          timerDisplay.textContent = formatTime(totalSeconds);
-          progressBar.style.width = '0%';
+
+          const timerContainer = document.getElementById(routineId);
+          const display = document.getElementById(`display-${routineId}`);
+          const currentName = document.getElementById(`current-${routineId}`);
+          const progressText = document.getElementById(`progress-text-${routineId}`);
+          const routineProgress = document.getElementById(`routine-progress-${routineId}`);
+          const exerciseCards = timerContainer.parentElement.querySelectorAll('.exercise-card');
+          const toggleBtn = document.getElementById(`toggle-${routineId}`);
+
+          timerContainer.classList.remove('running', 'timer-complete');
+          display.textContent = '0:00';
+          currentName.textContent = 'Ready to start';
+          progressText.textContent = `Exercise 0 of ${exerciseCards.length}`;
+          routineProgress.style.width = '0%';
+
+          // Reset toggle button
+          if (toggleBtn) {
+            toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            toggleBtn.title = 'Start routine';
+          }
+
+          exerciseCards.forEach(card => {
+            card.classList.remove('active', 'completed');
+          });
         };
 
         // Initialize
