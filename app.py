@@ -17,6 +17,10 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 def home():
     return send_from_directory(app.template_folder, 'chat.html')
 
+@app.route('/media/<path:filename>')
+def serve_media(filename):
+    return send_from_directory(os.path.join(BASE_DIR, 'media'), filename)
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
