@@ -1055,7 +1055,7 @@
   </head>
 
   <body
-    class="bg-[#050505] text-slate-300 antialiased h-screen overflow-hidden p-4 pb-3"
+    class="bg-[#050505] text-slate-300 antialiased h-screen overflow-hidden"
   >
     <!-- Floating background orbs -->
     <div class="bg-orb bg-orb-1"></div>
@@ -1097,22 +1097,20 @@
 
     <div class="w-full h-full flex flex-col">
       <!-- Header moved to top-left -->
-      <div class="flex items-center justify-between mb-3 pl-16">
+      <div class="flex items-center justify-between py-4 px-6 pl-20">
         <h1 class="text-2xl font-black tracking-wider text-white uppercase">
           <i class="fa-solid fa-sparkles text-neon-pink mr-2"></i>Stretchletics
         </h1>
       </div>
 
       <!-- Unified Single Window -->
-      <div class="rounded-xl overflow-hidden flex-grow flex h-full">
+      <div class="overflow-hidden flex-grow flex h-full">
         <!-- LEFT SIDEBAR: PARAMETERS -->
         <div
-          class="params-sidebar w-64 overflow-y-auto p-5"
+          class="params-sidebar w-64 overflow-y-auto px-6 py-5"
           style="
-            background: rgba(10, 10, 10, 0.7);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(236, 72, 153, 0.15);
-            box-shadow: inset -1px 0 20px rgba(236, 72, 153, 0.05);
           "
         >
           <!-- Sticky Header -->
@@ -1127,7 +1125,9 @@
 
           <!-- Routine Type -->
           <div class="mb-5 mt-10">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+            <label
+              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"
+            >
               Routine Type
             </label>
             <select
@@ -1143,10 +1143,16 @@
           <!-- Duration -->
           <div class="mb-5">
             <div class="flex justify-between items-center mb-2">
-              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <label
+                class="block text-xs font-bold text-slate-400 uppercase tracking-wider"
+              >
                 Duration
               </label>
-              <span id="duration-display" class="text-sm text-neon-pink font-bold">5 min</span>
+              <span
+                id="duration-display"
+                class="text-sm text-neon-pink font-bold"
+                >5 min</span
+              >
             </div>
             <input
               type="range"
@@ -1162,7 +1168,9 @@
 
           <!-- Difficulty Level -->
           <div class="mb-5">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+            <label
+              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"
+            >
               Difficulty
             </label>
             <select
@@ -1178,11 +1186,15 @@
 
           <!-- Equipment Available -->
           <div class="mb-5">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+            <label
+              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3"
+            >
               Equipment
             </label>
             <div class="space-y-2.5">
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="equipment-roller"
@@ -1191,7 +1203,9 @@
                 />
                 <span class="ml-2.5 text-sm">Foam Roller</span>
               </label>
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="equipment-bands"
@@ -1200,7 +1214,9 @@
                 />
                 <span class="ml-2.5 text-sm">Resistance Bands</span>
               </label>
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="equipment-mat"
@@ -1209,7 +1225,9 @@
                 />
                 <span class="ml-2.5 text-sm">Yoga Mat</span>
               </label>
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="equipment-ball"
@@ -1218,7 +1236,9 @@
                 />
                 <span class="ml-2.5 text-sm">Stability Ball</span>
               </label>
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="equipment-massage"
@@ -1232,11 +1252,15 @@
 
           <!-- Focus Areas -->
           <div class="mb-5">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+            <label
+              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3"
+            >
               Focus Areas
             </label>
             <div class="space-y-2.5">
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="focus-upper"
@@ -1245,7 +1269,9 @@
                 />
                 <span class="ml-2.5 text-sm">Upper Body</span>
               </label>
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="focus-lower"
@@ -1254,7 +1280,9 @@
                 />
                 <span class="ml-2.5 text-sm">Lower Body</span>
               </label>
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="focus-core"
@@ -1263,7 +1291,9 @@
                 />
                 <span class="ml-2.5 text-sm">Core</span>
               </label>
-              <label class="flex items-center cursor-pointer hover:text-white transition">
+              <label
+                class="flex items-center cursor-pointer hover:text-white transition"
+              >
                 <input
                   type="checkbox"
                   id="focus-full"
@@ -1277,7 +1307,9 @@
 
           <!-- Injuries/Restrictions -->
           <div class="mb-5">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+            <label
+              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"
+            >
               Restrictions
             </label>
             <textarea
@@ -1487,19 +1519,27 @@
                   <div class="global-timer-display" id="display-${routineTimerId}">0:00</div>
                   <div class="global-timer-info" style="flex-grow: 1;">
                     <div class="current-exercise-name" id="current-${routineTimerId}">Ready to start</div>
-                    <div class="routine-progress-text" id="progress-text-${routineTimerId}">Exercise 0 of ${exercises.length}</div>
+                    <div class="routine-progress-text" id="progress-text-${routineTimerId}">Exercise 0 of ${
+                exercises.length
+              }</div>
                   </div>
                   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 0 12px;">
                     <div class="routine-summary-stat">
-                      <div class="routine-summary-value" style="font-size: 20px;">${exercises.length}</div>
+                      <div class="routine-summary-value" style="font-size: 20px;">${
+                        exercises.length
+                      }</div>
                       <div class="routine-summary-label" style="font-size: 9px;">Exercises</div>
                     </div>
                     <div class="routine-summary-stat">
-                      <div class="routine-summary-value" style="font-size: 20px;">${calculateTotalDuration(exercises)}</div>
+                      <div class="routine-summary-value" style="font-size: 20px;">${calculateTotalDuration(
+                        exercises
+                      )}</div>
                       <div class="routine-summary-label" style="font-size: 9px;">Minutes</div>
                     </div>
                     <div class="routine-summary-stat">
-                      <div class="routine-summary-value" style="font-size: 20px;">${document.getElementById("difficulty-input").value}</div>
+                      <div class="routine-summary-value" style="font-size: 20px;">${
+                        document.getElementById("difficulty-input").value
+                      }</div>
                       <div class="routine-summary-label" style="font-size: 9px;">Level</div>
                     </div>
                   </div>
