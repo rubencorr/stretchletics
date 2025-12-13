@@ -199,17 +199,6 @@
       /* --- 2. Element Styling --- */
       /* ---------------------------------- */
 
-      /* Enhanced Glassmorphism Card */
-      .glass-card {
-        background: rgba(10, 10, 10, 0.75);
-        backdrop-filter: blur(32px) saturate(200%);
-        -webkit-backdrop-filter: blur(32px) saturate(200%);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
-          0 0 80px rgba(79, 70, 229, 0.05);
-        transition: all 0.5s ease-in-out;
-      }
-
       /* Gradient Button Effect - Sleek Neon Plasma */
       .gradient-button {
         background-image: linear-gradient(
@@ -251,24 +240,6 @@
       }
       .chat-area::-webkit-scrollbar-thumb:hover {
         background: rgba(79, 70, 229, 0.6);
-      }
-
-      /* Custom scrollbar for parameters sidebar */
-      .params-sidebar::-webkit-scrollbar {
-        width: 6px;
-      }
-      .params-sidebar::-webkit-scrollbar-track {
-        background: rgba(236, 72, 153, 0.05);
-        border-radius: 10px;
-      }
-      .params-sidebar::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #ec4899, #4f46e5);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .params-sidebar::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #f472b6, #6366f1);
-        box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
       }
 
       /* Custom scrollbar for parameters sidebar */
@@ -544,39 +515,6 @@
         border-color: rgba(236, 72, 153, 0.5);
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
-      }
-
-      /* Routine Card Styling */
-      .routine-card {
-        background: rgba(79, 70, 229, 0.1);
-        border: 1px solid rgba(79, 70, 229, 0.3);
-        border-radius: 12px;
-        margin-top: 12px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-      }
-      .routine-card:hover {
-        border-color: rgba(236, 72, 153, 0.4);
-        box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2);
-      }
-      .routine-header {
-        cursor: pointer;
-        padding: 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: rgba(0, 0, 0, 0.3);
-        transition: background 0.2s ease;
-      }
-      .routine-header:hover {
-        background: rgba(0, 0, 0, 0.5);
-      }
-      .routine-content {
-        padding: 16px;
-        display: none;
-      }
-      .routine-content.expanded {
-        display: block;
       }
 
       /* Timestamp styling */
@@ -966,56 +904,6 @@
         padding: 16px;
         margin: -20px -20px 20px -20px;
         border-bottom: 1px solid rgba(236, 72, 153, 0.2);
-      }
-
-      /* Collapsible section */
-      .collapsible-section {
-        margin-bottom: 16px;
-      }
-      .collapsible-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        padding: 10px 12px;
-        background: rgba(236, 72, 153, 0.08);
-        border: 1px solid rgba(236, 72, 153, 0.2);
-        border-radius: 8px;
-        transition: all 0.2s ease;
-      }
-      .collapsible-header:hover {
-        background: rgba(236, 72, 153, 0.15);
-        border-color: rgba(236, 72, 153, 0.35);
-      }
-      .collapsible-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-      }
-      .collapsible-content.expanded {
-        max-height: 500px;
-        padding-top: 12px;
-      }
-      .collapsible-icon {
-        transition: transform 0.3s ease;
-      }
-      .collapsible-icon.rotated {
-        transform: rotate(180deg);
-      }
-
-      /* Active filter badges */
-      .filter-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 4px 10px;
-        background: rgba(236, 72, 153, 0.25);
-        border: 1px solid rgba(236, 72, 153, 0.4);
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: 700;
-        color: #f9a8d4;
-        margin: 2px;
       }
 
       /* Routine summary card */
@@ -2113,36 +2001,6 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
         // Initialize active filters
         window.updateActiveFilters = function () {
           // Function kept for compatibility but no longer displays badges
-        };
-
-        // Notification system
-        window.showNotification = function (message) {
-          // Remove existing notification
-          const existing = document.querySelector(".param-notification");
-          if (existing) existing.remove();
-
-          // Create new notification
-          const notification = document.createElement("div");
-          notification.className = "param-notification";
-          notification.innerHTML = `<i class="fa-solid fa-check-circle"></i>${message}`;
-          document.body.appendChild(notification);
-
-          // Auto remove after 3 seconds
-          setTimeout(() => {
-            if (notification.parentNode) {
-              notification.remove();
-            }
-          }, 3000);
-        };
-
-        // Collapsible toggle
-        window.toggleCollapsible = function (header) {
-          const section = header.parentElement;
-          const content = section.querySelector(".collapsible-content");
-          const icon = header.querySelector(".collapsible-icon");
-
-          content.classList.toggle("expanded");
-          icon.classList.toggle("rotated");
         };
 
         // Parse routine into exercise objects
