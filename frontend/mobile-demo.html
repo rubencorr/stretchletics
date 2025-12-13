@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #050505;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .bg-orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.5;
+        animation: float-orb 20s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      .bg-orb-1 {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(236, 72, 153, 0.4), transparent);
+        top: 10%;
+        left: -10%;
+        animation-delay: 0s;
+      }
+
+      .bg-orb-2 {
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(79, 70, 229, 0.4), transparent);
+        bottom: 20%;
+        right: -10%;
+        animation-delay: 5s;
+      }
+
+      .bg-orb-3 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(167, 139, 250, 0.3), transparent);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: 10s;
+      }
+
+      @keyframes float-orb {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(20px, -30px) scale(1.1);
+        }
+        50% {
+          transform: translate(-20px, 30px) scale(0.9);
+        }
+        75% {
+          transform: translate(30px, 20px) scale(1.05);
+        }
+      }
+
+      /* Gradient Overlay */
+      .gradient-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.1) 0%,
+          rgba(79, 70, 229, 0.1) 100%
+        );
+        pointer-events: none;
+        animation: gradient-shift 15s ease infinite;
+        z-index: 0;
+      }
+
+      @keyframes gradient-shift {
+        0%, 100% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 0.6;
+        }
+      }
+
+      /* Glass Card */
+      .glass-card {
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Gradient Text */
+      .gradient-text {
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Gradient Button */
+      .gradient-button {
+        background: linear-gradient(135deg, #ec4899 0%, #4f46e5 100%);
+        background-size: 200% 200%;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+      }
+
+      .gradient-button:hover {
+        background-position: right center;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5);
+      }
+
+      /* Feature Card Animation */
+      .feature-card {
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(236, 72, 153, 0.2);
+      }
+
+      /* Typing Animation */
+      @keyframes typing-bounce {
+        0%, 60%, 100% { transform: translateY(0); opacity: 0.7; }
+        30% { transform: translateY(-8px); opacity: 1; }
+      }
+
+      .typing-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4f46e5;
+        display: inline-block;
+        margin: 0 2px;
+        animation: typing-bounce 1.4s infinite;
+      }
+
+      .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+      .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+      /* Chat Bubble */
+      .chat-bubble {
+        background: rgba(236, 72, 153, 0.1);
+        border: 1px solid rgba(236, 72, 153, 0.3);
+        border-radius: 16px 16px 16px 4px;
+        padding: 12px 16px;
+        backdrop-filter: blur(10px);
+      }
+
+
+
+      /* Fade in animation */
+      .fade-in {
+        animation: fadeIn 0.8s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Pulse animation */
+      @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
+        50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.6); }
+      }
+
+      .pulse-glow {
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+
+      /* Mobile optimized container */
+      .mobile-container {
+        max-width: 430px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Background Elements -->
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+    <div class="gradient-overlay"></div>
+
+    <!-- Main Container -->
+    <div class="flex items-center justify-center min-h-screen px-6 py-8">
+      <div class="mobile-container fade-in">
+        <!-- App Preview Header -->
+        <div class="text-center mb-6">
+        </div>
+
+        <!-- Chat Interface Preview -->
+        <div class="glass-card rounded-2xl p-5 mb-4">
+          <!-- Welcome Message -->
+          <div class="flex items-start gap-3 mb-4">
+            <i class="fa-solid fa-robot text-indigo-500 mt-1"></i>
+            <div class="glass-card rounded-xl p-3 flex-1 border-l-4 border-indigo-500">
+              <p class="text-xs text-indigo-400 font-bold mb-1 uppercase tracking-wider">
+                <i class="fa-solid fa-sparkles mr-1"></i> AI Assistant
+              </p>
+              <p class="text-xs text-white">
+                Welcome! Tell me about your workout and I'll create a personalized stretching routine for you.
+              </p>
+            </div>
+          </div>
+
+          <!-- Quick Example Prompts -->
+          <div class="mb-4">
+            <p class="text-xs text-slate-400 mb-2 font-bold uppercase tracking-wider">Quick Start:</p>
+            <div class="space-y-2">
+              <button class="w-full text-left px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-pink-500/20 transition text-xs text-white">
+                <i class="fa-solid fa-person-running mr-2 text-pink-500"></i> Post-run cooldown
+              </button>
+              <button class="w-full text-left px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-pink-500/20 transition text-xs text-white">
+                <i class="fa-solid fa-dumbbell mr-2 text-indigo-500"></i> Upper body stretch
+              </button>
+              <button class="w-full text-left px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-pink-500/20 transition text-xs text-white">
+                <i class="fa-solid fa-briefcase mr-2 text-purple-500"></i> Desk worker relief
+              </button>
+            </div>
+          </div>
+
+          <!-- User Message Example -->
+          <div class="flex items-start gap-3 mb-4 justify-end">
+            <div class="bg-gradient-to-br from-pink-500 to-indigo-600 rounded-xl rounded-br-sm p-3 max-w-[80%]">
+              <p class="text-xs text-white font-medium">
+                I just finished a 5K run. Need a cool-down routine.
+              </p>
+            </div>
+            <i class="fa-solid fa-user text-pink-500 mt-1"></i>
+          </div>
+
+          <!-- AI Response with Routine -->
+          <div class="flex items-start gap-3">
+            <i class="fa-solid fa-robot text-indigo-500 mt-1"></i>
+            <div class="glass-card rounded-xl p-4 flex-1 border-l-4 border-indigo-500">
+              <p class="text-xs text-indigo-400 font-bold mb-2 uppercase tracking-wider">
+                <i class="fa-solid fa-fire mr-1"></i> Your Routine
+              </p>
+              <p class="text-sm text-white mb-3 font-bold">
+                Post-Run Recovery (15 min)
+              </p>
+              <div class="space-y-2 text-xs text-slate-300">
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-check text-pink-500"></i>
+                  <span>Standing Quad Stretch - 30s each</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-check text-pink-500"></i>
+                  <span>Hamstring Stretch - 45s each</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-check text-pink-500"></i>
+                  <span>Calf Stretch - 30s each</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-check text-pink-500"></i>
+                  <span>Hip Flexor Stretch - 40s each</span>
+                </div>
+              </div>
+              <div class="mt-3 pt-3 border-t border-white/10 flex gap-2">
+                <button class="flex-1 py-2 px-3 bg-gradient-to-r from-pink-500/20 to-pink-500/10 border border-pink-500/40 rounded-lg text-xs font-bold text-pink-400 hover:from-pink-500/30 hover:to-pink-500/20 hover:border-pink-500/60 transition shadow-lg hover:shadow-pink-500/30">
+                  <i class="fa-solid fa-copy mr-1"></i> Copy
+                </button>
+                <button class="flex-1 py-2 px-3 bg-gradient-to-r from-indigo-500/20 to-indigo-500/10 border border-indigo-500/40 rounded-lg text-xs font-bold text-indigo-400 hover:from-indigo-500/30 hover:to-indigo-500/20 hover:border-indigo-500/60 transition shadow-lg hover:shadow-indigo-500/30">
+                  <i class="fa-solid fa-share-nodes mr-1"></i> Share
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Area Preview -->
+        <div class="glass-card rounded-xl p-3 mb-4">
+          <div class="flex items-center gap-2">
+            <input
+              type="text"
+              placeholder="Ask for a stretching routine..."
+              class="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              disabled
+            />
+            <button class="gradient-button p-2 rounded-lg w-10 h-10 flex items-center justify-center">
+              <i class="fa-solid fa-paper-plane text-white text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <div class="glass-card rounded-xl p-3 text-center">
+            <i class="fa-solid fa-clock text-pink-500 text-xl mb-1"></i>
+            <p class="text-xs text-white font-bold">5-60 min</p>
+            <p class="text-xs text-slate-500">Duration</p>
+          </div>
+          <div class="glass-card rounded-xl p-3 text-center">
+            <i class="fa-solid fa-dumbbell text-indigo-500 text-xl mb-1"></i>
+            <p class="text-xs text-white font-bold">Custom</p>
+            <p class="text-xs text-slate-500">Equipment</p>
+          </div>
+          <div class="glass-card rounded-xl p-3 text-center">
+            <i class="fa-solid fa-clock-rotate-left text-purple-500 text-xl mb-1"></i>
+            <p class="text-xs text-white font-bold">History</p>
+            <p class="text-xs text-slate-500">Tracking</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Add smooth scroll behavior
+      document.addEventListener('DOMContentLoaded', () => {
+        // Optional: Add any interactive features here
+        console.log('Stretchletics Mobile Demo Ready');
+      });
+    </script>
+  </body>
+</html>
