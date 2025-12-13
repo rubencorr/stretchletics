@@ -1123,227 +1123,169 @@
               <i class="fa-solid fa-sliders text-neon-pink"></i>
               Parameters
             </h2>
-            <div
-              id="active-filters"
-              class="mt-3 flex flex-wrap gap-1 min-h-[20px]"
-            >
-              <!-- Active filter badges will appear here -->
-            </div>
           </div>
 
           <!-- Routine Type -->
-          <div class="collapsible-section">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span
-                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
-                >Routine Type</span
-              >
-              <i
-                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
-              ></i>
-            </div>
-            <div class="collapsible-content expanded">
-              <select
-                id="routine-type-input"
-                onchange="updateActiveFilters()"
-                class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
-              >
-                <option value="warm-up">Warm-Up</option>
-                <option value="cool-down" selected>Stretching</option>
-              </select>
-            </div>
+          <div class="mb-5 mt-10">
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              Routine Type
+            </label>
+            <select
+              id="routine-type-input"
+              onchange="updateActiveFilters()"
+              class="w-full p-2.5 rounded-lg border border-white/10 bg-white/5 text-white text-sm focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+            >
+              <option value="warm-up">Warm-Up</option>
+              <option value="cool-down" selected>Stretching</option>
+            </select>
           </div>
 
           <!-- Duration -->
-          <div class="collapsible-section">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span
-                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
-                >Duration</span
-              >
-              <div class="flex items-center gap-2">
-                <span
-                  id="duration-display"
-                  class="text-sm text-neon-pink font-bold"
-                  >5 min</span
-                >
-                <i
-                  class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
-                ></i>
-              </div>
+          <div class="mb-5">
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Duration
+              </label>
+              <span id="duration-display" class="text-sm text-neon-pink font-bold">5 min</span>
             </div>
-            <div class="collapsible-content expanded">
-              <input
-                type="range"
-                id="duration-input"
-                min="5"
-                max="60"
-                value="5"
-                step="5"
-                oninput="updateDurationDisplay(); updateActiveFilters();"
-                class="w-full"
-              />
-            </div>
+            <input
+              type="range"
+              id="duration-input"
+              min="5"
+              max="60"
+              value="5"
+              step="5"
+              oninput="updateDurationDisplay(); updateActiveFilters();"
+              class="w-full"
+            />
           </div>
 
           <!-- Difficulty Level -->
-          <div class="collapsible-section">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span
-                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
-                >Difficulty</span
-              >
-              <i
-                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
-              ></i>
-            </div>
-            <div class="collapsible-content expanded">
-              <select
-                id="difficulty-input"
-                onchange="updateActiveFilters()"
-                class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
-              >
-                <option value="beginner" selected>Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-              </select>
-            </div>
+          <div class="mb-5">
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              Difficulty
+            </label>
+            <select
+              id="difficulty-input"
+              onchange="updateActiveFilters()"
+              class="w-full p-2.5 rounded-lg border border-white/10 bg-white/5 text-white text-sm focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+            >
+              <option value="beginner" selected>Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
           </div>
 
           <!-- Equipment Available -->
-          <div class="collapsible-section">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span
-                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
-                >Equipment</span
-              >
-              <i
-                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
-              ></i>
-            </div>
-            <div class="collapsible-content expanded">
-              <div class="space-y-2">
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="equipment-roller"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Foam Roller</span>
-                </label>
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="equipment-bands"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Resistance Bands</span>
-                </label>
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="equipment-mat"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Yoga Mat</span>
-                </label>
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="equipment-ball"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Stability Ball</span>
-                </label>
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="equipment-massage"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Massage Ball</span>
-                </label>
-              </div>
+          <div class="mb-5">
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+              Equipment
+            </label>
+            <div class="space-y-2.5">
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="equipment-roller"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Foam Roller</span>
+              </label>
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="equipment-bands"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Resistance Bands</span>
+              </label>
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="equipment-mat"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Yoga Mat</span>
+              </label>
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="equipment-ball"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Stability Ball</span>
+              </label>
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="equipment-massage"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Massage Ball</span>
+              </label>
             </div>
           </div>
 
           <!-- Focus Areas -->
-          <div class="collapsible-section">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span
-                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
-                >Focus Areas</span
-              >
-              <i
-                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
-              ></i>
-            </div>
-            <div class="collapsible-content expanded">
-              <div class="space-y-2">
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="focus-upper"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Upper Body</span>
-                </label>
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="focus-lower"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Lower Body</span>
-                </label>
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="focus-core"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Core</span>
-                </label>
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="focus-full"
-                    onchange="updateActiveFilters()"
-                    class="w-4 h-4 rounded"
-                  />
-                  <span class="ml-2 text-sm">Full Body</span>
-                </label>
-              </div>
+          <div class="mb-5">
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+              Focus Areas
+            </label>
+            <div class="space-y-2.5">
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="focus-upper"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Upper Body</span>
+              </label>
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="focus-lower"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Lower Body</span>
+              </label>
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="focus-core"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Core</span>
+              </label>
+              <label class="flex items-center cursor-pointer hover:text-white transition">
+                <input
+                  type="checkbox"
+                  id="focus-full"
+                  onchange="updateActiveFilters()"
+                  class="w-4 h-4 rounded"
+                />
+                <span class="ml-2.5 text-sm">Full Body</span>
+              </label>
             </div>
           </div>
 
           <!-- Injuries/Restrictions -->
-          <div class="collapsible-section">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span
-                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
-                >Restrictions</span
-              >
-              <i
-                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
-              ></i>
-            </div>
-            <div class="collapsible-content expanded">
-              <textarea
-                id="restrictions-input"
-                placeholder="Any injuries or restrictions..."
-                class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none text-sm"
-                rows="3"
-              ></textarea>
-            </div>
+          <div class="mb-5">
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              Restrictions
+            </label>
+            <textarea
+              id="restrictions-input"
+              placeholder="Any injuries or restrictions..."
+              class="w-full p-2.5 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none resize-none"
+              rows="3"
+            ></textarea>
           </div>
         </div>
 
@@ -1535,52 +1477,43 @@
               exercises.length > 0 &&
               exercises[0].name !== "View Full Routine Below"
             ) {
-              // Create routine summary card
-              const summaryCard = document.createElement("div");
-              summaryCard.className = "routine-summary";
-              summaryCard.innerHTML = `
-                <div class="grid grid-cols-3 gap-4">
-                  <div class="routine-summary-stat">
-                    <div class="routine-summary-value">${exercises.length}</div>
-                    <div class="routine-summary-label">Exercises</div>
-                  </div>
-                  <div class="routine-summary-stat">
-                    <div class="routine-summary-value">${calculateTotalDuration(
-                      exercises
-                    )}</div>
-                    <div class="routine-summary-label">Minutes</div>
-                  </div>
-                  <div class="routine-summary-stat">
-                    <div class="routine-summary-value">${
-                      document.getElementById("difficulty-input").value
-                    }</div>
-                    <div class="routine-summary-label">Level</div>
-                  </div>
-                </div>
-              `;
-              messageContent.appendChild(summaryCard);
-
-              // Create global routine timer
+              // Create combined timer and summary box
               const routineTimerId = `routine-${Date.now()}`;
               const globalTimer = document.createElement("div");
               globalTimer.className = "routine-timer";
               globalTimer.id = routineTimerId;
               globalTimer.innerHTML = `
-                <div class="global-timer-display" id="display-${routineTimerId}">0:00</div>
-                <div class="global-timer-info">
-                  <div class="current-exercise-name" id="current-${routineTimerId}">Ready to start</div>
-                  <div class="routine-progress-text" id="progress-text-${routineTimerId}">Exercise 0 of ${exercises.length}</div>
-                </div>
-                <div class="global-timer-controls">
-                  <button class="timer-btn" id="toggle-${routineTimerId}" onclick="toggleRoutineTimer('${routineTimerId}')" title="Start routine">
-                    <i class="fa-solid fa-play"></i>
-                  </button>
-                  <button class="timer-btn" onclick="skipExercise('${routineTimerId}')" title="Skip exercise">
-                    <i class="fa-solid fa-forward-step"></i>
-                  </button>
-                  <button class="timer-btn" onclick="resetRoutineTimer('${routineTimerId}')" title="Reset routine">
-                    <i class="fa-solid fa-rotate-left"></i>
-                  </button>
+                <div style="display: flex; align-items: center; gap: 16px; width: 100%; margin-bottom: 12px;">
+                  <div class="global-timer-display" id="display-${routineTimerId}">0:00</div>
+                  <div class="global-timer-info" style="flex-grow: 1;">
+                    <div class="current-exercise-name" id="current-${routineTimerId}">Ready to start</div>
+                    <div class="routine-progress-text" id="progress-text-${routineTimerId}">Exercise 0 of ${exercises.length}</div>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 0 12px;">
+                    <div class="routine-summary-stat">
+                      <div class="routine-summary-value" style="font-size: 20px;">${exercises.length}</div>
+                      <div class="routine-summary-label" style="font-size: 9px;">Exercises</div>
+                    </div>
+                    <div class="routine-summary-stat">
+                      <div class="routine-summary-value" style="font-size: 20px;">${calculateTotalDuration(exercises)}</div>
+                      <div class="routine-summary-label" style="font-size: 9px;">Minutes</div>
+                    </div>
+                    <div class="routine-summary-stat">
+                      <div class="routine-summary-value" style="font-size: 20px;">${document.getElementById("difficulty-input").value}</div>
+                      <div class="routine-summary-label" style="font-size: 9px;">Level</div>
+                    </div>
+                  </div>
+                  <div class="global-timer-controls">
+                    <button class="timer-btn" id="toggle-${routineTimerId}" onclick="toggleRoutineTimer('${routineTimerId}')" title="Start routine">
+                      <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button class="timer-btn" onclick="skipExercise('${routineTimerId}')" title="Skip exercise">
+                      <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                    <button class="timer-btn" onclick="resetRoutineTimer('${routineTimerId}')" title="Reset routine">
+                      <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                  </div>
                 </div>
                 <div class="timer-progress-bar" style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; border-radius: 0 0 10px 10px;">
                   <div class="timer-progress-fill" id="routine-progress-${routineTimerId}" style="width: 0%"></div>
@@ -2012,59 +1945,7 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
         // Initialize active filters
         window.updateActiveFilters = function () {
-          const container = document.getElementById("active-filters");
-          const badges = [];
-
-          // Duration
-          const duration = document.getElementById("duration-input").value;
-          badges.push(
-            `<span class="filter-badge"><i class="fa-solid fa-clock"></i>${duration}min</span>`
-          );
-
-          // Difficulty
-          const difficulty = document.getElementById("difficulty-input").value;
-          badges.push(
-            `<span class="filter-badge"><i class="fa-solid fa-signal"></i>${difficulty}</span>`
-          );
-
-          // Equipment
-          const equipment = [];
-          if (document.getElementById("equipment-roller").checked)
-            equipment.push("Roller");
-          if (document.getElementById("equipment-bands").checked)
-            equipment.push("Bands");
-          if (document.getElementById("equipment-mat").checked)
-            equipment.push("Mat");
-          if (document.getElementById("equipment-ball").checked)
-            equipment.push("Ball");
-          if (document.getElementById("equipment-massage").checked)
-            equipment.push("Massage");
-          if (equipment.length > 0) {
-            badges.push(
-              `<span class="filter-badge"><i class="fa-solid fa-dumbbell"></i>${equipment.join(
-                ", "
-              )}</span>`
-            );
-          }
-
-          // Focus areas
-          const focus = [];
-          if (document.getElementById("focus-upper").checked)
-            focus.push("Upper");
-          if (document.getElementById("focus-lower").checked)
-            focus.push("Lower");
-          if (document.getElementById("focus-core").checked) focus.push("Core");
-          if (document.getElementById("focus-full").checked) focus.push("Full");
-          if (focus.length > 0) {
-            badges.push(
-              `<span class="filter-badge"><i class="fa-solid fa-crosshairs"></i>${focus.join(
-                ", "
-              )}</span>`
-            );
-          }
-
-          container.innerHTML = badges.join("");
-          showNotification("Parameters updated");
+          // Function kept for compatibility but no longer displays badges
         };
 
         // Notification system
@@ -2474,19 +2355,23 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
               // Play 1-second beep
               try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const audioContext = new (window.AudioContext ||
+                  window.webkitAudioContext)();
                 const oscillator = audioContext.createOscillator();
                 const gainNode = audioContext.createGain();
-                
+
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
-                
+
                 oscillator.frequency.value = 800; // 800Hz tone
-                oscillator.type = 'sine';
-                
+                oscillator.type = "sine";
+
                 gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
-                
+                gainNode.gain.exponentialRampToValueAtTime(
+                  0.01,
+                  audioContext.currentTime + 1
+                );
+
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 1);
               } catch (e) {}
