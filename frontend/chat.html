@@ -1101,6 +1101,14 @@
         <h1 class="text-2xl font-black tracking-wider text-white uppercase">
           <i class="fa-solid fa-sparkles text-neon-pink mr-2"></i>Stretchletics
         </h1>
+        <button
+          id="reset-chat-btn"
+          onclick="clearChat()"
+          class="text-slate-400 hover:text-neon-pink transition-all duration-300 hover:scale-110 p-2 rounded-lg hover:bg-white/5"
+          title="Clear chat"
+        >
+          <i class="fa-solid fa-trash-can text-lg"></i>
+        </button>
       </div>
 
       <!-- Unified Single Window -->
@@ -1457,6 +1465,27 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
       }
 
+      // Clear chat function
+      function clearChat() {
+        // Clear all messages except the welcome message
+        const welcomeMessage = chatMessages.querySelector('.flex.justify-start');
+        chatMessages.innerHTML = '';
+        if (welcomeMessage) {
+          chatMessages.appendChild(welcomeMessage.cloneNode(true));
+        }
+        // Reset variables
+        lastUserPrompt = "";
+        lastRoutineData = null;
+        // Clear any active timers
+        Object.keys(activeRoutineTimers).forEach(routineId => {
+          const state = activeRoutineTimers[routineId];
+          if (state.interval) {
+            clearInterval(state.interval);
+          }
+        });
+        activeRoutineTimers = {};
+      }
+
       let lastUserPrompt = "";
       let lastRoutineData = null;
 
@@ -1621,26 +1650,39 @@
               messageContent.appendChild(routineText);
             }
 
-            // Add quick action buttons
+            // Add quick action buttons with copy/download/share buttons
             const quickActions = document.createElement("div");
             quickActions.className =
-              "flex flex-wrap gap-2 pt-3 border-t border-white/10 mt-4";
+              "flex justify-between items-center flex-wrap gap-2 pt-3 border-t border-white/10 mt-4";
             quickActions.innerHTML = `
-              <button class="quick-action-btn" onclick="adjustRoutine('longer')">
-                <i class="fa-solid fa-plus"></i> 5 min
-              </button>
-              <button class="quick-action-btn" onclick="adjustRoutine('shorter')">
-                <i class="fa-solid fa-minus"></i> 5 min
-              </button>
-              <button class="quick-action-btn" onclick="adjustRoutine('easier')">
-                <i class="fa-solid fa-arrow-down"></i> Easier
-              </button>
-              <button class="quick-action-btn" onclick="adjustRoutine('harder')">
-                <i class="fa-solid fa-arrow-up"></i> Harder
-              </button>
-              <button class="quick-action-btn" onclick="regenerateRoutine()">
-                <i class="fa-solid fa-rotate"></i> Regenerate
-              </button>
+              <div class="flex gap-2 flex-wrap">
+                <button class="quick-action-btn" onclick="adjustRoutine('longer')">
+                  <i class="fa-solid fa-plus"></i> 5 min
+                </button>
+                <button class="quick-action-btn" onclick="adjustRoutine('shorter')">
+                  <i class="fa-solid fa-minus"></i> 5 min
+                </button>
+                <button class="quick-action-btn" onclick="adjustRoutine('easier')">
+                  <i class="fa-solid fa-arrow-down"></i> Easier
+                </button>
+                <button class="quick-action-btn" onclick="adjustRoutine('harder')">
+                  <i class="fa-solid fa-arrow-up"></i> Harder
+                </button>
+                <button class="quick-action-btn" onclick="regenerateRoutine()">
+                  <i class="fa-solid fa-rotate"></i> Regenerate
+                </button>
+              </div>
+              <div class="flex gap-2">
+                <button class="action-btn" onclick="copyMessage(this)" title="Copy to clipboard">
+                  <i class="fa-solid fa-copy"></i>
+                </button>
+                <button class="action-btn" onclick="downloadMessage(this)" title="Download as text file">
+                  <i class="fa-solid fa-download"></i>
+                </button>
+                <button class="action-btn" onclick="shareMessage(this)" title="Share message">
+                  <i class="fa-solid fa-share-nodes"></i>
+                </button>
+              </div>
             `;
             messageContent.appendChild(quickActions);
           } else {
@@ -1660,22 +1702,24 @@
           messageBox.appendChild(messageContent);
           messageBox.appendChild(timeEl);
 
-          // Add action buttons for bot messages
-          const actionsDiv = document.createElement("div");
-          actionsDiv.className =
-            "mt-4 pt-3 border-t border-white/10 flex gap-2 flex-wrap";
-          actionsDiv.innerHTML = `
-            <button class="action-btn" onclick="copyMessage(this)" title="Copy to clipboard">
-              <i class="fa-solid fa-copy mr-1"></i> Copy
-            </button>
-            <button class="action-btn" onclick="downloadMessage(this)" title="Download as text file">
-              <i class="fa-solid fa-download mr-1"></i> Download
-            </button>
-            <button class="action-btn" onclick="shareMessage(this)" title="Share message">
-              <i class="fa-solid fa-share-nodes mr-1"></i> Share
-            </button>
-          `;
-          messageBox.appendChild(actionsDiv);
+          // Add action buttons for non-routine bot messages only
+          if (!isRoutine) {
+            const actionsDiv = document.createElement("div");
+            actionsDiv.className =
+              "mt-4 pt-3 border-t border-white/10 flex gap-2 justify-end";
+            actionsDiv.innerHTML = `
+              <button class="action-btn" onclick="copyMessage(this)" title="Copy to clipboard">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+              <button class="action-btn" onclick="downloadMessage(this)" title="Download as text file">
+                <i class="fa-solid fa-download"></i>
+              </button>
+              <button class="action-btn" onclick="shareMessage(this)" title="Share message">
+                <i class="fa-solid fa-share-nodes"></i>
+              </button>
+            `;
+            messageBox.appendChild(actionsDiv);
+          }
 
           // Save to history if it's a routine
           if (isRoutine && lastUserPrompt) {
@@ -2249,6 +2293,12 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           const state = activeRoutineTimers[routineId];
           if (!state || state.paused) return;
 
+          // Clear the current interval to stop the timer and prevent beeps
+          if (state.interval) {
+            clearInterval(state.interval);
+            state.interval = null;
+          }
+
           // Mark current as completed
           const currentExercise = state.exercises[state.currentIndex];
           if (currentExercise) {
@@ -2454,8 +2504,6 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
           // Hide the progress bar
           routineProgress.parentElement.style.display = "none";
-
-          showNotification("Routine complete! Great work! 💪");
 
           delete activeRoutineTimers[routineId];
 
