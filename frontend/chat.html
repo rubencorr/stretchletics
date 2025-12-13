@@ -766,7 +766,11 @@
 
       /* Global routine timer */
       .routine-timer {
-        background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2));
+        background: linear-gradient(
+          135deg,
+          rgba(79, 70, 229, 0.2),
+          rgba(236, 72, 153, 0.2)
+        );
         border: 2px solid rgba(236, 72, 153, 0.4);
         border-radius: 12px;
         padding: 16px;
@@ -784,7 +788,7 @@
       .global-timer-display {
         font-size: 36px;
         font-weight: 900;
-        font-family: 'Courier New', monospace;
+        font-family: "Courier New", monospace;
         background: linear-gradient(135deg, #ec4899, #4f46e5);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -1555,11 +1559,11 @@
                 </div>
               `;
               messageContent.appendChild(summaryCard);
-              
+
               // Create global routine timer
               const routineTimerId = `routine-${Date.now()}`;
-              const globalTimer = document.createElement('div');
-              globalTimer.className = 'routine-timer';
+              const globalTimer = document.createElement("div");
+              globalTimer.className = "routine-timer";
               globalTimer.id = routineTimerId;
               globalTimer.innerHTML = `
                 <div class="global-timer-display" id="display-${routineTimerId}">0:00</div>
@@ -1595,8 +1599,8 @@
                   exercise.duration
                 );
 
-                card.setAttribute('data-exercise-id', exerciseId);
-                card.setAttribute('data-duration', durationSeconds);
+                card.setAttribute("data-exercise-id", exerciseId);
+                card.setAttribute("data-duration", durationSeconds);
                 card.innerHTML = `
                   <div class="flex items-center gap-3">
                     <span class="exercise-number">${index + 1}</span>
@@ -2302,54 +2306,55 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
         window.toggleRoutineTimer = function (routineId) {
           const state = activeRoutineTimers[routineId];
           const toggleBtn = document.getElementById(`toggle-${routineId}`);
-          
+
           if (!state || !state.paused) {
             // Currently running or not started, so pause
             if (state) {
               pauseRoutineTimer(routineId);
               toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-              toggleBtn.title = 'Resume routine';
+              toggleBtn.title = "Resume routine";
             } else {
               // Start new routine
               startRoutineTimer(routineId);
               toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-              toggleBtn.title = 'Pause routine';
+              toggleBtn.title = "Pause routine";
             }
           } else {
             // Currently paused, so resume
             continueRoutineTimer(routineId, state);
             toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-            toggleBtn.title = 'Pause routine';
+            toggleBtn.title = "Pause routine";
           }
         };
 
         window.skipExercise = function (routineId) {
           const state = activeRoutineTimers[routineId];
           if (!state || state.paused) return;
-          
+
           // Mark current as completed
           const currentExercise = state.exercises[state.currentIndex];
           if (currentExercise) {
-            currentExercise.card.classList.remove('active');
-            currentExercise.card.classList.add('completed');
+            currentExercise.card.classList.remove("active");
+            currentExercise.card.classList.add("completed");
           }
-          
+
           // Move to next
           state.currentIndex++;
-          
+
           // Check if we've completed all exercises
           if (state.currentIndex >= state.exercises.length) {
             completeRoutine(routineId);
             return;
           }
-          
+
           activeRoutineTimers[routineId] = state;
           startNextExercise(routineId);
         };
 
         window.startRoutineTimer = function (routineId) {
           const timerContainer = document.getElementById(routineId);
-          const exerciseCards = timerContainer.parentElement.querySelectorAll('.exercise-card');
+          const exerciseCards =
+            timerContainer.parentElement.querySelectorAll(".exercise-card");
 
           if (!exerciseCards.length) return;
 
@@ -2361,15 +2366,18 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           }
 
           // Build exercise list
-          const exercises = Array.from(exerciseCards).map(card => ({
+          const exercises = Array.from(exerciseCards).map((card) => ({
             card: card,
-            duration: parseInt(card.getAttribute('data-duration')),
-            name: card.querySelector('h4').textContent
+            duration: parseInt(card.getAttribute("data-duration")),
+            name: card.querySelector("h4").textContent,
           }));
 
-          const totalDuration = exercises.reduce((sum, ex) => sum + ex.duration, 0);
+          const totalDuration = exercises.reduce(
+            (sum, ex) => sum + ex.duration,
+            0
+          );
 
-          timerContainer.classList.add('running');
+          timerContainer.classList.add("running");
 
           const state = {
             exercises: exercises,
@@ -2377,7 +2385,7 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             totalDuration: totalDuration,
             elapsedTotal: 0,
             paused: false,
-            interval: null
+            interval: null,
           };
 
           activeRoutineTimers[routineId] = state;
@@ -2388,7 +2396,7 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           state.paused = false;
           activeRoutineTimers[routineId] = state;
           const timerContainer = document.getElementById(routineId);
-          timerContainer.classList.add('running');
+          timerContainer.classList.add("running");
 
           startNextExercise(routineId);
         }
@@ -2415,24 +2423,33 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           const timerContainer = document.getElementById(routineId);
           const display = document.getElementById(`display-${routineId}`);
           const currentName = document.getElementById(`current-${routineId}`);
-          const progressText = document.getElementById(`progress-text-${routineId}`);
-          const routineProgress = document.getElementById(`routine-progress-${routineId}`);
+          const progressText = document.getElementById(
+            `progress-text-${routineId}`
+          );
+          const routineProgress = document.getElementById(
+            `routine-progress-${routineId}`
+          );
 
           // Highlight current exercise
           state.exercises.forEach((ex, idx) => {
-            ex.card.classList.remove('active', 'completed');
+            ex.card.classList.remove("active", "completed");
             if (idx < state.currentIndex) {
-              ex.card.classList.add('completed');
+              ex.card.classList.add("completed");
             } else if (idx === state.currentIndex) {
-              ex.card.classList.add('active');
+              ex.card.classList.add("active");
             }
           });
 
           currentName.textContent = currentExercise.name;
-          progressText.textContent = `Exercise ${state.currentIndex + 1} of ${state.exercises.length}`;
+          progressText.textContent = `Exercise ${state.currentIndex + 1} of ${
+            state.exercises.length
+          }`;
 
           // Scroll to current exercise
-          currentExercise.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          currentExercise.card.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
 
           state.interval = setInterval(() => {
             if (state.paused) {
@@ -2447,16 +2464,36 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             display.textContent = formatTime(remainingSeconds);
 
             // Update overall progress
-            const overallProgress = (state.elapsedTotal / state.totalDuration) * 100;
-            routineProgress.style.width = overallProgress + '%';
+            const overallProgress =
+              (state.elapsedTotal / state.totalDuration) * 100;
+            routineProgress.style.width = overallProgress + "%";
 
             if (remainingSeconds <= 0) {
               clearInterval(state.interval);
               state.interval = null;
 
+              // Play 1-second beep
+              try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800; // 800Hz tone
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 1);
+              } catch (e) {}
+
               // Mark as completed
-              currentExercise.card.classList.remove('active');
-              currentExercise.card.classList.add('completed');
+              currentExercise.card.classList.remove("active");
+              currentExercise.card.classList.add("completed");
 
               // Move to next exercise
               state.currentIndex++;
@@ -2476,28 +2513,32 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           const timerContainer = document.getElementById(routineId);
           const display = document.getElementById(`display-${routineId}`);
           const currentName = document.getElementById(`current-${routineId}`);
-          const progressText = document.getElementById(`progress-text-${routineId}`);
-          const routineProgress = document.getElementById(`routine-progress-${routineId}`);
+          const progressText = document.getElementById(
+            `progress-text-${routineId}`
+          );
+          const routineProgress = document.getElementById(
+            `routine-progress-${routineId}`
+          );
 
-          timerContainer.classList.remove('running');
-          timerContainer.classList.add('timer-complete');
+          timerContainer.classList.remove("running");
+          timerContainer.classList.add("timer-complete");
 
           // Hide the timer display
-          display.style.display = 'none';
-          
-          // Update text to completion message
-          currentName.textContent = 'Routine Complete! 🎉';
-          progressText.textContent = 'All exercises finished';
-          
-          // Hide the progress bar
-          routineProgress.parentElement.style.display = 'none';
+          display.style.display = "none";
 
-          showNotification('Routine complete! Great work! 💪');
+          // Update text to completion message
+          currentName.textContent = "Routine Complete! 🎉";
+          progressText.textContent = "All exercises finished";
+
+          // Hide the progress bar
+          routineProgress.parentElement.style.display = "none";
+
+          showNotification("Routine complete! Great work! 💪");
 
           delete activeRoutineTimers[routineId];
 
           setTimeout(() => {
-            timerContainer.classList.remove('timer-complete');
+            timerContainer.classList.remove("timer-complete");
           }, 3000);
         }
 
@@ -2507,7 +2548,7 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
           state.paused = true;
           const timerContainer = document.getElementById(routineId);
-          timerContainer.classList.remove('running');
+          timerContainer.classList.remove("running");
         };
 
         window.resetRoutineTimer = function (routineId) {
@@ -2525,25 +2566,30 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           const timerContainer = document.getElementById(routineId);
           const display = document.getElementById(`display-${routineId}`);
           const currentName = document.getElementById(`current-${routineId}`);
-          const progressText = document.getElementById(`progress-text-${routineId}`);
-          const routineProgress = document.getElementById(`routine-progress-${routineId}`);
-          const exerciseCards = timerContainer.parentElement.querySelectorAll('.exercise-card');
+          const progressText = document.getElementById(
+            `progress-text-${routineId}`
+          );
+          const routineProgress = document.getElementById(
+            `routine-progress-${routineId}`
+          );
+          const exerciseCards =
+            timerContainer.parentElement.querySelectorAll(".exercise-card");
           const toggleBtn = document.getElementById(`toggle-${routineId}`);
 
-          timerContainer.classList.remove('running', 'timer-complete');
-          display.textContent = '0:00';
-          currentName.textContent = 'Ready to start';
+          timerContainer.classList.remove("running", "timer-complete");
+          display.textContent = "0:00";
+          currentName.textContent = "Ready to start";
           progressText.textContent = `Exercise 0 of ${exerciseCards.length}`;
-          routineProgress.style.width = '0%';
+          routineProgress.style.width = "0%";
 
           // Reset toggle button
           if (toggleBtn) {
             toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-            toggleBtn.title = 'Start routine';
+            toggleBtn.title = "Start routine";
           }
 
-          exerciseCards.forEach(card => {
-            card.classList.remove('active', 'completed');
+          exerciseCards.forEach((card) => {
+            card.classList.remove("active", "completed");
           });
         };
 
