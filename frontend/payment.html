@@ -92,7 +92,6 @@
       background: rgba(10, 10, 10, 0.6);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
@@ -105,6 +104,40 @@
       transform: rotate(360deg);
     }
     /* --- END LOGO SPIN STYLING --- */
+
+    /* Custom Radio Button Styling */
+    input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(236, 72, 153, 0.3);
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    input[type="radio"]:hover {
+      border-color: rgba(236, 72, 153, 0.6);
+      box-shadow: 0 0 8px rgba(236, 72, 153, 0.3);
+    }
+    input[type="radio"]:checked {
+      background: linear-gradient(135deg, #ec4899, #4f46e5);
+      border-color: #ec4899;
+      box-shadow: 0 0 12px rgba(236, 72, 153, 0.5);
+    }
+    input[type="radio"]:checked::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
 
     /* Gradient Button Effect - Sleek Neon Plasma */
     .gradient-button {
@@ -159,79 +192,85 @@
 <div class="bg-orb-2"></div>
 <div class="bg-orb-3"></div>
 
-<main class="min-h-screen flex items-center justify-center p-4 relative z-10">
-  <div class="glass-card w-full max-w-4xl p-10 rounded-3xl relative z-10 grid lg:grid-cols-3 gap-10">
+<main class="h-screen flex items-center justify-center p-6 relative z-10 overflow-hidden">
+  <!-- Back to Home Link -->
+  <a href="index.html" class="fixed top-6 left-6 z-50 text-sm text-slate-400 hover:text-white transition flex items-center gap-2 group">
+    <i class="fas fa-arrow-left text-xs group-hover:-translate-x-1 transition-transform"></i>
+    <span>Back to Home</span>
+  </a>
+
+  <div class="glass-card w-full h-full p-8 rounded-3xl relative z-10 grid lg:grid-cols-2 gap-8 overflow-y-auto">
 
     <!-- Column 1: Payment Summary & Plan Selection -->
-    <div class="lg:col-span-1 border-b lg:border-r lg:border-b-0 border-white/10 pb-8 lg:pb-0 lg:pr-10">
-      <h2 class="text-3xl font-black text-white uppercase tracking-widest mb-6 border-b border-indigo-500/50 pb-3">SELECT PLAN</h2>
+    <div class="lg:col-span-1 lg:border-r border-white/10 lg:pr-8 flex flex-col justify-center">
+      <h2 class="text-2xl font-black text-white uppercase tracking-widest mb-4 border-b border-indigo-500/50 pb-2">SELECT PLAN</h2>
 
-      <div id="plan-selection-container" class="space-y-4 mb-8">
-        <!-- Radio Button for Elite Plan (Default Selected) -->
-        <label for="plan-elite" id="label-elite" class="flex items-center glass-card p-4 rounded-xl border-pink-500/80 cursor-pointer transition duration-300 hover:bg-black/80">
-          <input type="radio" id="plan-elite" name="plan" value="elite" checked class="h-5 w-5 text-pink-500 focus:ring-pink-500 border-gray-600 mr-4">
-          <div>
-            <p class="text-xl font-bold text-pink-400 uppercase tracking-wider">ELITE Plan</p>
-            <p class="text-slate-400 text-sm">Max flexibility gains & custom training plans. (20.00 €/mo)</p>
-          </div>
-        </label>
-
+      <div id="plan-selection-container" class="space-y-3 mb-6">
         <!-- Radio Button for Standard Plan -->
-        <label for="plan-standard" id="label-standard" class="flex items-center glass-card p-4 rounded-xl border-white/10 cursor-pointer transition duration-300 hover:bg-black/80">
+        <label for="plan-standard" id="label-standard" class="flex items-center glass-card p-3 rounded-xl border-white/10 cursor-pointer transition duration-300 hover:bg-black/80">
           <input type="radio" id="plan-standard" name="plan" value="standard" class="h-5 w-5 text-pink-500 focus:ring-pink-500 border-gray-600 mr-4">
           <div>
             <p class="text-xl font-bold text-slate-300 uppercase tracking-wider">STANDARD Plan</p>
             <p class="text-slate-400 text-sm">Access to core stretching routines & progress tracking. (10.00 €/mo)</p>
           </div>
         </label>
+
+        <!-- Radio Button for Elite Plan (Default Selected) -->
+        <label for="plan-elite" id="label-elite" class="flex items-center glass-card p-3 rounded-xl border-pink-500/80 cursor-pointer transition duration-300 hover:bg-black/80">
+          <input type="radio" id="plan-elite" name="plan" value="elite" checked class="h-5 w-5 text-pink-500 focus:ring-pink-500 border-gray-600 mr-4">
+          <div>
+            <p class="text-xl font-bold text-pink-400 uppercase tracking-wider">ELITE Plan</p>
+            <p class="text-slate-400 text-sm">Max flexibility gains & custom training plans. (20.00 €/mo)</p>
+          </div>
+        </label>
       </div>
 
-      <h2 class="text-2xl font-black text-white uppercase tracking-widest mb-6 border-b border-indigo-500/50 pb-3">ORDER SUMMARY</h2>
+      <h2 class="text-xl font-black text-white uppercase tracking-widest mb-4 border-b border-indigo-500/50 pb-2">ORDER SUMMARY</h2>
 
-      <div class="space-y-4 text-lg">
+      <div class="space-y-3 text-lg">
         <!-- Keeping only the total for a clean summary -->
-        <div class="flex justify-between items-center text-2xl font-black text-pink-400 pt-2">
+        <div class="flex justify-between items-center text-xl font-black text-pink-400 pt-2">
           <span>TOTAL DUE NOW</span>
           <span id="total-display">20.00 €</span>
         </div>
       </div>
 
-      <p class="text-sm text-slate-500 mt-6 text-center">
+      <p class="text-xs text-slate-500 mt-4 text-center">
         Your subscription will automatically renew monthly. Cancel anytime.
       </p>
     </div>
 
 
-    <!-- Column 2 & 3: Payment Form -->
-    <div class="lg:col-span-2">
+    <!-- Column 2: Payment Form -->
+    <div class="lg:col-span-1 flex flex-col justify-center">
       <!-- Logo Header -->
-      <a href="index.html" class="flex items-center space-x-3 group justify-start mb-8">
+      <a href="index.html" class="flex items-center space-x-3 group justify-center mb-4">
         <div class="relative">
           <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-30 group-hover:opacity-70 transition duration-500"></div>
-          <img alt="Stretchletics Logo" class="relative h-8 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
+          <img alt="Stretchletics Logo" class="relative h-7 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
                src="/media/Logo2-1.jpg">
         </div>
-        <p class="text-2xl font-black tracking-[0.2em] text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Stretchletics Checkout</p>
+        <p class="text-xl font-black tracking-[0.2em] text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Stretchletics Checkout</p>
       </a>
       <!-- End Logo Header -->
 
-      <form action="#" method="POST" class="space-y-6">
+      <form action="#" method="POST" class="space-y-4 flex-grow">
 
         <!-- Payment Method Toggle (Simple example) -->
         <div class="space-y-2">
-          <label class="block text-sm font-medium text-slate-300">PAYMENT METHOD</label>
+          <label class="block text-xs font-medium text-slate-300">PAYMENT METHOD</label>
           <div class="flex space-x-4">
-            <div class="flex items-center bg-black/50 p-3 rounded-lg border border-pink-500/30">
+            <div class="flex items-center bg-black/50 p-2 rounded-lg border border-pink-500/30">
               <input id="card" name="payment-method" type="radio" checked
                      class="h-4 w-4 text-pink-500 focus:ring-pink-500 border-gray-600" value="card">
-              <label for="card" class="ml-3 block text-base font-medium text-white">
+              <label for="card" class="ml-3 block text-sm font-medium text-white">
                 Credit Card
               </label>
             </div>
-            <div class="flex items-center bg-black/50 p-3 rounded-lg border border-white/10">
+            <div class="flex items-center bg-black/50 p-2 rounded-lg border border-white/10">
               <input id="paypal" name="payment-method" type="radio" disabled
                      class="h-4 w-4 text-pink-500 focus:ring-pink-500 border-gray-600" value="paypal">
-              <label for="paypal" class="ml-3 block text-base font-medium text-slate-500">
+              <label for="paypal" class="ml-3 block text-sm font-medium text-slate-500">
                 PayPal (Coming Soon)
               </label>
             </div>
@@ -240,13 +279,13 @@
 
         <!-- Card Number -->
         <div>
-          <label for="card-number" class="block text-sm font-medium text-slate-300 mb-2">CARD NUMBER</label>
+          <label for="card-number" class="block text-xs font-medium text-slate-300 mb-1">CARD NUMBER</label>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <i class="fas fa-credit-card text-slate-400"></i>
             </div>
             <input type="text" id="card-number" name="card-number" required
-                   class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500"
+                   class="w-full p-3 pl-10 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500 text-sm"
                    placeholder="•••• •••• •••• ••••" maxlength="19">
           </div>
         </div>
@@ -254,54 +293,54 @@
         <div class="grid grid-cols-3 gap-6">
           <!-- Expiration Date -->
           <div class="col-span-2">
-            <label for="expiry-date" class="block text-sm font-medium text-slate-300 mb-2">EXPIRY DATE (MM/YY)</label>
+            <label for="expiry-date" class="block text-xs font-medium text-slate-300 mb-1">EXPIRY DATE (MM/YY)</label>
             <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <i class="fas fa-calendar text-slate-400"></i>
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-calendar text-slate-400 text-sm"></i>
               </div>
               <input type="text" id="expiry-date" name="expiry-date" required
-                     class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500"
+                     class="w-full p-3 pl-10 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500 text-sm"
                      placeholder="MM / YY" maxlength="5">
             </div>
           </div>
           <!-- CVV -->
           <div class="col-span-1">
-            <label for="cvv" class="block text-sm font-medium text-slate-300 mb-2">CVV</label>
+            <label for="cvv" class="block text-xs font-medium text-slate-300 mb-1">CVV</label>
             <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <i class="fas fa-lock text-slate-400"></i>
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-slate-400 text-sm"></i>
               </div>
               <input type="text" id="cvv" name="cvv" required
-                     class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500"
+                     class="w-full p-3 pl-10 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500 text-sm"
                      placeholder="123" maxlength="4">
             </div>
           </div>
         </div>
 
-        <h3 class="text-xl font-black text-white uppercase tracking-wider pt-4 border-t border-white/10">BILLING ADDRESS</h3>
+        <h3 class="text-lg font-black text-white uppercase tracking-wider pt-3 border-t border-white/10">BILLING ADDRESS</h3>
 
         <!-- Name on Card -->
         <div>
-          <label for="card-name" class="block text-sm font-medium text-slate-300 mb-2">NAME ON CARD</label>
+          <label for="card-name" class="block text-xs font-medium text-slate-300 mb-1">NAME ON CARD</label>
           <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <i class="fas fa-user text-slate-400"></i>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-user text-slate-400 text-sm"></i>
             </div>
             <input type="text" id="card-name" name="card-name" required
-                   class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500"
+                   class="w-full p-3 pl-10 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500 text-sm"
                    placeholder="JANE DOE">
           </div>
         </div>
 
         <!-- Country/Region -->
         <div>
-          <label for="country" class="block text-sm font-medium text-slate-300 mb-2">COUNTRY / REGION</label>
+          <label for="country" class="block text-xs font-medium text-slate-300 mb-1">COUNTRY / REGION</label>
           <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <i class="fas fa-globe text-slate-400"></i>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-globe text-slate-400 text-sm"></i>
             </div>
             <select id="country" name="country" required
-                    class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none appearance-none cursor-pointer">
+                    class="w-full p-3 pl-10 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none appearance-none cursor-pointer text-sm">
               <option value="" disabled selected class="text-slate-500 bg-deep-black">Select Country...</option>
               <option value="us" class="bg-deep-black">United States</option>
               <option value="ca" class="bg-deep-black">Canada</option>
@@ -313,24 +352,20 @@
         </div>
 
         <!-- Terms Checkbox -->
-        <div class="pt-2">
+        <div class="pt-1">
           <div class="flex items-start">
             <input id="subscribe-elite" name="subscribe-elite" type="checkbox" checked
-                   class="mt-1 h-5 w-5 rounded border-gray-600 bg-black/50 text-pink-500 focus:ring-pink-500">
-            <label for="subscribe-elite" id="confirmation-label" class="ml-3 block text-sm text-slate-400">
+                   class="mt-1 h-4 w-4 rounded border-gray-600 bg-black/50 text-pink-500 focus:ring-pink-500">
+            <label for="subscribe-elite" id="confirmation-label" class="ml-2 block text-xs text-slate-400">
               I confirm the monthly subscription of 20.00 € for the Elite plan.
             </label>
           </div>
         </div>
 
-        <button type="submit" id="pay-button" class="gradient-button w-full px-5 py-4 text-xl font-black shadow-xl mt-8 rounded-xl">
+        <button type="submit" id="pay-button" class="gradient-button w-full px-5 py-3 text-lg font-black shadow-xl mt-4 rounded-xl">
           CONFIRM & PAY 20.00 €
         </button>
       </form>
-
-      <p class="mt-8 text-center text-sm">
-        <a href="index.html" class="text-slate-500 hover:text-white transition">← Back to Stretchletics Home</a>
-      </p>
     </div>
   </div>
 </main>
