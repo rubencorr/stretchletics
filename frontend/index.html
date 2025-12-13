@@ -1041,6 +1041,95 @@
         </div>
       </section>
 
+      <!-- FAQ Section -->
+      <section class="section-anchor py-32 px-4 sm:px-6 lg:px-8 relative z-20" id="faq">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-5xl font-extrabold text-center mb-16 text-white uppercase tracking-widest drop-shadow-lg">
+            FREQUENTLY ASKED QUESTIONS
+          </h2>
+          
+          <div class="space-y-4">
+            <!-- FAQ 1 -->
+            <div class="glass-card bg-black/40 rounded-xl overflow-hidden">
+              <button class="faq-question w-full text-left px-8 py-6 flex justify-between items-center hover:bg-white/5 transition duration-300" onclick="toggleFAQ(this)">
+                <span class="text-xl font-bold text-white">How does the AI create my stretching routine?</span>
+                <i class="fa-solid fa-chevron-down text-pink-500 transform transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer hidden px-8 pb-6">
+                <p class="text-slate-300 text-lg leading-relaxed">
+                  Our AI analyzes your workout data, fitness goals, and any physical restrictions you provide. It then generates a personalized routine based on biomechanics research and thousands of successful training programs.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="glass-card bg-black/40 rounded-xl overflow-hidden">
+              <button class="faq-question w-full text-left px-8 py-6 flex justify-between items-center hover:bg-white/5 transition duration-300" onclick="toggleFAQ(this)">
+                <span class="text-xl font-bold text-white">What devices and apps are supported?</span>
+                <i class="fa-solid fa-chevron-down text-pink-500 transform transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer hidden px-8 pb-6">
+                <p class="text-slate-300 text-lg leading-relaxed">
+                  We currently support manual input and have integrations with Garmin, Strava, and Apple Health coming soon. You can access Stretchletics on any device with a web browser.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="glass-card bg-black/40 rounded-xl overflow-hidden">
+              <button class="faq-question w-full text-left px-8 py-6 flex justify-between items-center hover:bg-white/5 transition duration-300" onclick="toggleFAQ(this)">
+                <span class="text-xl font-bold text-white">Can I cancel my subscription anytime?</span>
+                <i class="fa-solid fa-chevron-down text-pink-500 transform transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer hidden px-8 pb-6">
+                <p class="text-slate-300 text-lg leading-relaxed">
+                  Yes! You can cancel your subscription at any time with no penalties. Your access will continue until the end of your current billing period.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="glass-card bg-black/40 rounded-xl overflow-hidden">
+              <button class="faq-question w-full text-left px-8 py-6 flex justify-between items-center hover:bg-white/5 transition duration-300" onclick="toggleFAQ(this)">
+                <span class="text-xl font-bold text-white">Is my health data secure?</span>
+                <i class="fa-solid fa-chevron-down text-pink-500 transform transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer hidden px-8 pb-6">
+                <p class="text-slate-300 text-lg leading-relaxed">
+                  Absolutely. We're GDPR compliant and use enterprise-grade encryption. Your data is stored securely with IONOS hosting and is never shared with third parties.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 5 -->
+            <div class="glass-card bg-black/40 rounded-xl overflow-hidden">
+              <button class="faq-question w-full text-left px-8 py-6 flex justify-between items-center hover:bg-white/5 transition duration-300" onclick="toggleFAQ(this)">
+                <span class="text-xl font-bold text-white">Do I need special equipment?</span>
+                <i class="fa-solid fa-chevron-down text-pink-500 transform transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer hidden px-8 pb-6">
+                <p class="text-slate-300 text-lg leading-relaxed">
+                  No! Our routines can be customized for no equipment, or enhanced with common items like foam rollers, resistance bands, or yoga mats if you have them.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 6 -->
+            <div class="glass-card bg-black/40 rounded-xl overflow-hidden">
+              <button class="faq-question w-full text-left px-8 py-6 flex justify-between items-center hover:bg-white/5 transition duration-300" onclick="toggleFAQ(this)">
+                <span class="text-xl font-bold text-white">How long are the stretching routines?</span>
+                <i class="fa-solid fa-chevron-down text-pink-500 transform transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer hidden px-8 pb-6">
+                <p class="text-slate-300 text-lg leading-relaxed">
+                  You choose! Routines can be as short as 5 minutes or as long as 60 minutes. Most users prefer 10-15 minute sessions that fit easily into their schedule.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <script>
         // Reviews Continuous Scroll
         (function() {
@@ -1125,6 +1214,21 @@
             observer.observe(section);
           });
         })();
+
+        // FAQ Toggle Function
+        function toggleFAQ(button) {
+          const answer = button.nextElementSibling;
+          const icon = button.querySelector('i');
+          const isOpen = !answer.classList.contains('hidden');
+          
+          if (isOpen) {
+            answer.classList.add('hidden');
+            icon.style.transform = 'rotate(0deg)';
+          } else {
+            answer.classList.remove('hidden');
+            icon.style.transform = 'rotate(180deg)';
+          }
+        }
       </script>
     </main>
 
@@ -1166,8 +1270,26 @@
           </button>
         </form>
 
+        <!-- Social Media Links -->
+        <div class="mt-12 flex justify-center">
+          <a href="https://www.linkedin.com/company/stretchletics/" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600/20 hover:border-blue-600/50 transition duration-300 group">
+            <i class="fa-brands fa-linkedin text-slate-400 group-hover:text-blue-500 text-xl"></i>
+          </a>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="mt-8 flex justify-center gap-6 flex-wrap">
+          <a href="mailto:support@stretchletics.com" class="text-slate-400 hover:text-pink-400 transition duration-300 text-sm font-medium">
+            <i class="fa-solid fa-envelope mr-2"></i>Contact Support
+          </a>
+          <span class="text-slate-600">|</span>
+          <a href="#" class="text-slate-400 hover:text-pink-400 transition duration-300 text-sm font-medium">Privacy Policy</a>
+          <span class="text-slate-600">|</span>
+          <a href="#" class="text-slate-400 hover:text-pink-400 transition duration-300 text-sm font-medium">Terms of Service</a>
+        </div>
+
         <div
-          class="mt-20 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-slate-500 text-sm font-bold uppercase tracking-wider"
+          class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-slate-500 text-sm font-bold uppercase tracking-wider"
         >
           <p>© 2025 STRETCHLETICS.</p>
           <p class="mt-2 sm:mt-0">ALL RIGHTS RESERVED.</p>
