@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Secure Checkout - Stretchletics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -30,24 +31,61 @@
       font-family: 'Inter', sans-serif;
     }
 
-    /* --- BACKGROUND STYLING --- */
-    .bg-grid {
-      background-image: radial-gradient(#2E3A52 1px, transparent 1px),
-      radial-gradient(#2E3A52 1px, transparent 1px);
-      background-size: 30px 30px;
-      background-position: 0 0, 15px 15px;
-      animation: move-grid 45s linear infinite;
+    /* --- FLOATING ORB ANIMATIONS --- */
+    @keyframes float-orb {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(30px, -30px) scale(1.1);
+      }
+      66% {
+        transform: translate(-20px, 20px) scale(0.9);
+      }
     }
 
-    @keyframes move-grid {
-      from { background-position: 0% 0%; }
-      to { background-position: 30px 30px, 45px 45px; }
+    .bg-orb-1 {
+      position: fixed;
+      top: 10%;
+      left: 10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: float-orb 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .bg-vignette {
-      background: radial-gradient(circle at center, transparent 0%, rgba(5, 5, 5, 1) 100%);
+    .bg-orb-2 {
+      position: fixed;
+      top: 60%;
+      right: 15%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(79, 70, 229, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: float-orb 20s ease-in-out infinite 5s;
+      pointer-events: none;
+      z-index: 0;
     }
-    /* --- END BACKGROUND STYLING --- */
+
+    .bg-orb-3 {
+      position: fixed;
+      bottom: 10%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: float-orb 20s ease-in-out infinite 10s;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* --- END FLOATING ORB ANIMATIONS --- */
 
     /* Glassmorphism Card Base Utility */
     .glass-card {
@@ -78,7 +116,7 @@
       background-size: 200% auto;
       color: white;
       box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
-      border-radius: 4px;
+      border-radius: 12px;
       display: inline-block;
       position: relative;
       z-index: 1;
@@ -114,11 +152,14 @@
     }
   </style>
 </head>
-<body class="bg-deep-black bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white">
+<body class="bg-deep-black text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white overflow-x-hidden">
 
-<div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
+<!-- Floating background orbs -->
+<div class="bg-orb-1"></div>
+<div class="bg-orb-2"></div>
+<div class="bg-orb-3"></div>
 
-<main class="min-h-screen flex items-center justify-center p-4">
+<main class="min-h-screen flex items-center justify-center p-4 relative z-10">
   <div class="glass-card w-full max-w-4xl p-10 rounded-3xl relative z-10 grid lg:grid-cols-3 gap-10">
 
     <!-- Column 1: Payment Summary & Plan Selection -->
@@ -174,8 +215,6 @@
       </a>
       <!-- End Logo Header -->
 
-      <h2 class="text-3xl font-black text-white uppercase tracking-widest mb-8">PAYMENT DETAILS</h2>
-
       <form action="#" method="POST" class="space-y-6">
 
         <!-- Payment Method Toggle (Simple example) -->
@@ -202,25 +241,40 @@
         <!-- Card Number -->
         <div>
           <label for="card-number" class="block text-sm font-medium text-slate-300 mb-2">CARD NUMBER</label>
-          <input type="text" id="card-number" name="card-number" required
-                 class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
-                 placeholder="•••• •••• •••• ••••" maxlength="19">
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <i class="fas fa-credit-card text-slate-400"></i>
+            </div>
+            <input type="text" id="card-number" name="card-number" required
+                   class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500"
+                   placeholder="•••• •••• •••• ••••" maxlength="19">
+          </div>
         </div>
 
         <div class="grid grid-cols-3 gap-6">
           <!-- Expiration Date -->
           <div class="col-span-2">
             <label for="expiry-date" class="block text-sm font-medium text-slate-300 mb-2">EXPIRY DATE (MM/YY)</label>
-            <input type="text" id="expiry-date" name="expiry-date" required
-                   class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
-                   placeholder="MM / YY" maxlength="5">
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-calendar text-slate-400"></i>
+              </div>
+              <input type="text" id="expiry-date" name="expiry-date" required
+                     class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500"
+                     placeholder="MM / YY" maxlength="5">
+            </div>
           </div>
           <!-- CVV -->
           <div class="col-span-1">
             <label for="cvv" class="block text-sm font-medium text-slate-300 mb-2">CVV</label>
-            <input type="text" id="cvv" name="cvv" required
-                   class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
-                   placeholder="123" maxlength="4">
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-slate-400"></i>
+              </div>
+              <input type="text" id="cvv" name="cvv" required
+                     class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500"
+                     placeholder="123" maxlength="4">
+            </div>
           </div>
         </div>
 
@@ -229,23 +283,33 @@
         <!-- Name on Card -->
         <div>
           <label for="card-name" class="block text-sm font-medium text-slate-300 mb-2">NAME ON CARD</label>
-          <input type="text" id="card-name" name="card-name" required
-                 class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none placeholder-slate-500"
-                 placeholder="JANE DOE">
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <i class="fas fa-user text-slate-400"></i>
+            </div>
+            <input type="text" id="card-name" name="card-name" required
+                   class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none placeholder-slate-500"
+                   placeholder="JANE DOE">
+          </div>
         </div>
 
         <!-- Country/Region -->
         <div>
           <label for="country" class="block text-sm font-medium text-slate-300 mb-2">COUNTRY / REGION</label>
-          <select id="country" name="country" required
-                  class="w-full p-4 rounded-lg bg-black/50 border border-white/10 text-white focus:ring-pink-500 focus:border-pink-500 transition duration-300 outline-none appearance-none cursor-pointer">
-            <option value="" disabled selected class="text-slate-500 bg-deep-black">Select Country...</option>
-            <option value="us" class="bg-deep-black">United States</option>
-            <option value="ca" class="bg-deep-black">Canada</option>
-            <option value="de" class="bg-deep-black">Germany</option>
-            <option value="gb" class="bg-deep-black">United Kingdom</option>
-            <option value="other" class="bg-deep-black">Other</option>
-          </select>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <i class="fas fa-globe text-slate-400"></i>
+            </div>
+            <select id="country" name="country" required
+                    class="w-full p-4 pl-12 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none appearance-none cursor-pointer">
+              <option value="" disabled selected class="text-slate-500 bg-deep-black">Select Country...</option>
+              <option value="us" class="bg-deep-black">United States</option>
+              <option value="ca" class="bg-deep-black">Canada</option>
+              <option value="de" class="bg-deep-black">Germany</option>
+              <option value="gb" class="bg-deep-black">United Kingdom</option>
+              <option value="other" class="bg-deep-black">Other</option>
+            </select>
+          </div>
         </div>
 
         <!-- Terms Checkbox -->
@@ -259,7 +323,7 @@
           </div>
         </div>
 
-        <button type="submit" id="pay-button" class="gradient-button w-full px-5 py-4 text-xl font-black shadow-xl mt-8">
+        <button type="submit" id="pay-button" class="gradient-button w-full px-5 py-4 text-xl font-black shadow-xl mt-8 rounded-xl">
           CONFIRM & PAY 20.00 €
         </button>
       </form>
