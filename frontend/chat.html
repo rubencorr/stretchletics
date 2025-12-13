@@ -43,19 +43,30 @@
         position: relative;
         overflow-x: hidden;
       }
-      
+
       /* Animated Gradient Overlay */
       body::before {
-        content: '';
+        content: "";
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: 
-          radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(79, 70, 229, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(236, 72, 153, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 60%
+          );
         animation: gradient-shift 15s ease infinite;
         z-index: 0;
         pointer-events: none;
@@ -63,14 +74,17 @@
 
       /* Enhanced Moving Grid */
       body::after {
-        content: '';
+        content: "";
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: 
-          radial-gradient(circle, rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+        background-image: radial-gradient(
+            circle,
+            rgba(79, 70, 229, 0.03) 1px,
+            transparent 1px
+          ),
           radial-gradient(circle, rgba(236, 72, 153, 0.03) 1px, transparent 1px);
         background-size: 50px 50px;
         background-position: 0 0, 25px 25px;
@@ -80,7 +94,8 @@
       }
 
       @keyframes gradient-shift {
-        0%, 100% {
+        0%,
+        100% {
           transform: translate(0, 0) scale(1);
           opacity: 1;
         }
@@ -117,7 +132,11 @@
       .bg-orb-1 {
         width: 300px;
         height: 300px;
-        background: radial-gradient(circle, rgba(236, 72, 153, 0.4), transparent);
+        background: radial-gradient(
+          circle,
+          rgba(236, 72, 153, 0.4),
+          transparent
+        );
         top: -50px;
         left: -100px;
         animation-delay: 0s;
@@ -126,7 +145,11 @@
       .bg-orb-2 {
         width: 250px;
         height: 250px;
-        background: radial-gradient(circle, rgba(79, 70, 229, 0.4), transparent);
+        background: radial-gradient(
+          circle,
+          rgba(79, 70, 229, 0.4),
+          transparent
+        );
         bottom: -50px;
         right: -80px;
         animation-delay: 5s;
@@ -135,7 +158,11 @@
       .bg-orb-3 {
         width: 200px;
         height: 200px;
-        background: radial-gradient(circle, rgba(167, 139, 250, 0.3), transparent);
+        background: radial-gradient(
+          circle,
+          rgba(167, 139, 250, 0.3),
+          transparent
+        );
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -143,7 +170,8 @@
       }
 
       @keyframes float-orb {
-        0%, 100% {
+        0%,
+        100% {
           transform: translate(0, 0) scale(1);
         }
         25% {
@@ -178,7 +206,7 @@
         -webkit-backdrop-filter: blur(32px) saturate(200%);
         border: 1px solid rgba(255, 255, 255, 0.12);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
-                    0 0 80px rgba(79, 70, 229, 0.05);
+          0 0 80px rgba(79, 70, 229, 0.05);
         transition: all 0.5s ease-in-out;
       }
 
@@ -312,7 +340,7 @@
         box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
       }
       input[type="checkbox"]:checked::after {
-        content: '✓';
+        content: "✓";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -384,8 +412,16 @@
         animation-delay: 0.4s;
       }
       @keyframes typing-bounce {
-        0%, 60%, 100% { transform: translateY(0); opacity: 0.7; }
-        30% { transform: translateY(-10px); opacity: 1; }
+        0%,
+        60%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.7;
+        }
+        30% {
+          transform: translateY(-10px);
+          opacity: 1;
+        }
       }
 
       /* Action Buttons */
@@ -567,8 +603,13 @@
         animation: pulse 1.5s infinite;
       }
       @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.6; }
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.6;
+        }
       }
 
       /* Message animations */
@@ -599,7 +640,7 @@
         cursor: pointer;
       }
       .exercise-card::before {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         top: 0;
@@ -619,7 +660,8 @@
       .exercise-explanation {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+        transition: max-height 0.3s ease, opacity 0.3s ease,
+          margin-top 0.3s ease;
         opacity: 0;
       }
       .exercise-explanation.expanded {
@@ -635,6 +677,86 @@
       .exercise-chevron.rotated {
         transform: rotate(180deg);
       }
+
+      /* Timer styling */
+      .timer-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        border: 1px solid rgba(236, 72, 153, 0.2);
+      }
+      .timer-display {
+        font-size: 24px;
+        font-weight: 900;
+        font-family: 'Courier New', monospace;
+        color: #ec4899;
+        min-width: 80px;
+        text-align: center;
+      }
+      .timer-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px solid rgba(236, 72, 153, 0.5);
+        background: rgba(236, 72, 153, 0.2);
+        color: #f472b6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 14px;
+      }
+      .timer-btn:hover {
+        background: rgba(236, 72, 153, 0.4);
+        border-color: rgba(236, 72, 153, 0.8);
+        transform: scale(1.1);
+      }
+      .timer-btn.active {
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        border-color: #ec4899;
+        animation: pulse 1.5s infinite;
+      }
+      .timer-progress-bar {
+        flex-grow: 1;
+        height: 8px;
+        background: rgba(79, 70, 229, 0.2);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+      }
+      .timer-progress-fill {
+        height: 100%;
+        background: linear-gradient(to right, #ec4899, #4f46e5);
+        transition: width 0.3s linear;
+        border-radius: 4px;
+      }
+      .exercise-card.timer-active {
+        border-color: #ec4899;
+        box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        animation: timerPulse 2s infinite;
+      }
+      @keyframes timerPulse {
+        0%, 100% {
+          box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+        }
+      }
+      .timer-complete {
+        animation: timerComplete 0.5s ease;
+      }
+      @keyframes timerComplete {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+
       .exercise-number {
         display: inline-flex;
         align-items: center;
@@ -714,8 +836,13 @@
         }
       }
       @keyframes notificationFade {
-        0%, 85% { opacity: 1; }
-        100% { opacity: 0; }
+        0%,
+        85% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
       }
 
       /* Enhanced loading states */
@@ -732,7 +859,7 @@
         position: relative;
       }
       .loading-bar::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -742,8 +869,12 @@
         animation: loadingSlide 1.5s ease-in-out infinite;
       }
       @keyframes loadingSlide {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(350%); }
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(350%);
+        }
       }
       .loading-text {
         font-size: 12px;
@@ -815,7 +946,11 @@
 
       /* Routine summary card */
       .routine-summary {
-        background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(236, 72, 153, 0.15));
+        background: linear-gradient(
+          135deg,
+          rgba(79, 70, 229, 0.15),
+          rgba(236, 72, 153, 0.15)
+        );
         border: 1px solid rgba(236, 72, 153, 0.3);
         border-radius: 12px;
         padding: 16px;
@@ -845,12 +980,14 @@
     </style>
   </head>
 
-  <body class="bg-[#050505] text-slate-300 antialiased h-screen overflow-hidden p-4 pb-3">
+  <body
+    class="bg-[#050505] text-slate-300 antialiased h-screen overflow-hidden p-4 pb-3"
+  >
     <!-- Floating background orbs -->
     <div class="bg-orb bg-orb-1"></div>
     <div class="bg-orb bg-orb-2"></div>
     <div class="bg-orb bg-orb-3"></div>
-    
+
     <!-- Burger Menu -->
     <button id="burger-menu" class="burger-menu">
       <i class="fa-solid fa-bars text-white text-lg"></i>
@@ -860,20 +997,30 @@
     <div id="history-sidebar" class="history-sidebar">
       <div class="p-6 pl-16">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-xl font-black text-white uppercase tracking-wider">History</h2>
-          <button id="close-history" class="text-slate-400 hover:text-white transition">
+          <h2 class="text-xl font-black text-white uppercase tracking-wider">
+            History
+          </h2>
+          <button
+            id="close-history"
+            class="text-slate-400 hover:text-white transition"
+          >
             <i class="fa-solid fa-times text-xl"></i>
           </button>
         </div>
         <div id="history-list" class="space-y-3">
-          <p class="text-sm text-slate-500 italic text-center py-8">No chat history yet</p>
+          <p class="text-sm text-slate-500 italic text-center py-8">
+            No chat history yet
+          </p>
         </div>
-        <button id="clear-history" class="w-full mt-6 px-4 py-2 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm font-bold hover:bg-red-500/30 transition">
+        <button
+          id="clear-history"
+          class="w-full mt-6 px-4 py-2 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm font-bold hover:bg-red-500/30 transition"
+        >
           <i class="fa-solid fa-trash mr-2"></i>Clear All History
         </button>
       </div>
     </div>
-    
+
     <div class="w-full h-full flex flex-col">
       <!-- Header moved to top-left -->
       <div class="flex items-center justify-between mb-3 pl-16">
@@ -885,14 +1032,27 @@
       <!-- Unified Single Window -->
       <div class="rounded-xl overflow-hidden flex-grow flex h-full">
         <!-- LEFT SIDEBAR: PARAMETERS -->
-        <div class="params-sidebar w-64 overflow-y-auto p-5" style="background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(20px); border-right: 1px solid rgba(236, 72, 153, 0.15); box-shadow: inset -1px 0 20px rgba(236, 72, 153, 0.05);">
+        <div
+          class="params-sidebar w-64 overflow-y-auto p-5"
+          style="
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(236, 72, 153, 0.15);
+            box-shadow: inset -1px 0 20px rgba(236, 72, 153, 0.05);
+          "
+        >
           <!-- Sticky Header -->
           <div class="param-header-sticky">
-            <h2 class="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
+            <h2
+              class="text-base font-black text-white uppercase tracking-wider flex items-center gap-2"
+            >
               <i class="fa-solid fa-sliders text-neon-pink"></i>
               Parameters
             </h2>
-            <div id="active-filters" class="mt-3 flex flex-wrap gap-1 min-h-[20px]">
+            <div
+              id="active-filters"
+              class="mt-3 flex flex-wrap gap-1 min-h-[20px]"
+            >
               <!-- Active filter badges will appear here -->
             </div>
           </div>
@@ -900,8 +1060,13 @@
           <!-- Routine Type -->
           <div class="collapsible-section">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Routine Type</span>
-              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+              <span
+                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
+                >Routine Type</span
+              >
+              <i
+                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
+              ></i>
             </div>
             <div class="collapsible-content expanded">
               <select
@@ -918,10 +1083,19 @@
           <!-- Duration -->
           <div class="collapsible-section">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Duration</span>
+              <span
+                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
+                >Duration</span
+              >
               <div class="flex items-center gap-2">
-                <span id="duration-display" class="text-sm text-neon-pink font-bold">5 min</span>
-                <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+                <span
+                  id="duration-display"
+                  class="text-sm text-neon-pink font-bold"
+                  >5 min</span
+                >
+                <i
+                  class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
+                ></i>
               </div>
             </div>
             <div class="collapsible-content expanded">
@@ -941,8 +1115,13 @@
           <!-- Difficulty Level -->
           <div class="collapsible-section">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Difficulty</span>
-              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+              <span
+                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
+                >Difficulty</span
+              >
+              <i
+                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
+              ></i>
             </div>
             <div class="collapsible-content expanded">
               <select
@@ -960,8 +1139,13 @@
           <!-- Equipment Available -->
           <div class="collapsible-section">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Equipment</span>
-              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+              <span
+                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
+                >Equipment</span
+              >
+              <i
+                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
+              ></i>
             </div>
             <div class="collapsible-content expanded">
               <div class="space-y-2">
@@ -1017,8 +1201,13 @@
           <!-- Focus Areas -->
           <div class="collapsible-section">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Focus Areas</span>
-              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+              <span
+                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
+                >Focus Areas</span
+              >
+              <i
+                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
+              ></i>
             </div>
             <div class="collapsible-content expanded">
               <div class="space-y-2">
@@ -1065,8 +1254,13 @@
           <!-- Injuries/Restrictions -->
           <div class="collapsible-section">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
-              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Restrictions</span>
-              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+              <span
+                class="text-sm font-bold text-slate-300 uppercase tracking-wider"
+                >Restrictions</span
+              >
+              <i
+                class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"
+              ></i>
             </div>
             <div class="collapsible-content expanded">
               <textarea
@@ -1080,7 +1274,10 @@
         </div>
 
         <!-- RIGHT SIDE: CHAT -->
-        <div class="flex-grow flex flex-col overflow-hidden" style="background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px);">
+        <div
+          class="flex-grow flex flex-col overflow-hidden"
+          style="background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px)"
+        >
           <div
             id="chat-messages"
             class="chat-area p-6 space-y-6 overflow-y-auto flex-1"
@@ -1088,26 +1285,44 @@
             <!-- Welcome Message -->
             <div class="flex justify-start">
               <div class="bot-message-bubble p-4 max-w-2xl">
-                <p class="font-bold text-neon-indigo uppercase text-xs tracking-wider">
+                <p
+                  class="font-bold text-neon-indigo uppercase text-xs tracking-wider"
+                >
                   <i class="fa-solid fa-sparkles mr-1"></i> Stretchletics
                 </p>
                 <p class="mt-1.5 text-sm leading-snug">
-                  Welcome! I'll create personalized stretching routines based on your workouts and goals.
+                  Welcome! I'll create personalized stretching routines based on
+                  your workouts and goals.
                 </p>
                 <div class="mt-3 pt-3 border-t border-white/10">
-                  <p class="text-xs text-slate-400 mb-2 font-bold uppercase tracking-wider">Quick Examples:</p>
+                  <p
+                    class="text-xs text-slate-400 mb-2 font-bold uppercase tracking-wider"
+                  >
+                    Quick Examples:
+                  </p>
                   <div class="flex gap-2 overflow-x-auto scrollbar-hide">
-                    <button class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
-                      <i class="fa-solid fa-person-running mr-1"></i> Post-run cooldown
+                    <button
+                      class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0"
+                    >
+                      <i class="fa-solid fa-person-running mr-1"></i> Post-run
+                      cooldown
                     </button>
-                    <button class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
-                      <i class="fa-solid fa-dumbbell mr-1"></i> Upper body stretch
+                    <button
+                      class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0"
+                    >
+                      <i class="fa-solid fa-dumbbell mr-1"></i> Upper body
+                      stretch
                     </button>
-                    <button class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
+                    <button
+                      class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0"
+                    >
                       <i class="fa-solid fa-bed mr-1"></i> Morning mobility
                     </button>
-                    <button class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0">
-                      <i class="fa-solid fa-briefcase mr-1"></i> Desk worker relief
+                    <button
+                      class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0"
+                    >
+                      <i class="fa-solid fa-briefcase mr-1"></i> Desk worker
+                      relief
                     </button>
                   </div>
                 </div>
@@ -1197,24 +1412,27 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
       }
 
-      let lastUserPrompt = '';
+      let lastUserPrompt = "";
       let lastRoutineData = null;
 
       function addMessage(text, sender = "bot", isRoutine = false) {
         const messageWrapper = document.createElement("div");
         messageWrapper.className = "message-animate";
         const messageBox = document.createElement("div");
-        const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const timestamp = new Date().toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
 
         if (sender === "user") {
           lastUserPrompt = text;
           messageWrapper.className = "flex justify-end";
           messageBox.className = "p-3 max-w-xs sm:max-w-md user-message-bubble";
-          const textEl = document.createElement('p');
-          textEl.className = 'text-sm';
+          const textEl = document.createElement("p");
+          textEl.className = "text-sm";
           textEl.textContent = text;
-          const timeEl = document.createElement('div');
-          timeEl.className = 'message-timestamp text-right';
+          const timeEl = document.createElement("div");
+          timeEl.className = "message-timestamp text-right";
           timeEl.textContent = timestamp;
           messageBox.appendChild(textEl);
           messageBox.appendChild(timeEl);
@@ -1232,17 +1450,20 @@
 
           const messageContent = document.createElement("div");
           messageContent.className = "mt-2";
-          
+
           if (isRoutine) {
             // Parse and format routine
             const exercises = parseRoutine(text);
             lastRoutineData = { text, exercises };
-            
+
             // If parsing found exercises, show cards
-            if (exercises.length > 0 && exercises[0].name !== 'View Full Routine Below') {
+            if (
+              exercises.length > 0 &&
+              exercises[0].name !== "View Full Routine Below"
+            ) {
               // Create routine summary card
-              const summaryCard = document.createElement('div');
-              summaryCard.className = 'routine-summary';
+              const summaryCard = document.createElement("div");
+              summaryCard.className = "routine-summary";
               summaryCard.innerHTML = `
                 <div class="grid grid-cols-3 gap-4">
                   <div class="routine-summary-stat">
@@ -1250,29 +1471,37 @@
                     <div class="routine-summary-label">Exercises</div>
                   </div>
                   <div class="routine-summary-stat">
-                    <div class="routine-summary-value">${calculateTotalDuration(exercises)}</div>
+                    <div class="routine-summary-value">${calculateTotalDuration(
+                      exercises
+                    )}</div>
                     <div class="routine-summary-label">Minutes</div>
                   </div>
                   <div class="routine-summary-stat">
-                    <div class="routine-summary-value">${document.getElementById('difficulty-input').value}</div>
+                    <div class="routine-summary-value">${
+                      document.getElementById("difficulty-input").value
+                    }</div>
                     <div class="routine-summary-label">Level</div>
                   </div>
                 </div>
               `;
               messageContent.appendChild(summaryCard);
-              
+
               // Create exercise cards
-              const exercisesContainer = document.createElement('div');
-              exercisesContainer.className = 'space-y-2 mb-4';
+              const exercisesContainer = document.createElement("div");
+              exercisesContainer.className = "space-y-2 mb-4";
               exercises.forEach((exercise, index) => {
-                const card = document.createElement('div');
-                card.className = 'exercise-card';
+                const card = document.createElement("div");
+                card.className = "exercise-card";
                 const exerciseId = `exercise-${Date.now()}-${index}`;
+                const durationSeconds = parseDurationToSeconds(exercise.duration);
+                
                 card.innerHTML = `
                   <div class="flex items-center gap-3">
                     <span class="exercise-number">${index + 1}</span>
                     <div class="flex-grow">
-                      <h4 class="text-white font-bold text-sm">${exercise.name}</h4>
+                      <h4 class="text-white font-bold text-sm">${
+                        exercise.name
+                      }</h4>
                     </div>
                     <span class="exercise-duration mr-2">
                       ${exercise.duration}
@@ -1282,34 +1511,62 @@
                   <div class="exercise-explanation" data-explanation="${exerciseId}">
                     <div class="pl-11 pr-2 text-xs text-slate-300 leading-relaxed">
                       <p class="mb-2"><strong class="text-neon-pink">How to perform:</strong></p>
-                      <p>${exercise.explanation || 'Click the exercise name for detailed instructions on proper form and technique.'}</p>
+                      <p>${
+                        exercise.explanation ||
+                        "Click the exercise name for detailed instructions on proper form and technique."
+                      }</p>
+                    </div>
+                    <div class="timer-controls" onclick="event.stopPropagation()">
+                      <button class="timer-btn" onclick="startTimer('${exerciseId}', ${durationSeconds})" title="Start timer">
+                        <i class="fa-solid fa-play"></i>
+                      </button>
+                      <button class="timer-btn" onclick="pauseTimer('${exerciseId}')" title="Pause timer">
+                        <i class="fa-solid fa-pause"></i>
+                      </button>
+                      <button class="timer-btn" onclick="resetTimer('${exerciseId}', ${durationSeconds})" title="Reset timer">
+                        <i class="fa-solid fa-rotate-left"></i>
+                      </button>
+                      <div class="timer-display" id="timer-${exerciseId}">${formatTime(durationSeconds)}</div>
+                      <div class="timer-progress-bar">
+                        <div class="timer-progress-fill" id="progress-${exerciseId}" style="width: 0%"></div>
+                      </div>
                     </div>
                   </div>
                 `;
-                
+
                 // Add click handler
-                card.addEventListener('click', function() {
-                  this.classList.toggle('expanded');
-                  const explanation = this.querySelector('.exercise-explanation');
-                  const chevron = this.querySelector('.exercise-chevron');
-                  explanation.classList.toggle('expanded');
-                  chevron.classList.toggle('rotated');
+                card.addEventListener("click", function (e) {
+                  // Don't toggle if clicking on timer controls
+                  if (e.target.closest('.timer-controls')) return;
+                  
+                  this.classList.toggle("expanded");
+                  const explanation = this.querySelector(
+                    ".exercise-explanation"
+                  );
+                  const chevron = this.querySelector(".exercise-chevron");
+                  explanation.classList.toggle("expanded");
+                  chevron.classList.toggle("rotated");
                 });
-                
+
                 exercisesContainer.appendChild(card);
               });
               messageContent.appendChild(exercisesContainer);
             } else {
               // Fallback: show raw text
-              const routineText = document.createElement('div');
-              routineText.className = 'text-sm whitespace-pre-wrap text-slate-300 leading-relaxed';
-              routineText.innerHTML = text.replace(/\*\*(.*?)\*\*/g, "<strong class='text-white'>$1</strong>");
+              const routineText = document.createElement("div");
+              routineText.className =
+                "text-sm whitespace-pre-wrap text-slate-300 leading-relaxed";
+              routineText.innerHTML = text.replace(
+                /\*\*(.*?)\*\*/g,
+                "<strong class='text-white'>$1</strong>"
+              );
               messageContent.appendChild(routineText);
             }
-            
+
             // Add quick action buttons
-            const quickActions = document.createElement('div');
-            quickActions.className = 'flex flex-wrap gap-2 pt-3 border-t border-white/10 mt-4';
+            const quickActions = document.createElement("div");
+            quickActions.className =
+              "flex flex-wrap gap-2 pt-3 border-t border-white/10 mt-4";
             quickActions.innerHTML = `
               <button class="quick-action-btn" onclick="adjustRoutine('longer')">
                 <i class="fa-solid fa-plus"></i> 5 min
@@ -1329,24 +1586,26 @@
             `;
             messageContent.appendChild(quickActions);
           } else {
-            messageContent.className += ' text-sm whitespace-pre-wrap message-content';
+            messageContent.className +=
+              " text-sm whitespace-pre-wrap message-content";
             messageContent.innerHTML = text.replace(
               /\*\*(.*?)\*\*/g,
               "<strong class='text-white'>$1</strong>"
             );
           }
-          
-          const timeEl = document.createElement('div');
-          timeEl.className = 'message-timestamp';
+
+          const timeEl = document.createElement("div");
+          timeEl.className = "message-timestamp";
           timeEl.textContent = timestamp;
 
           messageBox.appendChild(senderTag);
           messageBox.appendChild(messageContent);
           messageBox.appendChild(timeEl);
-          
+
           // Add action buttons for bot messages
-          const actionsDiv = document.createElement('div');
-          actionsDiv.className = 'mt-4 pt-3 border-t border-white/10 flex gap-2 flex-wrap';
+          const actionsDiv = document.createElement("div");
+          actionsDiv.className =
+            "mt-4 pt-3 border-t border-white/10 flex gap-2 flex-wrap";
           actionsDiv.innerHTML = `
             <button class="action-btn" onclick="copyMessage(this)" title="Copy to clipboard">
               <i class="fa-solid fa-copy mr-1"></i> Copy
@@ -1359,7 +1618,7 @@
             </button>
           `;
           messageBox.appendChild(actionsDiv);
-          
+
           // Save to history if it's a routine
           if (isRoutine && lastUserPrompt) {
             saveToHistory(lastUserPrompt, text);
@@ -1371,58 +1630,66 @@
       }
 
       // Copy message to clipboard
-      window.copyMessage = function(btn) {
-        const messageText = btn.closest('.bot-message-bubble').querySelector('.message-content').innerText;
+      window.copyMessage = function (btn) {
+        const messageText = btn
+          .closest(".bot-message-bubble")
+          .querySelector(".message-content").innerText;
         navigator.clipboard.writeText(messageText).then(() => {
           const originalHTML = btn.innerHTML;
           btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied!';
-          btn.classList.add('success');
+          btn.classList.add("success");
           setTimeout(() => {
             btn.innerHTML = originalHTML;
-            btn.classList.remove('success');
+            btn.classList.remove("success");
           }, 2000);
         });
-      }
+      };
 
       // Download message as text file
-      window.downloadMessage = function(btn) {
-        const messageText = btn.closest('.bot-message-bubble').querySelector('.message-content').innerText;
-        const blob = new Blob([messageText], { type: 'text/plain' });
+      window.downloadMessage = function (btn) {
+        const messageText = btn
+          .closest(".bot-message-bubble")
+          .querySelector(".message-content").innerText;
+        const blob = new Blob([messageText], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
         a.download = `stretchletics-routine-${Date.now()}.txt`;
         a.click();
         URL.revokeObjectURL(url);
-        
+
         const originalHTML = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Downloaded!';
-        btn.classList.add('success');
+        btn.classList.add("success");
         setTimeout(() => {
           btn.innerHTML = originalHTML;
-          btn.classList.remove('success');
+          btn.classList.remove("success");
         }, 2000);
-      }
+      };
 
       // Share message
-      window.shareMessage = function(btn) {
-        const messageText = btn.closest('.bot-message-bubble').querySelector('.message-content').innerText;
+      window.shareMessage = function (btn) {
+        const messageText = btn
+          .closest(".bot-message-bubble")
+          .querySelector(".message-content").innerText;
         if (navigator.share) {
-          navigator.share({
-            title: 'My Stretchletics Routine',
-            text: messageText
-          }).catch(() => {});
+          navigator
+            .share({
+              title: "My Stretchletics Routine",
+              text: messageText,
+            })
+            .catch(() => {});
         } else {
           navigator.clipboard.writeText(messageText);
           const originalHTML = btn.innerHTML;
           btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied!';
-          btn.classList.add('success');
+          btn.classList.add("success");
           setTimeout(() => {
             btn.innerHTML = originalHTML;
-            btn.classList.remove('success');
+            btn.classList.remove("success");
           }, 2000);
         }
-      }
+      };
 
       function toggleForm(enabled) {
         chatInput.disabled = !enabled;
@@ -1433,15 +1700,15 @@
           : "Generating routine...";
 
         // Show/hide enhanced loading indicator
-        let typingIndicator = document.getElementById('typing-indicator');
+        let typingIndicator = document.getElementById("typing-indicator");
         if (!enabled) {
           // Remove old indicator if exists
           if (typingIndicator) typingIndicator.remove();
-          
+
           // Create and append enhanced loading indicator
-          typingIndicator = document.createElement('div');
-          typingIndicator.id = 'typing-indicator';
-          typingIndicator.className = 'flex justify-start message-animate';
+          typingIndicator = document.createElement("div");
+          typingIndicator.id = "typing-indicator";
+          typingIndicator.className = "flex justify-start message-animate";
           typingIndicator.innerHTML = `
             <div class="bot-message-bubble p-4 max-w-xs">
               <div class="loading-progress">
@@ -1459,18 +1726,18 @@
           `;
           chatMessages.appendChild(typingIndicator);
           scrollToBottom();
-          
+
           // Animate loading text
           let loadingStep = 0;
           const loadingTexts = [
-            'Analyzing parameters...',
-            'Generating exercises...',
-            'Optimizing routine...',
-            'Almost ready...'
+            "Analyzing parameters...",
+            "Generating exercises...",
+            "Optimizing routine...",
+            "Almost ready...",
           ];
           window.loadingInterval = setInterval(() => {
             loadingStep = (loadingStep + 1) % loadingTexts.length;
-            const loadingTextEl = document.getElementById('loading-text');
+            const loadingTextEl = document.getElementById("loading-text");
             if (loadingTextEl) {
               loadingTextEl.textContent = loadingTexts[loadingStep];
             }
@@ -1580,7 +1847,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
       lastWorkoutBtn.addEventListener("click", () => {
         const workout = mockLastWorkout;
         const routineType = routineTypeInput.value;
-        const routineLabel = routineType === "warm-up" ? "warm-up" : "cool-down";
+        const routineLabel =
+          routineType === "warm-up" ? "warm-up" : "cool-down";
         const userPrompt = `Generate a ${routineLabel} routine for my last workout: a ${workout.type} of ${workout.duration}.`;
 
         addMessage(userPrompt, "user");
@@ -1590,45 +1858,53 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
       });
 
       // Chat history storage
-      let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+      let chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "[]");
 
       // Save to history
       function saveToHistory(userPrompt, botResponse) {
         const historyItem = {
           id: Date.now(),
           userPrompt: userPrompt,
-          preview: userPrompt.substring(0, 50) + (userPrompt.length > 50 ? '...' : ''),
+          preview:
+            userPrompt.substring(0, 50) + (userPrompt.length > 50 ? "..." : ""),
           response: botResponse,
-          timestamp: new Date().toLocaleString()
+          timestamp: new Date().toLocaleString(),
         };
         chatHistory.unshift(historyItem);
         if (chatHistory.length > 20) chatHistory.pop();
-        localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+        localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
         renderHistory();
       }
 
       // Render history
       function renderHistory() {
-        const historyList = document.getElementById('history-list');
+        const historyList = document.getElementById("history-list");
         if (chatHistory.length === 0) {
-          historyList.innerHTML = '<p class="text-sm text-slate-500 italic text-center py-8">No chat history yet</p>';
+          historyList.innerHTML =
+            '<p class="text-sm text-slate-500 italic text-center py-8">No chat history yet</p>';
           return;
         }
-        historyList.innerHTML = chatHistory.map(item => `
+        historyList.innerHTML = chatHistory
+          .map(
+            (item) => `
           <div class="history-item p-4 rounded-lg" data-id="${item.id}">
             <p class="text-sm font-medium text-white truncate">${item.preview}</p>
             <p class="text-xs text-slate-500 mt-1">${item.timestamp}</p>
           </div>
-        `).join('');
-        
-        document.querySelectorAll('.history-item').forEach(item => {
-          item.addEventListener('click', () => {
+        `
+          )
+          .join("");
+
+        document.querySelectorAll(".history-item").forEach((item) => {
+          item.addEventListener("click", () => {
             const id = parseInt(item.dataset.id);
-            const histItem = chatHistory.find(h => h.id === id);
+            const histItem = chatHistory.find((h) => h.id === id);
             if (histItem) {
-              addMessage(histItem.userPrompt, 'user');
-              addMessage(histItem.response, 'bot', true);
-              document.getElementById('history-sidebar').classList.remove('open');
+              addMessage(histItem.userPrompt, "user");
+              addMessage(histItem.response, "bot", true);
+              document
+                .getElementById("history-sidebar")
+                .classList.remove("open");
             }
           });
         });
@@ -1638,64 +1914,83 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
       document.addEventListener("DOMContentLoaded", () => {
         // Update status with mock data
         lastWorkoutStatus.textContent = `(Last Synced Workout: ${mockLastWorkout.type} on ${mockLastWorkout.date} - ${mockLastWorkout.distance})`;
-        
+
         // Duration slider update
-        const durationInput = document.getElementById('duration-input');
-        const durationDisplay = document.getElementById('duration-display');
-        window.updateDurationDisplay = function() {
-          durationDisplay.textContent = durationInput.value + ' min';
+        const durationInput = document.getElementById("duration-input");
+        const durationDisplay = document.getElementById("duration-display");
+        window.updateDurationDisplay = function () {
+          durationDisplay.textContent = durationInput.value + " min";
         };
-        
+
         // Initialize active filters
-        window.updateActiveFilters = function() {
-          const container = document.getElementById('active-filters');
+        window.updateActiveFilters = function () {
+          const container = document.getElementById("active-filters");
           const badges = [];
-          
+
           // Duration
-          const duration = document.getElementById('duration-input').value;
-          badges.push(`<span class="filter-badge"><i class="fa-solid fa-clock"></i>${duration}min</span>`);
-          
+          const duration = document.getElementById("duration-input").value;
+          badges.push(
+            `<span class="filter-badge"><i class="fa-solid fa-clock"></i>${duration}min</span>`
+          );
+
           // Difficulty
-          const difficulty = document.getElementById('difficulty-input').value;
-          badges.push(`<span class="filter-badge"><i class="fa-solid fa-signal"></i>${difficulty}</span>`);
-          
+          const difficulty = document.getElementById("difficulty-input").value;
+          badges.push(
+            `<span class="filter-badge"><i class="fa-solid fa-signal"></i>${difficulty}</span>`
+          );
+
           // Equipment
           const equipment = [];
-          if (document.getElementById('equipment-roller').checked) equipment.push('Roller');
-          if (document.getElementById('equipment-bands').checked) equipment.push('Bands');
-          if (document.getElementById('equipment-mat').checked) equipment.push('Mat');
-          if (document.getElementById('equipment-ball').checked) equipment.push('Ball');
-          if (document.getElementById('equipment-massage').checked) equipment.push('Massage');
+          if (document.getElementById("equipment-roller").checked)
+            equipment.push("Roller");
+          if (document.getElementById("equipment-bands").checked)
+            equipment.push("Bands");
+          if (document.getElementById("equipment-mat").checked)
+            equipment.push("Mat");
+          if (document.getElementById("equipment-ball").checked)
+            equipment.push("Ball");
+          if (document.getElementById("equipment-massage").checked)
+            equipment.push("Massage");
           if (equipment.length > 0) {
-            badges.push(`<span class="filter-badge"><i class="fa-solid fa-dumbbell"></i>${equipment.join(', ')}</span>`);
+            badges.push(
+              `<span class="filter-badge"><i class="fa-solid fa-dumbbell"></i>${equipment.join(
+                ", "
+              )}</span>`
+            );
           }
-          
+
           // Focus areas
           const focus = [];
-          if (document.getElementById('focus-upper').checked) focus.push('Upper');
-          if (document.getElementById('focus-lower').checked) focus.push('Lower');
-          if (document.getElementById('focus-core').checked) focus.push('Core');
-          if (document.getElementById('focus-full').checked) focus.push('Full');
+          if (document.getElementById("focus-upper").checked)
+            focus.push("Upper");
+          if (document.getElementById("focus-lower").checked)
+            focus.push("Lower");
+          if (document.getElementById("focus-core").checked) focus.push("Core");
+          if (document.getElementById("focus-full").checked) focus.push("Full");
           if (focus.length > 0) {
-            badges.push(`<span class="filter-badge"><i class="fa-solid fa-crosshairs"></i>${focus.join(', ')}</span>`);
+            badges.push(
+              `<span class="filter-badge"><i class="fa-solid fa-crosshairs"></i>${focus.join(
+                ", "
+              )}</span>`
+            );
           }
-          
-          container.innerHTML = badges.join('');
-          showNotification('Parameters updated');
+
+          container.innerHTML = badges.join("");
+          showNotification("Parameters updated");
         };
-        
+
         // Notification system
-        window.showNotification = function(message) {
+        window.showNotification = function (message) {
           // Remove existing notification
-          const existing = document.querySelector('.param-notification');
+          const existing = document.querySelector(".param-notification");
           if (existing) existing.remove();
-          
+
           // Create new notification
-          const notification = document.createElement('div');
-          notification.className = 'param-notification';
+          const notification = document.createElement("div");
+          notification.className = "param-notification";
           notification.innerHTML = `<i class="fa-solid fa-check-circle"></i>${message}`;
           document.body.appendChild(notification);
-          
+
           // Auto remove after 3 seconds
           setTimeout(() => {
             if (notification.parentNode) {
@@ -1703,54 +1998,60 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             }
           }, 3000);
         };
-        
+
         // Collapsible toggle
-        window.toggleCollapsible = function(header) {
+        window.toggleCollapsible = function (header) {
           const section = header.parentElement;
-          const content = section.querySelector('.collapsible-content');
-          const icon = header.querySelector('.collapsible-icon');
-          
-          content.classList.toggle('expanded');
-          icon.classList.toggle('rotated');
+          const content = section.querySelector(".collapsible-content");
+          const icon = header.querySelector(".collapsible-icon");
+
+          content.classList.toggle("expanded");
+          icon.classList.toggle("rotated");
         };
-        
+
         // Parse routine into exercise objects
-        window.parseRoutine = function(text) {
-          console.log('Parsing routine text:', text); // Debug
-          const lines = text.split('\n');
+        window.parseRoutine = function (text) {
+          console.log("Parsing routine text:", text); // Debug
+          const lines = text.split("\n");
           const exercises = [];
           let i = 0;
-          
+
           while (i < lines.length) {
             let line = lines[i].trim();
-            
+
             // Skip empty lines and headers
-            if (!line || line.toLowerCase().includes('based on') || 
-                line.toLowerCase().includes('routine:') ||
-                line.toLowerCase().includes('here is')) {
+            if (
+              !line ||
+              line.toLowerCase().includes("based on") ||
+              line.toLowerCase().includes("routine:") ||
+              line.toLowerCase().includes("here is")
+            ) {
               i++;
               continue;
             }
-            
+
             // Remove markdown bold markers
-            line = line.replace(/\*\*/g, '');
-            
+            line = line.replace(/\*\*/g, "");
+
             // Remove "Hold Time:" or "Duration:" labels if present
-            line = line.replace(/Hold Time:\s*/gi, '');
-            line = line.replace(/Duration:\s*/gi, '');
-            
+            line = line.replace(/Hold Time:\s*/gi, "");
+            line = line.replace(/Duration:\s*/gi, "");
+
             let match = null;
-            
+
             // Pattern 1: "1. Exercise Name - 2 minutes"
             match = line.match(/^(\d+\.)\s*(.+?)\s*[-–—]\s*(.+)$/i);
             if (match) {
               const name = match[2].trim();
               const duration = match[3].trim();
-              
+
               // Make sure we didn't just capture the time as the name
-              if (name.length > 3 && !name.match(/^\d+\s*(sec|min|second|minute)/i)) {
+              if (
+                name.length > 3 &&
+                !name.match(/^\d+\s*(sec|min|second|minute)/i)
+              ) {
                 // Look ahead for instruction (next non-empty line that's not another exercise)
-                let explanation = '';
+                let explanation = "";
                 let j = i + 1;
                 while (j < lines.length) {
                   const nextLine = lines[j].trim();
@@ -1758,60 +2059,81 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
                   if (!nextLine || /^\d+\./.test(nextLine)) {
                     break;
                   }
-                  explanation += (explanation ? ' ' : '') + nextLine;
+                  explanation += (explanation ? " " : "") + nextLine;
                   j++;
                 }
-                
+
                 exercises.push({
                   name: name,
                   duration: duration,
-                  explanation: explanation || 'Perform this exercise with controlled movements and proper form.'
+                  explanation:
+                    explanation ||
+                    "Perform this exercise with controlled movements and proper form.",
                 });
-                console.log('Matched:', name, '-', duration, 'Explanation:', explanation);
+                console.log(
+                  "Matched:",
+                  name,
+                  "-",
+                  duration,
+                  "Explanation:",
+                  explanation
+                );
               }
             }
-            
+
             // Pattern 2: "- Exercise Name - 2 minutes" (bullet point)
             match = line.match(/^[\-\•\*]\s*(.+?)\s*[-–—]\s*(.+)$/i);
             if (match) {
               const name = match[1].trim();
               const duration = match[2].trim();
-              if (name.length > 3 && !name.match(/^\d+\s*(sec|min|second|minute)/i)) {
-                let explanation = '';
+              if (
+                name.length > 3 &&
+                !name.match(/^\d+\s*(sec|min|second|minute)/i)
+              ) {
+                let explanation = "";
                 let j = i + 1;
                 while (j < lines.length) {
                   const nextLine = lines[j].trim();
                   if (!nextLine || /^[\-\•\*]/.test(nextLine)) {
                     break;
                   }
-                  explanation += (explanation ? ' ' : '') + nextLine;
+                  explanation += (explanation ? " " : "") + nextLine;
                   j++;
                 }
-                
+
                 exercises.push({
                   name: name,
                   duration: duration,
-                  explanation: explanation || 'Perform this exercise with controlled movements and proper form.'
+                  explanation:
+                    explanation ||
+                    "Perform this exercise with controlled movements and proper form.",
                 });
-                console.log('Matched bullet:', name, '-', duration, 'Explanation:', explanation);
+                console.log(
+                  "Matched bullet:",
+                  name,
+                  "-",
+                  duration,
+                  "Explanation:",
+                  explanation
+                );
               }
             }
-            
+
             i++;
           }
-          
-          console.log('Total exercises parsed:', exercises.length);
+
+          console.log("Total exercises parsed:", exercises.length);
           return exercises;
         };
-        
+
         // Calculate total duration
-        window.calculateTotalDuration = function(exercises) {
+        window.calculateTotalDuration = function (exercises) {
           let total = 0;
-          exercises.forEach(ex => {
+          exercises.forEach((ex) => {
             const match = ex.duration.match(/\d+/);
             if (match) {
               const value = parseInt(match[0]);
-              if (ex.duration.includes('sec')) {
+              if (ex.duration.includes("sec")) {
                 total += value / 60;
               } else {
                 total += value;
@@ -1820,106 +2142,227 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           });
           return Math.round(total);
         };
-        
+
         // Quick action handlers
-        window.adjustRoutine = function(action) {
-          const durationInput = document.getElementById('duration-input');
-          const difficultyInput = document.getElementById('difficulty-input');
-          
-          switch(action) {
-            case 'longer':
-              durationInput.value = Math.min(60, parseInt(durationInput.value) + 5);
+        window.adjustRoutine = function (action) {
+          const durationInput = document.getElementById("duration-input");
+          const difficultyInput = document.getElementById("difficulty-input");
+
+          switch (action) {
+            case "longer":
+              durationInput.value = Math.min(
+                60,
+                parseInt(durationInput.value) + 5
+              );
               updateDurationDisplay();
               updateActiveFilters();
               regenerateRoutine();
               break;
-            case 'shorter':
-              durationInput.value = Math.max(5, parseInt(durationInput.value) - 5);
+            case "shorter":
+              durationInput.value = Math.max(
+                5,
+                parseInt(durationInput.value) - 5
+              );
               updateDurationDisplay();
               updateActiveFilters();
               regenerateRoutine();
               break;
-            case 'easier':
-              if (difficultyInput.value === 'advanced') difficultyInput.value = 'intermediate';
-              else if (difficultyInput.value === 'intermediate') difficultyInput.value = 'beginner';
+            case "easier":
+              if (difficultyInput.value === "advanced")
+                difficultyInput.value = "intermediate";
+              else if (difficultyInput.value === "intermediate")
+                difficultyInput.value = "beginner";
               updateActiveFilters();
               regenerateRoutine();
               break;
-            case 'harder':
-              if (difficultyInput.value === 'beginner') difficultyInput.value = 'intermediate';
-              else if (difficultyInput.value === 'intermediate') difficultyInput.value = 'advanced';
+            case "harder":
+              if (difficultyInput.value === "beginner")
+                difficultyInput.value = "intermediate";
+              else if (difficultyInput.value === "intermediate")
+                difficultyInput.value = "advanced";
               updateActiveFilters();
               regenerateRoutine();
               break;
           }
         };
-        
-        window.regenerateRoutine = function() {
+
+        window.regenerateRoutine = function () {
           if (lastUserPrompt) {
-            addMessage(lastUserPrompt, 'user');
+            addMessage(lastUserPrompt, "user");
             generateRoutine(lastUserPrompt);
           }
         };
+
+        // Timer functionality
+        const activeTimers = {};
         
+        window.parseDurationToSeconds = function(duration) {
+          const match = duration.match(/(\d+)\s*(min|minute|sec|second)s?/i);
+          if (!match) return 30; // default 30 seconds
+          
+          const value = parseInt(match[1]);
+          const unit = match[2].toLowerCase();
+          
+          if (unit.startsWith('min')) {
+            return value * 60;
+          }
+          return value;
+        };
+        
+        window.formatTime = function(seconds) {
+          const mins = Math.floor(seconds / 60);
+          const secs = seconds % 60;
+          return `${mins}:${secs.toString().padStart(2, '0')}`;
+        };
+        
+        window.startTimer = function(exerciseId, totalSeconds) {
+          // Stop any existing timer for this exercise
+          if (activeTimers[exerciseId]) {
+            clearInterval(activeTimers[exerciseId].interval);
+          }
+          
+          const timerDisplay = document.getElementById(`timer-${exerciseId}`);
+          const progressBar = document.getElementById(`progress-${exerciseId}`);
+          const card = timerDisplay.closest('.exercise-card');
+          
+          // Get current remaining time or start fresh
+          let remainingSeconds = activeTimers[exerciseId]?.remainingSeconds ?? totalSeconds;
+          
+          card.classList.add('timer-active');
+          
+          const interval = setInterval(() => {
+            remainingSeconds--;
+            
+            // Update display
+            timerDisplay.textContent = formatTime(remainingSeconds);
+            
+            // Update progress bar
+            const progress = ((totalSeconds - remainingSeconds) / totalSeconds) * 100;
+            progressBar.style.width = progress + '%';
+            
+            // Check if done
+            if (remainingSeconds <= 0) {
+              clearInterval(interval);
+              delete activeTimers[exerciseId];
+              card.classList.remove('timer-active');
+              card.classList.add('timer-complete');
+              
+              // Play sound (simple beep)
+              try {
+                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZUQ0PVa3n77BdGQxIouH1wHAjBSuBzvLZiTYHGV+37OihUBELTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwQDE6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO8tmJNgcZX7bs76JMEQ1Oo+L1v2siBSqCzvLZiTYHGV+27O+iTBENTqPi9b9rIgUqgs7y2Ik2BxlftuzvokwRDU6j4vW/ayIFKoLO');
+                audio.play().catch(() => {});
+              } catch (e) {}
+              
+              // Show notification
+              showNotification('Exercise complete! 🎉');
+              
+              setTimeout(() => {
+                card.classList.remove('timer-complete');
+                timerDisplay.textContent = formatTime(totalSeconds);
+                progressBar.style.width = '0%';
+              }, 2000);
+              
+              return;
+            }
+            
+            activeTimers[exerciseId] = { interval, remainingSeconds, totalSeconds };
+          }, 1000);
+          
+          activeTimers[exerciseId] = { interval, remainingSeconds, totalSeconds };
+        };
+        
+        window.pauseTimer = function(exerciseId) {
+          if (!activeTimers[exerciseId]) return;
+          
+          clearInterval(activeTimers[exerciseId].interval);
+          const card = document.getElementById(`timer-${exerciseId}`).closest('.exercise-card');
+          card.classList.remove('timer-active');
+          
+          // Keep the remaining seconds for resume
+          const remaining = activeTimers[exerciseId].remainingSeconds;
+          const total = activeTimers[exerciseId].totalSeconds;
+          activeTimers[exerciseId] = { remainingSeconds: remaining, totalSeconds: total };
+        };
+        
+        window.resetTimer = function(exerciseId, totalSeconds) {
+          if (activeTimers[exerciseId]) {
+            clearInterval(activeTimers[exerciseId].interval);
+            delete activeTimers[exerciseId];
+          }
+          
+          const timerDisplay = document.getElementById(`timer-${exerciseId}`);
+          const progressBar = document.getElementById(`progress-${exerciseId}`);
+          const card = timerDisplay.closest('.exercise-card');
+          
+          card.classList.remove('timer-active', 'timer-complete');
+          timerDisplay.textContent = formatTime(totalSeconds);
+          progressBar.style.width = '0%';
+        };
+
         // Initialize
         updateActiveFilters();
-        
+
         // Voice input functionality
-        const voiceButton = document.getElementById('voice-button');
+        const voiceButton = document.getElementById("voice-button");
         let recognition = null;
-        
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (
+          "webkitSpeechRecognition" in window ||
+          "SpeechRecognition" in window
+        ) {
+          const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
           recognition = new SpeechRecognition();
           recognition.continuous = false;
           recognition.interimResults = false;
-          recognition.lang = 'en-US';
-          
+          recognition.lang = "en-US";
+
           recognition.onstart = () => {
-            voiceButton.classList.add('listening');
-            voiceButton.innerHTML = '<i class="fa-solid fa-circle text-red-500"></i>';
+            voiceButton.classList.add("listening");
+            voiceButton.innerHTML =
+              '<i class="fa-solid fa-circle text-red-500"></i>';
           };
-          
+
           recognition.onend = () => {
-            voiceButton.classList.remove('listening');
+            voiceButton.classList.remove("listening");
             voiceButton.innerHTML = '<i class="fa-solid fa-microphone"></i>';
           };
-          
+
           recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             chatInput.value = transcript;
             chatInput.focus();
           };
-          
+
           recognition.onerror = (event) => {
-            console.error('Speech recognition error:', event.error);
-            voiceButton.classList.remove('listening');
+            console.error("Speech recognition error:", event.error);
+            voiceButton.classList.remove("listening");
             voiceButton.innerHTML = '<i class="fa-solid fa-microphone"></i>';
           };
-          
-          voiceButton.addEventListener('click', () => {
-            if (voiceButton.classList.contains('listening')) {
+
+          voiceButton.addEventListener("click", () => {
+            if (voiceButton.classList.contains("listening")) {
               recognition.stop();
             } else {
               recognition.start();
             }
           });
         } else {
-          voiceButton.style.display = 'none'; // Hide if not supported
+          voiceButton.style.display = "none"; // Hide if not supported
         }
 
         // Quick prompt function - auto send
-        window.useQuickPrompt = function(btn) {
+        window.useQuickPrompt = function (btn) {
           const text = btn.textContent.trim();
           chatInput.value = text;
           addMessage(text, "user");
           generateRoutine(text);
-          chatInput.value = '';
+          chatInput.value = "";
         };
-        
+
         // Example chips click handlers - auto send all chips
-        document.querySelectorAll('.example-chip').forEach(chip => {
-          chip.addEventListener('click', () => {
+        document.querySelectorAll(".example-chip").forEach((chip) => {
+          chip.addEventListener("click", () => {
             const text = chip.textContent.trim();
             addMessage(text, "user");
             generateRoutine(text);
@@ -1927,26 +2370,28 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
         });
 
         // Burger menu toggle
-        const burgerMenu = document.getElementById('burger-menu');
-        const historySidebar = document.getElementById('history-sidebar');
-        const closeHistory = document.getElementById('close-history');
-        
-        burgerMenu.addEventListener('click', () => {
-          historySidebar.classList.toggle('open');
+        const burgerMenu = document.getElementById("burger-menu");
+        const historySidebar = document.getElementById("history-sidebar");
+        const closeHistory = document.getElementById("close-history");
+
+        burgerMenu.addEventListener("click", () => {
+          historySidebar.classList.toggle("open");
         });
-        
-        closeHistory.addEventListener('click', () => {
-          historySidebar.classList.remove('open');
+
+        closeHistory.addEventListener("click", () => {
+          historySidebar.classList.remove("open");
         });
 
         // Clear history
-        document.getElementById('clear-history').addEventListener('click', () => {
-          if (confirm('Clear all chat history?')) {
-            chatHistory = [];
-            localStorage.removeItem('chatHistory');
-            renderHistory();
-          }
-        });
+        document
+          .getElementById("clear-history")
+          .addEventListener("click", () => {
+            if (confirm("Clear all chat history?")) {
+              chatHistory = [];
+              localStorage.removeItem("chatHistory");
+              renderHistory();
+            }
+          });
 
         // Initial history render
         renderHistory();
