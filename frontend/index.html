@@ -78,25 +78,7 @@
         background: linear-gradient(to left, #050505, transparent);
       }
 
-      /* --- BACKGROUND STYLING (Kept Prominent Version) --- */
-      .bg-grid {
-        /* Adjusted dot color to #2E3A52 (brighter dark tone) and smaller size (30px) */
-        background-image: radial-gradient(#2e3a52 1px, transparent 1px),
-          radial-gradient(#2e3a52 1px, transparent 1px);
-        background-size: 30px 30px; /* Reduced size for more density */
-        background-position: 0 0, 15px 15px; /* Adjusted position based on new size */
-        animation: move-grid 45s linear infinite;
-      }
-
-      @keyframes move-grid {
-        from {
-          background-position: 0 0, 15px 15px;
-        }
-        to {
-          background-position: 30px 30px, 45px 45px;
-        }
-      }
-      /* --- END BACKGROUND STYLING --- */
+      /* --- BACKGROUND STYLING REMOVED --- */
 
       /* Vignette to fade noise at edges (Original) */
       .bg-vignette {
@@ -216,7 +198,7 @@
   </head>
 
   <body
-    class="bg-[#050505] bg-grid text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white overflow-x-hidden"
+    class="bg-[#050505] text-slate-300 antialiased selection:bg-pink-500/30 selection:text-white overflow-x-hidden"
   >
     <div class="fixed inset-0 bg-vignette pointer-events-none z-0"></div>
 
@@ -376,17 +358,18 @@
             </div>
 
             <!-- Right: Phone Image -->
-            <div class="relative flex justify-center">
-              <div class="relative">
-                <!-- Glow effect behind phone -->
-                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-indigo-500/30 rounded-[3rem] blur-3xl"></div>
-                <!-- Phone Image -->
-                <img 
-                  src="../media/iphoneapp.png" 
-                  alt="Stretchletics App Interface" 
-                  class="relative z-10 max-w-full h-auto drop-shadow-2xl"
-                  style="max-height: 600px;"
-                />
+            <div class="relative flex justify-center overflow-hidden">
+              <!-- Phone container with crop effect -->
+              <div class="relative w-full max-w-md overflow-hidden">
+                <!-- Phone Image - zoomed and cropped -->
+                <div class="relative z-10 overflow-hidden rounded-2xl">
+                  <img 
+                    src="../media/iphoneapp.png" 
+                    alt="Stretchletics App Interface" 
+                    class="relative drop-shadow-2xl transform scale-90 hover:scale-95 transition-transform duration-700"
+                    style="transform-origin: center top; object-fit: cover; width: 100%; height: 700px; object-position: center 0%;"
+                  />
+                </div>
               </div>
             </div>
           </div>
