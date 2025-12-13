@@ -469,13 +469,27 @@
 
       /* Select dropdown styling */
       select {
-        background-color: #1a1a1a !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
         color: white !important;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ec4899' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 36px;
+      }
+
+      select:hover {
+        background-color: rgba(236, 72, 153, 0.1) !important;
+        border-color: rgba(236, 72, 153, 0.3) !important;
       }
 
       select option {
         background-color: #1a1a1a !important;
         color: white !important;
+        padding: 8px;
       }
 
       select option:checked {
@@ -556,6 +570,278 @@
         0%, 100% { opacity: 1; }
         50% { opacity: 0.6; }
       }
+
+      /* Message animations */
+      @keyframes messageSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .message-animate {
+        animation: messageSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      /* Exercise card styling */
+      .exercise-card {
+        background: rgba(79, 70, 229, 0.08);
+        border: 1px solid rgba(79, 70, 229, 0.2);
+        border-radius: 10px;
+        padding: 14px;
+        margin: 10px 0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .exercise-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: linear-gradient(to bottom, #ec4899, #4f46e5);
+      }
+      .exercise-card:hover {
+        background: rgba(79, 70, 229, 0.15);
+        border-color: rgba(236, 72, 153, 0.4);
+        transform: translateX(4px);
+      }
+      .exercise-card.expanded {
+        background: rgba(79, 70, 229, 0.18);
+        border-color: rgba(236, 72, 153, 0.5);
+      }
+      .exercise-explanation {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+        opacity: 0;
+      }
+      .exercise-explanation.expanded {
+        max-height: 300px;
+        opacity: 1;
+        margin-top: 12px;
+      }
+      .exercise-chevron {
+        transition: transform 0.3s ease;
+        color: #ec4899;
+        font-size: 14px;
+      }
+      .exercise-chevron.rotated {
+        transform: rotate(180deg);
+      }
+      .exercise-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        color: white;
+        font-weight: 900;
+        font-size: 13px;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+      .exercise-duration {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 12px;
+        background: rgba(236, 72, 153, 0.2);
+        border: 1px solid rgba(236, 72, 153, 0.3);
+        font-size: 11px;
+        font-weight: 700;
+        color: #f472b6;
+      }
+
+      /* Quick action buttons */
+      .quick-action-btn {
+        background: rgba(236, 72, 153, 0.1);
+        border: 1px solid rgba(236, 72, 153, 0.25);
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        color: #f472b6;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .quick-action-btn:hover {
+        background: rgba(236, 72, 153, 0.25);
+        border-color: rgba(236, 72, 153, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+      }
+
+      /* Parameter notification */
+      .param-notification {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: rgba(34, 197, 94, 0.95);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(34, 197, 94, 0.5);
+        padding: 12px 18px;
+        border-radius: 10px;
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 1002;
+        box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+        animation: notificationSlide 0.4s ease, notificationFade 3s ease;
+      }
+      @keyframes notificationSlide {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes notificationFade {
+        0%, 85% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+
+      /* Enhanced loading states */
+      .loading-progress {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .loading-bar {
+        height: 3px;
+        background: rgba(79, 70, 229, 0.2);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+      .loading-bar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 40%;
+        background: linear-gradient(to right, #ec4899, #4f46e5);
+        animation: loadingSlide 1.5s ease-in-out infinite;
+      }
+      @keyframes loadingSlide {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(350%); }
+      }
+      .loading-text {
+        font-size: 12px;
+        color: #a78bfa;
+        font-weight: 600;
+      }
+
+      /* Sticky parameter header */
+      .param-header-sticky {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 16px;
+        margin: -20px -20px 20px -20px;
+        border-bottom: 1px solid rgba(236, 72, 153, 0.2);
+      }
+
+      /* Collapsible section */
+      .collapsible-section {
+        margin-bottom: 16px;
+      }
+      .collapsible-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        padding: 10px 12px;
+        background: rgba(236, 72, 153, 0.08);
+        border: 1px solid rgba(236, 72, 153, 0.2);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+      }
+      .collapsible-header:hover {
+        background: rgba(236, 72, 153, 0.15);
+        border-color: rgba(236, 72, 153, 0.35);
+      }
+      .collapsible-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      .collapsible-content.expanded {
+        max-height: 500px;
+        padding-top: 12px;
+      }
+      .collapsible-icon {
+        transition: transform 0.3s ease;
+      }
+      .collapsible-icon.rotated {
+        transform: rotate(180deg);
+      }
+
+      /* Active filter badges */
+      .filter-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 10px;
+        background: rgba(236, 72, 153, 0.25);
+        border: 1px solid rgba(236, 72, 153, 0.4);
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #f9a8d4;
+        margin: 2px;
+      }
+
+      /* Routine summary card */
+      .routine-summary {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(236, 72, 153, 0.15));
+        border: 1px solid rgba(236, 72, 153, 0.3);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .routine-summary-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .routine-summary-value {
+        font-size: 24px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .routine-summary-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #94a3b8;
+        letter-spacing: 0.5px;
+      }
     </style>
   </head>
 
@@ -600,163 +886,196 @@
       <div class="rounded-xl overflow-hidden flex-grow flex h-full">
         <!-- LEFT SIDEBAR: PARAMETERS -->
         <div class="params-sidebar w-64 overflow-y-auto p-5" style="background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(20px); border-right: 1px solid rgba(236, 72, 153, 0.15); box-shadow: inset -1px 0 20px rgba(236, 72, 153, 0.05);">
-          <h2
-            class="text-base font-black text-white uppercase mb-5 tracking-wider"
-          >
-          </h2>
+          <!-- Sticky Header -->
+          <div class="param-header-sticky">
+            <h2 class="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
+              <i class="fa-solid fa-sliders text-neon-pink"></i>
+              Parameters
+            </h2>
+            <div id="active-filters" class="mt-3 flex flex-wrap gap-1 min-h-[20px]">
+              <!-- Active filter badges will appear here -->
+            </div>
+          </div>
 
           <!-- Routine Type -->
-          <div class="mb-6">
-            <label
-              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
-              >Routine Type</label
-            >
-            <select
-              id="routine-type-input"
-              class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
-            >
-              <option value="warm-up">Warm-Up</option>
-              <option value="cool-down" selected>Stretching</option>
-            </select>
+          <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
+              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Routine Type</span>
+              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+            </div>
+            <div class="collapsible-content expanded">
+              <select
+                id="routine-type-input"
+                onchange="updateActiveFilters()"
+                class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+              >
+                <option value="warm-up">Warm-Up</option>
+                <option value="cool-down" selected>Stretching</option>
+              </select>
+            </div>
           </div>
 
           <!-- Duration -->
-          <div class="mb-6">
-            <div class="flex justify-between items-center mb-2">
-              <label class="text-sm font-bold text-slate-300 uppercase tracking-wider">Duration</label>
-              <span id="duration-display" class="text-sm text-neon-pink font-bold">5 min</span>
+          <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
+              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Duration</span>
+              <div class="flex items-center gap-2">
+                <span id="duration-display" class="text-sm text-neon-pink font-bold">5 min</span>
+                <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+              </div>
             </div>
-            <input
-              type="range"
-              id="duration-input"
-              min="5"
-              max="60"
-              value="5"
-              step="5"
-              class="w-full"
-            />
+            <div class="collapsible-content expanded">
+              <input
+                type="range"
+                id="duration-input"
+                min="5"
+                max="60"
+                value="5"
+                step="5"
+                oninput="updateDurationDisplay(); updateActiveFilters();"
+                class="w-full"
+              />
+            </div>
           </div>
 
           <!-- Difficulty Level -->
-          <div class="mb-6">
-            <label
-              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
-              >Difficulty</label
-            >
-            <select
-              id="difficulty-input"
-              class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
-            >
-              <option value="beginner" selected>Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-            </select>
+          <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
+              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Difficulty</span>
+              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+            </div>
+            <div class="collapsible-content expanded">
+              <select
+                id="difficulty-input"
+                onchange="updateActiveFilters()"
+                class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
+              >
+                <option value="beginner" selected>Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
           </div>
 
           <!-- Equipment Available -->
-          <div class="mb-6">
-            <label
-              class="block text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider"
-              >Equipment</label
-            >
-            <div class="space-y-2">
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="equipment-roller"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Foam Roller</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="equipment-bands"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Resistance Bands</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="equipment-mat"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Yoga Mat</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="equipment-ball"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Stability Ball</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="equipment-massage"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Massage Ball</span>
-              </label>
+          <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
+              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Equipment</span>
+              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+            </div>
+            <div class="collapsible-content expanded">
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="equipment-roller"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Foam Roller</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="equipment-bands"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Resistance Bands</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="equipment-mat"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Yoga Mat</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="equipment-ball"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Stability Ball</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="equipment-massage"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Massage Ball</span>
+                </label>
+              </div>
             </div>
           </div>
 
           <!-- Focus Areas -->
-          <div class="mb-6">
-            <label
-              class="block text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider"
-              >Focus Areas</label
-            >
-            <div class="space-y-2">
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="focus-upper"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Upper Body</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="focus-lower"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Lower Body</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="focus-core"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Core</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="focus-full"
-                  class="w-4 h-4 rounded"
-                />
-                <span class="ml-2 text-sm">Full Body</span>
-              </label>
+          <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
+              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Focus Areas</span>
+              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+            </div>
+            <div class="collapsible-content expanded">
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="focus-upper"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Upper Body</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="focus-lower"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Lower Body</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="focus-core"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Core</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="focus-full"
+                    onchange="updateActiveFilters()"
+                    class="w-4 h-4 rounded"
+                  />
+                  <span class="ml-2 text-sm">Full Body</span>
+                </label>
+              </div>
             </div>
           </div>
 
           <!-- Injuries/Restrictions -->
-          <div class="mb-6">
-            <label
-              class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
-              >Restrictions</label
-            >
-            <textarea
-              id="restrictions-input"
-              placeholder="Any injuries or restrictions..."
-              class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none text-sm"
-              rows="3"
-            ></textarea>
+          <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
+              <span class="text-sm font-bold text-slate-300 uppercase tracking-wider">Restrictions</span>
+              <i class="fa-solid fa-chevron-down collapsible-icon text-neon-pink text-xs"></i>
+            </div>
+            <div class="collapsible-content expanded">
+              <textarea
+                id="restrictions-input"
+                placeholder="Any injuries or restrictions..."
+                class="w-full p-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none text-sm"
+                rows="3"
+              ></textarea>
+            </div>
           </div>
         </div>
 
@@ -879,9 +1198,11 @@
       }
 
       let lastUserPrompt = '';
+      let lastRoutineData = null;
 
       function addMessage(text, sender = "bot", isRoutine = false) {
         const messageWrapper = document.createElement("div");
+        messageWrapper.className = "message-animate";
         const messageBox = document.createElement("div");
         const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
@@ -913,42 +1234,100 @@
           messageContent.className = "mt-2";
           
           if (isRoutine) {
-            // Create expandable routine card
-            const routineCard = document.createElement('div');
-            routineCard.className = 'routine-card';
+            // Parse and format routine
+            const exercises = parseRoutine(text);
+            lastRoutineData = { text, exercises };
             
-            const routineHeader = document.createElement('div');
-            routineHeader.className = 'routine-header';
-            routineHeader.innerHTML = `
-              <div>
-                <p class="text-white font-bold text-sm"><i class="fa-solid fa-list-check mr-2"></i>Your Personalized Routine</p>
-                <p class="text-xs text-slate-400 mt-1">Click to expand/collapse</p>
-              </div>
-              <i class="fa-solid fa-chevron-down text-neon-pink transition-transform duration-300"></i>
+            // If parsing found exercises, show cards
+            if (exercises.length > 0 && exercises[0].name !== 'View Full Routine Below') {
+              // Create routine summary card
+              const summaryCard = document.createElement('div');
+              summaryCard.className = 'routine-summary';
+              summaryCard.innerHTML = `
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="routine-summary-stat">
+                    <div class="routine-summary-value">${exercises.length}</div>
+                    <div class="routine-summary-label">Exercises</div>
+                  </div>
+                  <div class="routine-summary-stat">
+                    <div class="routine-summary-value">${calculateTotalDuration(exercises)}</div>
+                    <div class="routine-summary-label">Minutes</div>
+                  </div>
+                  <div class="routine-summary-stat">
+                    <div class="routine-summary-value">${document.getElementById('difficulty-input').value}</div>
+                    <div class="routine-summary-label">Level</div>
+                  </div>
+                </div>
+              `;
+              messageContent.appendChild(summaryCard);
+              
+              // Create exercise cards
+              const exercisesContainer = document.createElement('div');
+              exercisesContainer.className = 'space-y-2 mb-4';
+              exercises.forEach((exercise, index) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card';
+                const exerciseId = `exercise-${Date.now()}-${index}`;
+                card.innerHTML = `
+                  <div class="flex items-center gap-3">
+                    <span class="exercise-number">${index + 1}</span>
+                    <div class="flex-grow">
+                      <h4 class="text-white font-bold text-sm">${exercise.name}</h4>
+                    </div>
+                    <span class="exercise-duration mr-2">
+                      ${exercise.duration}
+                    </span>
+                    <i class="fa-solid fa-chevron-down exercise-chevron"></i>
+                  </div>
+                  <div class="exercise-explanation" data-explanation="${exerciseId}">
+                    <div class="pl-11 pr-2 text-xs text-slate-300 leading-relaxed">
+                      <p class="mb-2"><strong class="text-neon-pink">How to perform:</strong></p>
+                      <p>${exercise.explanation || 'Click the exercise name for detailed instructions on proper form and technique.'}</p>
+                    </div>
+                  </div>
+                `;
+                
+                // Add click handler
+                card.addEventListener('click', function() {
+                  this.classList.toggle('expanded');
+                  const explanation = this.querySelector('.exercise-explanation');
+                  const chevron = this.querySelector('.exercise-chevron');
+                  explanation.classList.toggle('expanded');
+                  chevron.classList.toggle('rotated');
+                });
+                
+                exercisesContainer.appendChild(card);
+              });
+              messageContent.appendChild(exercisesContainer);
+            } else {
+              // Fallback: show raw text
+              const routineText = document.createElement('div');
+              routineText.className = 'text-sm whitespace-pre-wrap text-slate-300 leading-relaxed';
+              routineText.innerHTML = text.replace(/\*\*(.*?)\*\*/g, "<strong class='text-white'>$1</strong>");
+              messageContent.appendChild(routineText);
+            }
+            
+            // Add quick action buttons
+            const quickActions = document.createElement('div');
+            quickActions.className = 'flex flex-wrap gap-2 pt-3 border-t border-white/10 mt-4';
+            quickActions.innerHTML = `
+              <button class="quick-action-btn" onclick="adjustRoutine('longer')">
+                <i class="fa-solid fa-plus"></i> 5 min
+              </button>
+              <button class="quick-action-btn" onclick="adjustRoutine('shorter')">
+                <i class="fa-solid fa-minus"></i> 5 min
+              </button>
+              <button class="quick-action-btn" onclick="adjustRoutine('easier')">
+                <i class="fa-solid fa-arrow-down"></i> Easier
+              </button>
+              <button class="quick-action-btn" onclick="adjustRoutine('harder')">
+                <i class="fa-solid fa-arrow-up"></i> Harder
+              </button>
+              <button class="quick-action-btn" onclick="regenerateRoutine()">
+                <i class="fa-solid fa-rotate"></i> Regenerate
+              </button>
             `;
-            
-            const routineContent = document.createElement('div');
-            routineContent.className = 'routine-content expanded text-sm';
-            routineContent.innerHTML = text.replace(
-              /\*\*(.*?)\*\*/g,
-              "<strong class='text-white'>$1</strong>"
-            ).replace(/\n/g, '<br>');
-            
-            routineHeader.onclick = function() {
-              routineContent.classList.toggle('expanded');
-              const icon = routineHeader.querySelector('i.fa-chevron-down');
-              icon.style.transform = routineContent.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
-            };
-            
-            // Set initial icon rotation to expanded state
-            setTimeout(() => {
-              const icon = routineHeader.querySelector('i.fa-chevron-down');
-              icon.style.transform = 'rotate(180deg)';
-            }, 0);
-            
-            routineCard.appendChild(routineHeader);
-            routineCard.appendChild(routineContent);
-            messageContent.appendChild(routineCard);
+            messageContent.appendChild(quickActions);
           } else {
             messageContent.className += ' text-sm whitespace-pre-wrap message-content';
             messageContent.innerHTML = text.replace(
@@ -1053,30 +1432,56 @@
           ? "Ask me for a routine..."
           : "Generating routine...";
 
-        // Show/hide typing indicator dynamically
+        // Show/hide enhanced loading indicator
         let typingIndicator = document.getElementById('typing-indicator');
         if (!enabled) {
           // Remove old indicator if exists
           if (typingIndicator) typingIndicator.remove();
           
-          // Create and append new typing indicator at the end
+          // Create and append enhanced loading indicator
           typingIndicator = document.createElement('div');
           typingIndicator.id = 'typing-indicator';
-          typingIndicator.className = 'flex justify-start';
+          typingIndicator.className = 'flex justify-start message-animate';
           typingIndicator.innerHTML = `
-            <div class="bot-message-bubble p-4">
-              <div class="typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="bot-message-bubble p-4 max-w-xs">
+              <div class="loading-progress">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <span class="loading-text" id="loading-text">Analyzing parameters...</span>
+                </div>
+                <div class="loading-bar"></div>
               </div>
             </div>
           `;
           chatMessages.appendChild(typingIndicator);
           scrollToBottom();
+          
+          // Animate loading text
+          let loadingStep = 0;
+          const loadingTexts = [
+            'Analyzing parameters...',
+            'Generating exercises...',
+            'Optimizing routine...',
+            'Almost ready...'
+          ];
+          window.loadingInterval = setInterval(() => {
+            loadingStep = (loadingStep + 1) % loadingTexts.length;
+            const loadingTextEl = document.getElementById('loading-text');
+            if (loadingTextEl) {
+              loadingTextEl.textContent = loadingTexts[loadingStep];
+            }
+          }, 1500);
         } else {
-          // Remove typing indicator
+          // Remove typing indicator and clear interval
           if (typingIndicator) typingIndicator.remove();
+          if (window.loadingInterval) {
+            clearInterval(window.loadingInterval);
+            window.loadingInterval = null;
+          }
         }
 
         // Change button icon/state when disabled (loading)
@@ -1237,9 +1642,227 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
         // Duration slider update
         const durationInput = document.getElementById('duration-input');
         const durationDisplay = document.getElementById('duration-display');
-        durationInput.addEventListener('input', (e) => {
-          durationDisplay.textContent = e.target.value + ' min';
-        });
+        window.updateDurationDisplay = function() {
+          durationDisplay.textContent = durationInput.value + ' min';
+        };
+        
+        // Initialize active filters
+        window.updateActiveFilters = function() {
+          const container = document.getElementById('active-filters');
+          const badges = [];
+          
+          // Duration
+          const duration = document.getElementById('duration-input').value;
+          badges.push(`<span class="filter-badge"><i class="fa-solid fa-clock"></i>${duration}min</span>`);
+          
+          // Difficulty
+          const difficulty = document.getElementById('difficulty-input').value;
+          badges.push(`<span class="filter-badge"><i class="fa-solid fa-signal"></i>${difficulty}</span>`);
+          
+          // Equipment
+          const equipment = [];
+          if (document.getElementById('equipment-roller').checked) equipment.push('Roller');
+          if (document.getElementById('equipment-bands').checked) equipment.push('Bands');
+          if (document.getElementById('equipment-mat').checked) equipment.push('Mat');
+          if (document.getElementById('equipment-ball').checked) equipment.push('Ball');
+          if (document.getElementById('equipment-massage').checked) equipment.push('Massage');
+          if (equipment.length > 0) {
+            badges.push(`<span class="filter-badge"><i class="fa-solid fa-dumbbell"></i>${equipment.join(', ')}</span>`);
+          }
+          
+          // Focus areas
+          const focus = [];
+          if (document.getElementById('focus-upper').checked) focus.push('Upper');
+          if (document.getElementById('focus-lower').checked) focus.push('Lower');
+          if (document.getElementById('focus-core').checked) focus.push('Core');
+          if (document.getElementById('focus-full').checked) focus.push('Full');
+          if (focus.length > 0) {
+            badges.push(`<span class="filter-badge"><i class="fa-solid fa-crosshairs"></i>${focus.join(', ')}</span>`);
+          }
+          
+          container.innerHTML = badges.join('');
+          showNotification('Parameters updated');
+        };
+        
+        // Notification system
+        window.showNotification = function(message) {
+          // Remove existing notification
+          const existing = document.querySelector('.param-notification');
+          if (existing) existing.remove();
+          
+          // Create new notification
+          const notification = document.createElement('div');
+          notification.className = 'param-notification';
+          notification.innerHTML = `<i class="fa-solid fa-check-circle"></i>${message}`;
+          document.body.appendChild(notification);
+          
+          // Auto remove after 3 seconds
+          setTimeout(() => {
+            if (notification.parentNode) {
+              notification.remove();
+            }
+          }, 3000);
+        };
+        
+        // Collapsible toggle
+        window.toggleCollapsible = function(header) {
+          const section = header.parentElement;
+          const content = section.querySelector('.collapsible-content');
+          const icon = header.querySelector('.collapsible-icon');
+          
+          content.classList.toggle('expanded');
+          icon.classList.toggle('rotated');
+        };
+        
+        // Parse routine into exercise objects
+        window.parseRoutine = function(text) {
+          console.log('Parsing routine text:', text); // Debug
+          const lines = text.split('\n');
+          const exercises = [];
+          let i = 0;
+          
+          while (i < lines.length) {
+            let line = lines[i].trim();
+            
+            // Skip empty lines and headers
+            if (!line || line.toLowerCase().includes('based on') || 
+                line.toLowerCase().includes('routine:') ||
+                line.toLowerCase().includes('here is')) {
+              i++;
+              continue;
+            }
+            
+            // Remove markdown bold markers
+            line = line.replace(/\*\*/g, '');
+            
+            // Remove "Hold Time:" or "Duration:" labels if present
+            line = line.replace(/Hold Time:\s*/gi, '');
+            line = line.replace(/Duration:\s*/gi, '');
+            
+            let match = null;
+            
+            // Pattern 1: "1. Exercise Name - 2 minutes"
+            match = line.match(/^(\d+\.)\s*(.+?)\s*[-–—]\s*(.+)$/i);
+            if (match) {
+              const name = match[2].trim();
+              const duration = match[3].trim();
+              
+              // Make sure we didn't just capture the time as the name
+              if (name.length > 3 && !name.match(/^\d+\s*(sec|min|second|minute)/i)) {
+                // Look ahead for instruction (next non-empty line that's not another exercise)
+                let explanation = '';
+                let j = i + 1;
+                while (j < lines.length) {
+                  const nextLine = lines[j].trim();
+                  // Stop if we hit another numbered exercise or empty line
+                  if (!nextLine || /^\d+\./.test(nextLine)) {
+                    break;
+                  }
+                  explanation += (explanation ? ' ' : '') + nextLine;
+                  j++;
+                }
+                
+                exercises.push({
+                  name: name,
+                  duration: duration,
+                  explanation: explanation || 'Perform this exercise with controlled movements and proper form.'
+                });
+                console.log('Matched:', name, '-', duration, 'Explanation:', explanation);
+              }
+            }
+            
+            // Pattern 2: "- Exercise Name - 2 minutes" (bullet point)
+            match = line.match(/^[\-\•\*]\s*(.+?)\s*[-–—]\s*(.+)$/i);
+            if (match) {
+              const name = match[1].trim();
+              const duration = match[2].trim();
+              if (name.length > 3 && !name.match(/^\d+\s*(sec|min|second|minute)/i)) {
+                let explanation = '';
+                let j = i + 1;
+                while (j < lines.length) {
+                  const nextLine = lines[j].trim();
+                  if (!nextLine || /^[\-\•\*]/.test(nextLine)) {
+                    break;
+                  }
+                  explanation += (explanation ? ' ' : '') + nextLine;
+                  j++;
+                }
+                
+                exercises.push({
+                  name: name,
+                  duration: duration,
+                  explanation: explanation || 'Perform this exercise with controlled movements and proper form.'
+                });
+                console.log('Matched bullet:', name, '-', duration, 'Explanation:', explanation);
+              }
+            }
+            
+            i++;
+          }
+          
+          console.log('Total exercises parsed:', exercises.length);
+          return exercises;
+        };
+        
+        // Calculate total duration
+        window.calculateTotalDuration = function(exercises) {
+          let total = 0;
+          exercises.forEach(ex => {
+            const match = ex.duration.match(/\d+/);
+            if (match) {
+              const value = parseInt(match[0]);
+              if (ex.duration.includes('sec')) {
+                total += value / 60;
+              } else {
+                total += value;
+              }
+            }
+          });
+          return Math.round(total);
+        };
+        
+        // Quick action handlers
+        window.adjustRoutine = function(action) {
+          const durationInput = document.getElementById('duration-input');
+          const difficultyInput = document.getElementById('difficulty-input');
+          
+          switch(action) {
+            case 'longer':
+              durationInput.value = Math.min(60, parseInt(durationInput.value) + 5);
+              updateDurationDisplay();
+              updateActiveFilters();
+              regenerateRoutine();
+              break;
+            case 'shorter':
+              durationInput.value = Math.max(5, parseInt(durationInput.value) - 5);
+              updateDurationDisplay();
+              updateActiveFilters();
+              regenerateRoutine();
+              break;
+            case 'easier':
+              if (difficultyInput.value === 'advanced') difficultyInput.value = 'intermediate';
+              else if (difficultyInput.value === 'intermediate') difficultyInput.value = 'beginner';
+              updateActiveFilters();
+              regenerateRoutine();
+              break;
+            case 'harder':
+              if (difficultyInput.value === 'beginner') difficultyInput.value = 'intermediate';
+              else if (difficultyInput.value === 'intermediate') difficultyInput.value = 'advanced';
+              updateActiveFilters();
+              regenerateRoutine();
+              break;
+          }
+        };
+        
+        window.regenerateRoutine = function() {
+          if (lastUserPrompt) {
+            addMessage(lastUserPrompt, 'user');
+            generateRoutine(lastUserPrompt);
+          }
+        };
+        
+        // Initialize
+        updateActiveFilters();
         
         // Voice input functionality
         const voiceButton = document.getElementById('voice-button');
