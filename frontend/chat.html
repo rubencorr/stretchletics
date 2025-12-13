@@ -1051,6 +1051,28 @@
         color: #94a3b8;
         letter-spacing: 0.5px;
       }
+
+      /* Toggle button controls */
+      .routine-type-btn, .difficulty-btn {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .routine-type-btn:hover, .difficulty-btn:hover {
+        background: rgba(236, 72, 153, 0.1);
+        border-color: rgba(236, 72, 153, 0.3);
+        color: white;
+      }
+
+      .routine-type-btn.active, .difficulty-btn.active {
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(79, 70, 229, 0.25));
+        border-color: #ec4899;
+        color: white;
+        box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+      }
     </style>
   </head>
 
@@ -1131,17 +1153,71 @@
           <!-- Routine Type -->
           <div class="mb-5 mt-10">
             <label
-              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"
+              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3"
             >
               Routine Type
             </label>
-            <select
-              id="routine-type-input"
-              onchange="updateActiveFilters()"
-              class="w-full p-2.5 rounded-lg border border-white/10 bg-white/5 text-white text-sm focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
-            >
-              <option value="warm-up">Warm-Up</option>
+            <div class="flex gap-2">
+              <button
+                class="routine-type-btn flex-1 px-3 py-2.5 rounded-lg border-2 transition-all duration-300 active text-sm font-semibold"
+                data-value="cool-down"
+                onclick="selectRoutineType(this)"
+              >
+                Stretching
+              </button>
+              <button
+                class="routine-type-btn flex-1 px-3 py-2.5 rounded-lg border-2 transition-all duration-300 text-sm font-semibold"
+                data-value="warm-up"
+                onclick="selectRoutineType(this)"
+              >
+                Warm-Up
+              </button>
+            </div>
+            <select id="routine-type-input" style="display: none;">
               <option value="cool-down" selected>Stretching</option>
+              <option value="warm-up">Warm-Up</option>
+            </select>
+          </div>
+
+          <!-- Difficulty Level -->
+          <div class="mb-5">
+            <label
+              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3"
+            >
+              Difficulty
+            </label>
+            <div class="space-y-2">
+              <div class="flex gap-2">
+                <button
+                  class="difficulty-btn flex-1 px-3 py-2.5 rounded-lg border-2 text-sm font-semibold transition-all duration-300 active"
+                  data-value="beginner"
+                  onclick="selectDifficulty(this)"
+                >
+                  Beginner
+                </button>
+                <button
+                  class="difficulty-btn flex-1 px-3 py-2.5 rounded-lg border-2 text-sm font-semibold transition-all duration-300"
+                  data-value="intermediate"
+                  onclick="selectDifficulty(this)"
+                >
+                  Intermediate
+                </button>
+              </div>
+              <div class="flex gap-2 justify-center">
+                <button
+                  class="difficulty-btn px-3 py-2.5 rounded-lg border-2 text-sm font-semibold transition-all duration-300"
+                  data-value="advanced"
+                  onclick="selectDifficulty(this)"
+                  style="width: calc(50% - 4px);"
+                >
+                  Advanced
+                </button>
+              </div>
+            </div>
+            <select id="difficulty-input" style="display: none;">
+              <option value="beginner" selected>Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
             </select>
           </div>
 
@@ -1169,24 +1245,6 @@
               oninput="updateDurationDisplay(); updateActiveFilters();"
               class="w-full"
             />
-          </div>
-
-          <!-- Difficulty Level -->
-          <div class="mb-5">
-            <label
-              class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"
-            >
-              Difficulty
-            </label>
-            <select
-              id="difficulty-input"
-              onchange="updateActiveFilters()"
-              class="w-full p-2.5 rounded-lg border border-white/10 bg-white/5 text-white text-sm focus:ring-2 focus:ring-neon-pink focus:border-transparent transition duration-300 outline-none"
-            >
-              <option value="beginner" selected>Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-            </select>
           </div>
 
           <!-- Equipment Available -->
@@ -1468,8 +1526,10 @@
       // Clear chat function
       function clearChat() {
         // Clear all messages except the welcome message
-        const welcomeMessage = chatMessages.querySelector('.flex.justify-start');
-        chatMessages.innerHTML = '';
+        const welcomeMessage = chatMessages.querySelector(
+          ".flex.justify-start"
+        );
+        chatMessages.innerHTML = "";
         if (welcomeMessage) {
           chatMessages.appendChild(welcomeMessage.cloneNode(true));
         }
@@ -1477,7 +1537,7 @@
         lastUserPrompt = "";
         lastRoutineData = null;
         // Clear any active timers
-        Object.keys(activeRoutineTimers).forEach(routineId => {
+        Object.keys(activeRoutineTimers).forEach((routineId) => {
           const state = activeRoutineTimers[routineId];
           if (state.interval) {
             clearInterval(state.interval);
@@ -1485,6 +1545,21 @@
         });
         activeRoutineTimers = {};
       }
+
+      // Toggle button handlers
+      window.selectRoutineType = function(btn) {
+        document.querySelectorAll('.routine-type-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('routine-type-input').value = btn.dataset.value;
+        updateActiveFilters();
+      };
+
+      window.selectDifficulty = function(btn) {
+        document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('difficulty-input').value = btn.dataset.value;
+        updateActiveFilters();
+      };
 
       let lastUserPrompt = "";
       let lastRoutineData = null;
