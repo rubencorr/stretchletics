@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Stretchletics | Register</title>
+    <title>Register - Stretchletics</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -32,12 +36,124 @@
       :root {
         font-family: "Inter", sans-serif;
       }
-      /* Background Grid */
-      .bg-grid {
-        background-image: radial-gradient(#2e3a52 1px, transparent 1px),
-          radial-gradient(#2e3a52 1px, transparent 1px);
-        background-size: 30px 30px;
-        background-position: 0 0, 15px 15px;
+
+      /* Enhanced Animated Background */
+      body {
+        position: relative;
+        overflow-x: hidden;
+      }
+      
+      /* Animated Gradient Overlay */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+        animation: gradient-shift 15s ease infinite;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* Enhanced Moving Grid */
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          radial-gradient(circle, rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+          radial-gradient(circle, rgba(236, 72, 153, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        background-position: 0 0, 25px 25px;
+        z-index: 0;
+        pointer-events: none;
+        animation: grid-float 20s linear infinite;
+      }
+
+      @keyframes gradient-shift {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        33% {
+          transform: translate(10%, -10%) scale(1.1);
+          opacity: 0.8;
+        }
+        66% {
+          transform: translate(-10%, 10%) scale(0.9);
+          opacity: 0.9;
+        }
+      }
+
+      @keyframes grid-float {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(50px, 50px);
+        }
+      }
+
+      /* Floating Orbs */
+      .bg-orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.5;
+        animation: float-orb 20s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .bg-orb-1 {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(236, 72, 153, 0.4), transparent);
+        top: -50px;
+        left: -100px;
+        animation-delay: 0s;
+      }
+
+      .bg-orb-2 {
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(79, 70, 229, 0.4), transparent);
+        bottom: -50px;
+        right: -80px;
+        animation-delay: 5s;
+      }
+
+      .bg-orb-3 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(167, 139, 250, 0.3), transparent);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: 10s;
+      }
+
+      @keyframes float-orb {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(20px, -30px) scale(1.1);
+        }
+        50% {
+          transform: translate(-15px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(15px, -10px) scale(1.05);
+        }
       }
 
       /* Glassmorphism Card Base Utility */
@@ -64,50 +180,115 @@
         background-size: 200% auto;
         color: white;
         box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
-        border-radius: 8px;
+        border-radius: 12px;
         display: inline-block;
         position: relative;
         z-index: 1;
       }
+
+      .gradient-button::before {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        background: linear-gradient(to right, #4f46e5, #ec4899, #4f46e5);
+        background-size: 200% auto;
+        filter: blur(10px);
+        opacity: 0.4;
+        z-index: -1;
+        transition: opacity 0.3s ease-out;
+        border-radius: inherit;
+      }
+
+      .gradient-button:hover::before {
+        opacity: 0.8;
+        animation: gradient-shift-btn 3s linear infinite;
+      }
+
       .gradient-button:hover {
         background-position: right center;
-        transform: translateY(-2px);
+        transform: translateY(-3px) scale(1.02);
         box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.7);
+      }
+
+      @keyframes gradient-shift-btn {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      /* Logo Spin Styling */
+      .header-logo-img {
+        transition: transform 0.8s ease-in-out;
+      }
+
+      .header-logo-img:hover {
+        transform: rotate(360deg);
       }
     </style>
   </head>
 
   <body
-    class="bg-[#050505] bg-grid text-slate-300 antialiased min-h-screen flex items-center justify-center p-4"
+    class="bg-[#050505] text-slate-300 antialiased min-h-screen flex items-center justify-center p-4"
   >
-    <div class="w-full max-w-md">
-      <div class="text-center mb-12">
-        <h1
-          class="text-4xl font-black tracking-wider text-white uppercase drop-shadow-lg"
-        >
-          Create Account
-        </h1>
-        <p class="text-slate-400 mt-2">
-          Start your journey to better flexibility today.
-        </p>
-      </div>
+    <!-- Floating Orbs -->
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
 
-      <div class="glass-card p-8 sm:p-10 rounded-xl bg-black/40">
+    <div class="w-full max-w-md relative z-10">
+      <div class="glass-card p-8 sm:p-10 rounded-3xl bg-black/40">
+        <!-- Logo and Title -->
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 group justify-center mb-8"
+        >
+          <div class="relative">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-30 group-hover:opacity-70 transition duration-500"
+            ></div>
+            <img
+              alt="Stretchletics Logo"
+              class="relative h-10 w-auto rounded-full ring-2 ring-white/10 group-hover:ring-transparent transition duration-300 header-logo-img"
+              src="/media/Logo2-1.jpg"
+            />
+          </div>
+          <p
+            class="text-2xl sm:text-3xl font-black tracking-wider text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400"
+          >
+            Create Account
+          </p>
+        </a>
+
+        <div class="text-center mb-8">
+          <p class="text-lg text-slate-400">
+            Start your journey to better flexibility today.
+          </p>
+        </div>
+
+        <!-- Registration Form -->
         <form id="registration-form" class="space-y-6">
-          <!-- NEW: Full Name Field -->
+          <!-- Full Name Field -->
           <div>
             <label
               for="full-name"
               class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
               >Full Name</label
             >
-            <input
-              type="text"
-              id="full-name"
-              required
-              class="w-full p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none"
-              placeholder="John Doe"
-            />
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-user text-slate-500"></i>
+              </div>
+              <input
+                type="text"
+                id="full-name"
+                required
+                class="w-full p-4 pl-12 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 hover:border-white/20 transition duration-300 outline-none"
+                placeholder="John Doe"
+              />
+            </div>
           </div>
 
           <div>
@@ -116,13 +297,18 @@
               class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
               >Email Address</label
             >
-            <input
-              type="email"
-              id="email"
-              required
-              class="w-full p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none"
-              placeholder="you@example.com"
-            />
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-envelope text-slate-500"></i>
+              </div>
+              <input
+                type="email"
+                id="email"
+                required
+                class="w-full p-4 pl-12 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 hover:border-white/20 transition duration-300 outline-none"
+                placeholder="you@example.com"
+              />
+            </div>
           </div>
 
           <div>
@@ -131,14 +317,19 @@
               class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
               >Password</label
             >
-            <input
-              type="password"
-              id="password"
-              required
-              minlength="6"
-              class="w-full p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none"
-              placeholder="6+ characters"
-            />
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-slate-500"></i>
+              </div>
+              <input
+                type="password"
+                id="password"
+                required
+                minlength="6"
+                class="w-full p-4 pl-12 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 hover:border-white/20 transition duration-300 outline-none"
+                placeholder="6+ characters"
+              />
+            </div>
           </div>
 
           <div>
@@ -147,14 +338,19 @@
               class="block text-sm font-bold text-slate-300 mb-2 uppercase tracking-wider"
               >Confirm Password</label
             >
-            <input
-              type="password"
-              id="confirm-password"
-              required
-              minlength="6"
-              class="w-full p-4 rounded-lg border border-white/10 bg-white/5 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300 outline-none"
-              placeholder="Re-enter password"
-            />
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-slate-500"></i>
+              </div>
+              <input
+                type="password"
+                id="confirm-password"
+                required
+                minlength="6"
+                class="w-full p-4 pl-12 rounded-xl border border-white/10 bg-black/50 text-white placeholder-slate-500 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 hover:border-white/20 transition duration-300 outline-none"
+                placeholder="Re-enter password"
+              />
+            </div>
           </div>
 
           <a
@@ -172,17 +368,89 @@
           role="alert"
         ></div>
 
-        <div class="mt-8 text-center border-t border-white/10 pt-6">
-          <p class="text-slate-400">
-            Already have an account?
-            <a
-              href="login.html"
-              class="font-bold text-pink-400 hover:text-pink-300 transition duration-300"
+        <!-- SSO Options -->
+        <div class="mt-8 space-y-3">
+          <!-- Separator -->
+          <div class="relative flex items-center justify-center mb-6">
+            <div class="absolute w-full border-t border-white/10"></div>
+            <span
+              class="bg-deep-black px-3 text-sm font-medium text-slate-500 rounded-full relative z-10"
             >
-              Sign In here
-            </a>
-          </p>
+              OR CONTINUE WITH
+            </span>
+          </div>
+
+          <!-- Google Button -->
+          <button
+            class="sso-button bg-black/50 hover:bg-black/80 transition duration-300 w-full p-3.5 rounded-xl flex items-center justify-center space-x-3 border border-white/10 backdrop-blur-sm hover:border-pink-500/50 hover:shadow-[0_0_15px_rgba(236,72,153,0.2)] hover:-translate-y-0.5"
+          >
+            <!-- Google SVG Icon -->
+            <svg viewBox="0 0 48 48" width="24" height="24" class="h-6 w-6">
+              <path
+                fill="#FFC107"
+                d="M43.6 20.4H24v-6h11.9c.7-4-2.2-8.5-7-8.5-4 0-7.2 3.1-7.2 7s3.2 7 7.2 7c2.1 0 3.8-.8 5.2-1.9l3.5 3.5c-2.3 2.1-5.6 3.4-9.7 3.4-6.8 0-12.4-5.6-12.4-12.4S17.2 8 24 8s10.3 4.2 12.2 11.2h7.4z"
+              />
+              <path
+                fill="#4CAF50"
+                d="M24 44c6.8 0 12.4-5.6 12.4-12.4S30.8 19.2 24 19.2s-12.4 5.6-12.4 12.4S17.2 44 24 44zM39.6 20.4c-.7 4-3.6 7.2-7.8 7.2s-7.1-3.2-7.1-7.2c0-4 3.1-7.2 7.1-7.2s7.1 3.2 7.8 7.2z"
+              />
+              <path
+                fill="#1976D2"
+                d="M43.6 20.4c0-1.8-.2-3.6-.6-5.2H24v6h19.6z"
+              />
+              <path
+                fill="#F44336"
+                d="M24 19.2c-6.8 0-12.4 5.6-12.4 12.4s5.6 12.4 12.4 12.4 12.4-5.6 12.4-12.4S30.8 19.2 24 19.2zm0 20.2c-4 0-7.2-3.1-7.2-7s3.2-7 7.2-7c4 0 7.2 3.1 7.2 7s-3.2 7-7.2 7z"
+              />
+            </svg>
+            <span class="text-white font-semibold tracking-wider"
+              >Sign up with Google</span
+            >
+          </button>
+
+          <!-- Apple Button -->
+          <button
+            class="sso-button bg-black/50 hover:bg-black/80 transition duration-300 w-full p-3.5 rounded-xl flex items-center justify-center space-x-3 border border-white/10 backdrop-blur-sm hover:border-indigo-500/50 hover:shadow-[0_0_15px_rgba(79,70,229,0.2)] hover:-translate-y-0.5"
+          >
+            <!-- Apple SVG Icon -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="h-6 w-6 text-white"
+            >
+              <path
+                d="M12.4 6.7c-.5-1.1-.2-2.3.8-3 .9-.6 2.1-.5 3 .1-.4-1.1-1.2-2.4-2.8-2.5-1.5-.1-2.9.8-3.6 2.1-.4-.1-.8-.1-1.2 0-1.5.1-2.9.8-3.6 2.1-.7 1.3-.8 2.8-.2 4.1.6 1.1 1.6 2.1 2.9 2.4.2.1.4.1.6.1.1 0 .2 0 .3-.1 1.2-.5 1.8-1.5 1.9-2.7h.1c-.2 1.3-.8 2.3-1.9 2.8-.2.1-.4.2-.6.2-.1 0-.3 0-.5-.1-1.4-.4-2.6-1.5-3.3-2.7-.6-1.2-.5-2.6.2-3.9.7-1.3 1.9-2.1 3.5-2.1s3.1.8 3.8 2.1c.1.2.2.4.3.6h-.1zm-1.1 8c-.6 0-1.1.2-1.6.5-.5.3-1.1.5-1.7.5-1.3 0-2.5-.7-3.4-1.9-.9-1.2-1.3-2.8-.9-4.3.5-1.6 1.8-2.9 3.5-3.1 1.4-.2 2.7.4 3.7 1.4.1.1.3.1.4 0 .9-.9 2.2-1.5 3.6-1.5 1.3 0 2.6.5 3.5 1.4s1.6 2.2 1.6 3.6c0 1.5-.6 2.9-1.6 3.9-1 .9-2.2 1.5-3.6 1.5-1.3 0-2.5-.5-3.4-1.3-.1-.1-.3-.1-.4 0-.1.1-.3.2-.4.3-1 .9-2.2 1.5-3.6 1.5z"
+              />
+            </svg>
+            <span class="text-white font-semibold tracking-wider"
+              >Sign up with Apple</span
+            >
+          </button>
         </div>
+
+        <!-- Already have account link -->
+        <p class="mt-8 text-center text-slate-400">
+          Already have an account?
+          <a
+            href="login.html"
+            class="font-bold text-pink-400 hover:text-pink-300 transition"
+          >
+            Sign In here
+          </a>
+        </p>
+
+        <!-- Back to Home Link -->
+        <p class="mt-6 text-center text-sm">
+          <a
+            href="index.html"
+            class="text-slate-500 hover:text-white transition"
+          >
+            ← Back to Stretchletics Home
+          </a>
+        </p>
       </div>
     </div>
 
