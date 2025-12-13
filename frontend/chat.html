@@ -1053,7 +1053,8 @@
       }
 
       /* Toggle button controls */
-      .routine-type-btn, .difficulty-btn {
+      .routine-type-btn,
+      .difficulty-btn {
         background: rgba(255, 255, 255, 0.03);
         border-color: rgba(255, 255, 255, 0.1);
         color: #94a3b8;
@@ -1061,14 +1062,20 @@
         cursor: pointer;
       }
 
-      .routine-type-btn:hover, .difficulty-btn:hover {
+      .routine-type-btn:hover,
+      .difficulty-btn:hover {
         background: rgba(236, 72, 153, 0.1);
         border-color: rgba(236, 72, 153, 0.3);
         color: white;
       }
 
-      .routine-type-btn.active, .difficulty-btn.active {
-        background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(79, 70, 229, 0.25));
+      .routine-type-btn.active,
+      .difficulty-btn.active {
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.25),
+          rgba(79, 70, 229, 0.25)
+        );
         border-color: #ec4899;
         color: white;
         box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
@@ -1173,7 +1180,7 @@
                 Warm-Up
               </button>
             </div>
-            <select id="routine-type-input" style="display: none;">
+            <select id="routine-type-input" style="display: none">
               <option value="cool-down" selected>Stretching</option>
               <option value="warm-up">Warm-Up</option>
             </select>
@@ -1208,13 +1215,13 @@
                   class="difficulty-btn px-3 py-2.5 rounded-lg border-2 text-sm font-semibold transition-all duration-300"
                   data-value="advanced"
                   onclick="selectDifficulty(this)"
-                  style="width: calc(50% - 4px);"
+                  style="width: calc(50% - 4px)"
                 >
                   Advanced
                 </button>
               </div>
             </div>
-            <select id="difficulty-input" style="display: none;">
+            <select id="difficulty-input" style="display: none">
               <option value="beginner" selected>Beginner</option>
               <option value="intermediate">Intermediate</option>
               <option value="advanced">Advanced</option>
@@ -1547,17 +1554,21 @@
       }
 
       // Toggle button handlers
-      window.selectRoutineType = function(btn) {
-        document.querySelectorAll('.routine-type-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('routine-type-input').value = btn.dataset.value;
+      window.selectRoutineType = function (btn) {
+        document
+          .querySelectorAll(".routine-type-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("routine-type-input").value = btn.dataset.value;
         updateActiveFilters();
       };
 
-      window.selectDifficulty = function(btn) {
-        document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('difficulty-input').value = btn.dataset.value;
+      window.selectDifficulty = function (btn) {
+        document
+          .querySelectorAll(".difficulty-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("difficulty-input").value = btn.dataset.value;
         updateActiveFilters();
       };
 
@@ -2281,7 +2292,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
               );
               updateDurationDisplay();
               updateActiveFilters();
-              regenerateRoutine();
+              addMessage("Make it 5 minutes longer", "user");
+              regenerateRoutine(false);
               break;
             case "shorter":
               durationInput.value = Math.max(
@@ -2290,7 +2302,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
               );
               updateDurationDisplay();
               updateActiveFilters();
-              regenerateRoutine();
+              addMessage("Make it 5 minutes shorter", "user");
+              regenerateRoutine(false);
               break;
             case "easier":
               if (difficultyInput.value === "advanced")
@@ -2298,7 +2311,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
               else if (difficultyInput.value === "intermediate")
                 difficultyInput.value = "beginner";
               updateActiveFilters();
-              regenerateRoutine();
+              addMessage("Make it easier", "user");
+              regenerateRoutine(false);
               break;
             case "harder":
               if (difficultyInput.value === "beginner")
@@ -2306,14 +2320,17 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
               else if (difficultyInput.value === "intermediate")
                 difficultyInput.value = "advanced";
               updateActiveFilters();
-              regenerateRoutine();
+              addMessage("Make it harder", "user");
+              regenerateRoutine(false);
               break;
           }
         };
 
-        window.regenerateRoutine = function () {
+        window.regenerateRoutine = function (showMessage = true) {
           if (lastUserPrompt) {
-            addMessage(lastUserPrompt, "user");
+            if (showMessage) {
+              addMessage("Generate a different routine", "user");
+            }
             generateRoutine(lastUserPrompt);
           }
         };
