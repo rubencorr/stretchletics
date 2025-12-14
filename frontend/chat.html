@@ -461,19 +461,6 @@
         color: #ec4899;
       }
 
-      /* Example chip styling */
-      .example-chip {
-        background: rgba(236, 72, 153, 0.1);
-        border: 1px solid rgba(236, 72, 153, 0.3);
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-      .example-chip:hover {
-        background: rgba(236, 72, 153, 0.2);
-        border-color: rgba(236, 72, 153, 0.6);
-        transform: scale(1.05);
-      }
-
       /* Select dropdown styling */
       select {
         background-color: rgba(0, 0, 0, 0.3) !important;
@@ -509,11 +496,12 @@
         background: rgba(79, 70, 229, 0.2);
         border: 1px solid rgba(79, 70, 229, 0.3);
         transition: all 0.2s ease;
+        cursor: pointer;
       }
       .example-chip:hover {
         background: rgba(236, 72, 153, 0.3);
         border-color: rgba(236, 72, 153, 0.5);
-        transform: translateY(-2px);
+        transform: scale(1.05);
         box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
       }
 
@@ -1306,7 +1294,7 @@
                   >
                     Quick Examples:
                   </p>
-                  <div class="flex gap-2 overflow-x-auto scrollbar-hide">
+                  <div class="flex gap-2 overflow-x-auto scrollbar-hide px-1 py-3">
                     <button
                       class="example-chip px-3 py-1.5 rounded-full text-xs font-medium text-white whitespace-nowrap flex-shrink-0"
                     >
