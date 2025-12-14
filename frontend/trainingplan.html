@@ -149,6 +149,14 @@
         font-weight: 700;
         transition: all 0.4s ease;
         position: relative;
+        cursor: pointer;
+      }
+
+      .step-indicator:hover {
+        border-color: #ec4899;
+        background: rgba(236, 72, 153, 0.15);
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
       }
 
       .step-indicator.completed {
@@ -309,6 +317,120 @@
         transform: scale(1.3);
       }
 
+      /* Goal Distance Cards */
+      .goal-distance-card,
+      .fitness-level-card,
+      .improvement-card {
+        background: linear-gradient(135deg, rgba(15, 15, 30, 0.9), rgba(30, 15, 45, 0.9));
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+        padding: 24px 20px;
+        border-radius: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 140px;
+      }
+
+      .goal-distance-card::before,
+      .fitness-level-card::before,
+      .improvement-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(79, 70, 229, 0.15));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .goal-distance-card:hover,
+      .fitness-level-card:hover,
+      .improvement-card:hover {
+        border-color: rgba(236, 72, 153, 0.6);
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(79, 70, 229, 0.1));
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(236, 72, 153, 0.4);
+      }
+
+      .goal-distance-card:hover::before,
+      .fitness-level-card:hover::before,
+      .improvement-card:hover::before {
+        opacity: 0.6;
+      }
+
+      .goal-distance-card.selected,
+      .fitness-level-card.selected,
+      .improvement-card.selected {
+        border-color: #ec4899;
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(79, 70, 229, 0.25));
+        box-shadow: 0 0 50px rgba(236, 72, 153, 0.6), inset 0 0 60px rgba(236, 72, 153, 0.15);
+        transform: scale(1.08);
+      }
+
+      .goal-distance-card.selected::before,
+      .fitness-level-card.selected::before,
+      .improvement-card.selected::before {
+        opacity: 1;
+      }
+
+      .goal-distance-card.selected::after,
+      .fitness-level-card.selected::after,
+      .improvement-card.selected::after {
+        content: '\f00c';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 26px;
+        height: 26px;
+        background: linear-gradient(135deg, #ec4899, #f472b6);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        color: white;
+        box-shadow: 0 4px 12px rgba(236, 72, 153, 0.6);
+        z-index: 2;
+      }
+
+      /* Goal Distance Card Content Styles */
+      .goal-distance-title {
+        font-size: 20px;
+        font-weight: 900;
+        color: white;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: relative;
+        z-index: 1;
+        line-height: 1.2;
+      }
+
+      .goal-distance-subtitle {
+        font-size: 11px;
+        color: #94a3b8;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .goal-distance-card.selected .goal-distance-title {
+        color: #f472b6;
+      }
+
+      .goal-distance-card.selected .goal-distance-subtitle {
+        color: #e2e8f0;
+      }
+
       /* Gradient Buttons */
       .gradient-button {
         background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
@@ -342,7 +464,6 @@
       }
 
       .gradient-button:disabled {
-        opacity: 0.6;
         cursor: not-allowed;
         transform: none;
       }
@@ -1087,35 +1208,35 @@
         <!-- Progress Indicators -->
         <div class="mb-8 fade-in">
           <div class="flex items-center justify-between max-w-2xl mx-auto mb-4">
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center step-container" data-step="1" onclick="tryGoToStep(1)">
               <div class="step-indicator active" data-step="1">
                 <i class="fas fa-flag-checkered text-sm"></i>
               </div>
               <span class="text-xs mt-2 font-semibold text-white">Basics</span>
             </div>
             <div class="flex-1 h-0.5 bg-white/10 mx-4"></div>
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center step-container" data-step="2" onclick="tryGoToStep(2)">
               <div class="step-indicator" data-step="2">
                 <i class="fas fa-bullseye text-sm"></i>
               </div>
               <span class="text-xs mt-2 font-semibold text-slate-400">Goals</span>
             </div>
             <div class="flex-1 h-0.5 bg-white/10 mx-4"></div>
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center step-container" data-step="3" onclick="tryGoToStep(3)">
               <div class="step-indicator" data-step="3">
                 <i class="fas fa-gears text-sm"></i>
               </div>
               <span class="text-xs mt-2 font-semibold text-slate-400">Equipment</span>
             </div>
             <div class="flex-1 h-0.5 bg-white/10 mx-4"></div>
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center step-container" data-step="4" onclick="tryGoToStep(4)">
               <div class="step-indicator" data-step="4">
                 <i class="fas fa-calendar-days text-sm"></i>
               </div>
               <span class="text-xs mt-2 font-semibold text-slate-400">Schedule</span>
             </div>
             <div class="flex-1 h-0.5 bg-white/10 mx-4"></div>
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center step-container" data-step="5" onclick="tryGoToStep(5)">
               <div class="step-indicator" data-step="5">
                 <i class="fas fa-check text-sm"></i>
               </div>
@@ -1132,7 +1253,7 @@
           
           <!-- Step 1: Basics -->
           <div class="wizard-step active" data-step="1">
-            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow fade-in">
               <h2 class="text-3xl font-black text-white mb-3 flex items-center">
                 <i class="fas fa-flag-checkered text-neon-pink mr-3"></i>
                 Let's Start with the Basics
@@ -1148,7 +1269,7 @@
                   <input
                     type="text"
                     id="plan-name"
-                    placeholder="e.g., Marathon Prep 2025, Summer Triathlon Training"
+                    placeholder="e.g. Berlin Marathon Prep"
                     class="w-full p-4 rounded-2xl text-white text-lg focus:outline-none"
                   />
                 </div>
@@ -1183,46 +1304,103 @@
 
           <!-- Step 2: Goals -->
           <div class="wizard-step" data-step="2">
-            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow fade-in">
               <h2 class="text-3xl font-black text-white mb-3 flex items-center">
                 <i class="fas fa-bullseye text-neon-pink mr-3"></i>
                 Set Your Goals
               </h2>
               <p class="text-slate-400 mb-10">Define where you are and where you want to be</p>
               
-              <div class="grid md:grid-cols-2 gap-8">
+              <div class="space-y-8">
+                <!-- Event/Distance Selection -->
                 <div>
-                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-3">
-                    Current Performance
+                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-4">
+                    Target Event or Distance
                   </label>
-                  <input
-                    type="text"
-                    id="current-time"
-                    placeholder="e.g., 45:00 for 10K"
-                    class="w-full p-4 rounded-2xl text-white text-lg focus:outline-none"
-                  />
-                  <p class="text-sm text-slate-500 mt-2">Your current best time or distance</p>
+                  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="goal-distance-card" data-distance="5k">
+                      <div class="goal-distance-title">5K</div>
+                      <div class="goal-distance-subtitle">Parkrun</div>
+                    </div>
+                    <div class="goal-distance-card" data-distance="10k">
+                      <div class="goal-distance-title">10K</div>
+                      <div class="goal-distance-subtitle">10 kilometers</div>
+                    </div>
+                    <div class="goal-distance-card" data-distance="half-marathon">
+                      <div class="goal-distance-title">21,1km</div>
+                      <div class="goal-distance-subtitle">Half Marathon</div>
+                    </div>
+                    <div class="goal-distance-card" data-distance="marathon">
+                      <div class="goal-distance-title">42.2 km</div>
+                      <div class="goal-distance-subtitle">Marathon</div>
+                    </div>
+                    <div class="goal-distance-card" data-distance="50k">
+                      <div class="goal-distance-title">50K</div>
+                      <div class="goal-distance-subtitle">Ultra I</div>
+                    </div>
+                    <div class="goal-distance-card" data-distance="100k">
+                      <div class="goal-distance-title">100K</div>
+                      <div class="goal-distance-subtitle">Ultra II</div>
+                    </div>
+                    <div class="goal-distance-card" data-distance="custom">
+                      <div class="goal-distance-title">Custom</div>
+                      <div class="goal-distance-subtitle">Your distance</div>
+                    </div>
+                  </div>
                 </div>
 
+                <!-- Current Performance Level -->
                 <div>
-                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-3">
-                    Goal Performance
+                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-6 text-center">
+                    <i class="fas fa-stopwatch text-neon-pink mr-2"></i>
+                    Enter Your Times
                   </label>
-                  <input
-                    type="text"
-                    id="goal-time"
-                    placeholder="e.g., 40:00 for 10K"
-                    class="w-full p-4 rounded-2xl text-white text-lg focus:outline-none"
-                  />
-                  <p class="text-sm text-slate-500 mt-2">Your target time or distance</p>
+                  <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-black/40 backdrop-blur-sm rounded-2xl p-6 border-2 border-white/10 hover:border-neon-pink/50 transition-all">
+                      <div class="flex items-center justify-center gap-2 mb-3">
+                        <i class="fas fa-clock text-blue-400 text-xl"></i>
+                        <label class="text-base font-bold text-white uppercase tracking-wider">
+                          Current Time
+                        </label>
+                      </div>
+                      <input
+                        type="time"
+                        id="current-performance"
+                        step="1"
+                        class="w-full p-4 rounded-xl text-white text-2xl text-center font-bold focus:outline-none bg-black/50 border-2 border-white/20 focus:border-blue-400 focus:ring-4 focus:ring-blue-400/20"
+                        style="color-scheme: dark;"
+                      />
+                      <p class="text-xs text-slate-400 mt-3 text-center font-semibold">Your current performance</p>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-sm rounded-2xl p-6 border-2 border-white/10 hover:border-neon-pink/50 transition-all">
+                      <div class="flex items-center justify-center gap-2 mb-3">
+                        <i class="fas fa-bullseye text-neon-pink text-xl"></i>
+                        <label class="text-base font-bold text-white uppercase tracking-wider">
+                          Target Goal Time
+                        </label>
+                      </div>
+                      <input
+                        type="time"
+                        id="goal-performance"
+                        step="1"
+                        class="w-full p-4 rounded-xl text-white text-2xl text-center font-bold focus:outline-none bg-black/50 border-2 border-white/20 focus:border-neon-pink focus:ring-4 focus:ring-neon-pink/20"
+                        style="color-scheme: dark;"
+                      />
+                      <p class="text-xs text-slate-400 mt-3 text-center font-semibold">Your target to achieve</p>
+                    </div>
+                  </div>
                 </div>
+
+                <!-- Hidden inputs to store values for backward compatibility -->
+                <input type="hidden" id="current-time" value="">
+                <input type="hidden" id="goal-time" value="">
               </div>
             </div>
           </div>
 
           <!-- Step 3: Equipment -->
           <div class="wizard-step" data-step="3">
-            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow fade-in">
               <h2 class="text-3xl font-black text-white mb-3 flex items-center">
                 <i class="fas fa-gears text-neon-pink mr-3"></i>
                 Training Equipment
@@ -1230,20 +1408,20 @@
               <p class="text-slate-400 mb-10">Select the equipment you have access to for better training recommendations</p>
               
               <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div class="equipment-card rounded-2xl p-6 text-center" data-equipment="power-meter">
-                  <i class="fas fa-gauge-high text-4xl text-neon-pink mb-3"></i>
-                  <p class="text-base font-bold mb-1">Power Meter</p>
-                  <p class="text-xs text-slate-400">For cycling</p>
+                <div class="equipment-card rounded-2xl p-6 text-center" data-equipment="gps-watch">
+                  <i class="fas fa-clock text-4xl text-cyan-400 mb-3"></i>
+                  <p class="text-base font-bold mb-1">GPS Watch</p>
+                  <p class="text-xs text-slate-400">Track distance & pace</p>
                 </div>
                 <div class="equipment-card rounded-2xl p-6 text-center" data-equipment="heart-rate-monitor">
                   <i class="fas fa-heartbeat text-4xl text-red-400 mb-3"></i>
                   <p class="text-base font-bold mb-1">Heart Rate Monitor</p>
-                  <p class="text-xs text-slate-400">Track intensity</p>
+                  <p class="text-xs text-slate-400">Track Heart Rate</p>
                 </div>
-                <div class="equipment-card rounded-2xl p-6 text-center" data-equipment="gps-watch">
-                  <i class="fas fa-clock text-4xl text-cyan-400 mb-3"></i>
-                  <p class="text-base font-bold mb-1">GPS Watch</p>
-                  <p class="text-xs text-slate-400">Track distance/pace</p>
+                <div class="equipment-card rounded-2xl p-6 text-center" data-equipment="power-meter">
+                  <i class="fas fa-gauge-high text-4xl text-neon-pink mb-3"></i>
+                  <p class="text-base font-bold mb-1">Power Meter</p>
+                  <p class="text-xs text-slate-400">Track Wattage</p>
                 </div>
               </div>
               <p class="text-sm text-slate-500 mt-6 text-center">
@@ -1255,7 +1433,7 @@
 
           <!-- Step 4: Schedule -->
           <div class="wizard-step" data-step="4">
-            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow fade-in">
               <h2 class="text-3xl font-black text-white mb-3 flex items-center">
                 <i class="fas fa-calendar-days text-neon-pink mr-3"></i>
                 Plan Your Schedule
@@ -1373,7 +1551,7 @@
 
           <!-- Step 5: Review -->
           <div class="wizard-step" data-step="5">
-            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow fade-in">
               <h2 class="text-3xl font-black text-white mb-3 flex items-center">
                 <i class="fas fa-check text-neon-pink mr-3"></i>
                 Review & Customize
@@ -1518,6 +1696,7 @@
       let selectedSport = null;
       let trainingPlanData = null;
       let currentStep = 1;
+      let highestStepReached = 1; // Track the highest step user has reached
       const totalSteps = 5;
       let dateMode = 'start'; // 'start' or 'race'
       let selectedEquipment = [];
@@ -1582,6 +1761,56 @@
         });
       });
 
+      // Goal selections
+      let selectedDistance = null;
+
+      // Distance selection
+      document.querySelectorAll('.goal-distance-card').forEach(card => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.goal-distance-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          selectedDistance = card.dataset.distance;
+          updateNavigationButtons();
+        });
+      });
+
+      // Performance inputs
+      const currentPerformanceInput = document.getElementById('current-performance');
+      const goalPerformanceInput = document.getElementById('goal-performance');
+
+      currentPerformanceInput.addEventListener('input', () => {
+        updateGoalInputs();
+        updateNavigationButtons();
+      });
+
+      goalPerformanceInput.addEventListener('input', () => {
+        updateGoalInputs();
+        updateNavigationButtons();
+      });
+
+      // Update hidden inputs based on selections
+      function updateGoalInputs() {
+        const currentPerf = currentPerformanceInput.value.trim();
+        const goalPerf = goalPerformanceInput.value.trim();
+
+        const distanceNames = {
+          '5k': '5K',
+          '10k': '10K',
+          'half-marathon': 'Half Marathon',
+          'marathon': 'Marathon',
+          '50k': '50K Ultra',
+          '100k': '100K Ultra',
+          'custom': 'Custom Distance'
+        };
+
+        if (selectedDistance && currentPerf && goalPerf) {
+          document.getElementById('current-time').value = 
+            `${distanceNames[selectedDistance]} - Current: ${currentPerf}`;
+          document.getElementById('goal-time').value = 
+            `${distanceNames[selectedDistance]} - Goal: ${goalPerf}`;
+        }
+      }
+
       // Sliders
       const sessionsSlider = document.getElementById('sessions-slider');
       const sessionsDisplay = document.getElementById('sessions-display');
@@ -1633,10 +1862,29 @@
         goToStep(currentStep - 1);
       });
 
+      // Try to go to step only if it's accessible
+      function tryGoToStep(step) {
+        // Only allow going to steps that have been reached before or are the current step
+        if (step <= highestStepReached) {
+          goToStep(step);
+        }
+      }
+
       function goToStep(step) {
         if (step < 1 || step > totalSteps) return;
 
         const direction = step > currentStep ? 'forward' : 'backward';
+        
+        // Update highest step reached if moving forward
+        if (step > highestStepReached) {
+          highestStepReached = step;
+        }
+        
+        // Scroll wizard container to top
+        const stepsContainer = document.querySelector('.overflow-y-auto.mb-6');
+        if (stepsContainer) {
+          stepsContainer.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         
         // Animate out current step
         const currentStepEl = document.querySelector(`.wizard-step[data-step="${currentStep}"]`);
@@ -1675,10 +1923,22 @@
         // Update step indicators
         document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
           const step = index + 1;
+          const container = indicator.closest('.step-container');
           const label = indicator.nextElementSibling;
           
           indicator.classList.remove('active', 'completed');
           label.classList.remove('text-white', 'text-slate-400');
+          
+          // Update cursor style based on accessibility
+          if (container) {
+            if (step <= highestStepReached) {
+              container.style.cursor = 'pointer';
+              container.style.opacity = '1';
+            } else {
+              container.style.cursor = 'not-allowed';
+              container.style.opacity = '0.5';
+            }
+          }
           
           if (step < currentStep) {
             indicator.classList.add('completed');
@@ -1716,12 +1976,13 @@
             const planName = document.getElementById('plan-name').value.trim();
             return selectedSport !== null && planName !== '';
           case 2:
-            return document.getElementById('current-time').value.trim() !== '' &&
-                   document.getElementById('goal-time').value.trim() !== '';
+            const currentPerf = document.getElementById('current-performance').value.trim();
+            const goalPerf = document.getElementById('goal-performance').value.trim();
+            return selectedDistance !== null && currentPerf !== '' && goalPerf !== '';
           case 3:
-            return true; // Sliders always have values
+            return true; // Equipment is optional
           case 4:
-            return true;
+            return true; // Sliders always have values
           default:
             return false;
         }
@@ -1780,8 +2041,6 @@
 
       // Watch for input changes to enable/disable next button
       document.getElementById('plan-name').addEventListener('input', updateNavigationButtons);
-      document.getElementById('current-time').addEventListener('input', updateNavigationButtons);
-      document.getElementById('goal-time').addEventListener('input', updateNavigationButtons);
 
       // Create Plan Button
       createBtn.addEventListener('click', async () => {
@@ -1828,7 +2087,29 @@ Format each workout clearly with all stats. Example format:
 Format the plan clearly with headers for each week and day.`;
 
         // Show loading state
-        createBtn.innerHTML = '<span class="spinner"></span><span>Creating Your Plan...</span>';
+        const createBtnIcon = createBtn.querySelector('i');
+        const createBtnText = createBtn.querySelector('span');
+        
+        // Replace icon with spinner
+        createBtnIcon.outerHTML = '<svg class="animate-spin h-5 w-5 text-white ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+        
+        // Animate loading text
+        const loadingTexts = [
+          'Analyzing your goals...',
+          'Building your plan...',
+          'Optimizing schedule...',
+          'Almost ready...'
+        ];
+        let loadingStep = 0;
+        createBtnText.textContent = loadingTexts[0];
+        
+        const loadingInterval = setInterval(() => {
+          loadingStep++;
+          if (loadingStep < loadingTexts.length) {
+            createBtnText.textContent = loadingTexts[loadingStep];
+          }
+        }, 2500);
+        
         createBtn.disabled = true;
 
         try {
@@ -1866,6 +2147,7 @@ Format the plan clearly with headers for each week and day.`;
             `${selectedSport.charAt(0).toUpperCase() + selectedSport.slice(1)} • ${duration} weeks • ${sessions} sessions/week • ${availableTime}`;
 
         } catch (error) {
+          clearInterval(loadingInterval);
           showNotification('Error: Please make sure app.py is running', 'error');
           createBtn.innerHTML = '<span>Create My Plan</span><i class="fas fa-magic ml-2"></i>';
           createBtn.disabled = false;
