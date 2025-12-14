@@ -953,15 +953,11 @@
         font-weight: 600;
       }
 
-      /* Sticky parameter header */
+      /* Parameter header */
       .param-header-sticky {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: rgba(10, 10, 10, 0.95);
-        backdrop-filter: blur(20px);
-        padding: 16px;
-        margin: -20px -20px 20px -20px;
+        background: transparent;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
         border-bottom: 1px solid rgba(236, 72, 153, 0.2);
       }
 
@@ -2005,7 +2001,7 @@ IMPORTANT: The total time of all exercises combined MUST equal exactly ${duratio
           addMessage(routineText, "bot", true);
         } catch (error) {
           addMessage(
-            `Error generating routine: ${error.message}`,
+            "ERROR: app.py is not running",
             "bot",
             false
           );
