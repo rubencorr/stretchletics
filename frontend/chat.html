@@ -225,6 +225,17 @@
         box-shadow: 0 0 15px rgba(236, 72, 153, 0.4),
           0 0 25px rgba(79, 70, 229, 0.3);
       }
+      .gradient-button:hover .fa-rotate {
+        animation: spin-clockwise 0.5s ease-in-out 1;
+      }
+      @keyframes spin-clockwise {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
       /* Custom scrollbar for chat area */
       .chat-area::-webkit-scrollbar {
@@ -512,20 +523,28 @@
         margin-top: 4px;
       }
 
-      /* Voice input button */
+      /* Voice input button - matches toggle button style */
       .voice-btn {
-        background: rgba(236, 72, 153, 0.2);
-        border: 1px solid rgba(236, 72, 153, 0.3);
-        transition: all 0.2s ease;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+        font-weight: 600;
+        transition: all 0.3s ease;
       }
       .voice-btn:hover {
-        background: rgba(236, 72, 153, 0.3);
-        border-color: rgba(236, 72, 153, 0.5);
-        transform: scale(1.05);
+        background: rgba(236, 72, 153, 0.1);
+        border-color: rgba(236, 72, 153, 0.3);
+        color: white;
       }
       .voice-btn.listening {
-        background: rgba(239, 68, 68, 0.3);
-        border-color: rgba(239, 68, 68, 0.5);
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.25),
+          rgba(79, 70, 229, 0.25)
+        );
+        border-color: #ec4899;
+        color: white;
+        box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
         animation: pulse 1.5s infinite;
       }
       @keyframes pulse {
@@ -1008,6 +1027,19 @@
         color: white;
         box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
       }
+
+      /* Sync button icon spin animation */
+      #last-workout-btn:hover .fa-rotate {
+        animation: spinOnce 0.4s ease-out;
+      }
+      @keyframes spinOnce {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
 
@@ -1385,7 +1417,7 @@
                 class="gradient-button flex-shrink-0 px-4 py-3 text-sm font-bold tracking-wider"
               >
                 <i class="fa-solid fa-rotate inline-block mr-2"></i>
-                Sync Last Workout
+                Sync Workout
               </button>
               <div
                 id="last-workout-status"
