@@ -2,7 +2,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
-from .prompts import TRAINING_PLAN_SYSTEM_PROMPT
+from .trainingprompts import TRAINING_PLAN_SYSTEM_PROMPT
 
 # load environment variables from .env first
 load_dotenv()
