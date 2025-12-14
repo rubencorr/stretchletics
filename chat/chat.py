@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 from pydantic import BaseModel
 
-from .prompts import SYSTEM_PROMPT
+from .stretchingprompts import SYSTEM_PROMPT
 
 # load environment variables from .env first
 load_dotenv()

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 from chat.chat import get_routine_response
+from chat.trainingplan import get_training_plan_response
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -32,6 +33,22 @@ def chat():
         
         # Get response from chat.py
         response = get_routine_response(user_message)
+        
+        return jsonify({'response': response})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/training-plan', methods=['POST'])
+def training_plan():
+    try:
+        data = request.json
+        user_message = data.get('message', '').strip()
+        
+        if not user_message:
+            return jsonify({'error': 'No message provided'}), 400
+        
+        # Get training plan response
+        response = get_training_plan_response(user_message)
         
         return jsonify({'response': response})
     except Exception as e:
