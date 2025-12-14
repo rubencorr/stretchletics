@@ -555,7 +555,11 @@
 
       /* Exercise card styling - Modern redesign */
       .exercise-card {
-        background: linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(236, 72, 153, 0.05));
+        background: linear-gradient(
+          135deg,
+          rgba(79, 70, 229, 0.05),
+          rgba(236, 72, 153, 0.05)
+        );
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         padding: 0;
@@ -592,9 +596,8 @@
       .exercise-explanation {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                    opacity 0.3s ease,
-                    padding 0.3s ease;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease, padding 0.3s ease;
         opacity: 0;
         padding: 0 20px;
       }
@@ -757,12 +760,16 @@
         gap: 8px;
       }
       .exercise-card.active {
-        background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(79, 70, 229, 0.1));
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.15),
+          rgba(79, 70, 229, 0.1)
+        );
         border-color: #ec4899;
         border-width: 2px;
         transform: scale(1.02);
-        box-shadow: 0 6px 24px rgba(236, 72, 153, 0.4), 
-                    0 0 0 1px rgba(236, 72, 153, 0.2);
+        box-shadow: 0 6px 24px rgba(236, 72, 153, 0.4),
+          0 0 0 1px rgba(236, 72, 153, 0.2);
         z-index: 10;
       }
       .exercise-card.active::before {
@@ -772,7 +779,11 @@
       }
       .exercise-card.completed {
         opacity: 0.5;
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(16, 185, 129, 0.05));
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.05),
+          rgba(16, 185, 129, 0.05)
+        );
         border-color: rgba(34, 197, 94, 0.2);
         transform: scale(0.98);
       }
@@ -780,7 +791,11 @@
         background: linear-gradient(180deg, #22c55e, #16a34a);
       }
       .exercise-card.completed .exercise-number {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(16, 185, 129, 0.3));
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.3),
+          rgba(16, 185, 129, 0.3)
+        );
         border-color: rgba(34, 197, 94, 0.4);
         color: #22c55e;
       }
@@ -792,7 +807,11 @@
         width: 32px;
         height: 32px;
         border-radius: 8px;
-        background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(79, 70, 229, 0.2));
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.2),
+          rgba(79, 70, 229, 0.2)
+        );
         border: 1px solid rgba(236, 72, 153, 0.3);
         color: #f472b6;
         font-weight: 800;
@@ -801,7 +820,11 @@
         transition: all 0.3s ease;
       }
       .exercise-card:hover .exercise-number {
-        background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(79, 70, 229, 0.3));
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.3),
+          rgba(79, 70, 229, 0.3)
+        );
         border-color: rgba(236, 72, 153, 0.5);
         transform: scale(1.05);
       }
@@ -811,7 +834,6 @@
         color: white;
         box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
       }
-
 
       /* Quick action buttons */
       .quick-action-btn {
@@ -1623,7 +1645,11 @@
                       <p class="text-slate-400 text-xs mt-0.5 flex items-center gap-1">
                         <i class="fa-solid fa-clock text-[10px]"></i>
                         <span>${displayDuration}</span>
-                        ${exercise.bilateral ? '<span class="text-neon-pink ml-1">• Both sides</span>' : ''}
+                        ${
+                          exercise.bilateral
+                            ? '<span class="text-neon-pink ml-1">• Both sides</span>'
+                            : ""
+                        }
                       </p>
                     </div>
                     <i class="fa-solid fa-chevron-down exercise-chevron flex-shrink-0"></i>
@@ -1917,13 +1943,15 @@
 
           const enhancedPrompt = `${prompt}
 
-Additional Parameters:
+MANDATORY PARAMETERS (MUST BE FOLLOWED EXACTLY):
 - Routine Type: ${routineType}
-- Duration: ${duration} minutes
+- TOTAL DURATION: EXACTLY ${duration} minutes (${duration * 60} seconds total - this is mandatory, verify the math)
 - Difficulty Level: ${difficulty}
 ${equipment.length > 0 ? `- Equipment Available: ${equipment.join(", ")}` : ""}
 ${focusAreas.length > 0 ? `- Focus Areas: ${focusAreas.join(", ")}` : ""}
-${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
+${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}
+
+IMPORTANT: The total time of all exercises combined MUST equal exactly ${duration} minutes. Count the seconds and verify before responding.`;
 
           const response = await fetch("http://127.0.0.1:5500/api/chat", {
             method: "POST",
