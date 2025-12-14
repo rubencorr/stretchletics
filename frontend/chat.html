@@ -1564,6 +1564,20 @@
 
                 card.setAttribute("data-exercise-id", exerciseId);
                 card.setAttribute("data-duration", durationSeconds);
+                card.setAttribute("data-bilateral", exercise.bilateral || false);
+                
+                // Format duration display for bilateral exercises
+                let displayDuration = exercise.duration;
+                if (exercise.bilateral) {
+                  const seconds = parseDurationToSeconds(exercise.duration);
+                  const halfSeconds = seconds / 2;
+                  if (halfSeconds >= 60) {
+                    displayDuration = `2x${Math.floor(halfSeconds / 60)} min`;
+                  } else {
+                    displayDuration = `2x${halfSeconds} sec`;
+                  }
+                }
+                
                 card.innerHTML = `
                   <div class="flex items-center gap-3">
                     <span class="exercise-number">${index + 1}</span>
@@ -1573,7 +1587,7 @@
                       }</h4>
                     </div>
                     <span class="exercise-duration mr-2">
-                      ${exercise.duration}
+                      ${displayDuration}
                     </span>
                     <i class="fa-solid fa-chevron-down exercise-chevron"></i>
                   </div>
@@ -2024,7 +2038,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             let match = null;
 
             // Pattern 1: "1. Exercise Name - 2 minutes"
-            match = line.match(/^(\d+\.)\s*(.+?)\s*[-–—]\s*(.+)$/i);
+            // Match number, then name, then dash followed by duration (must contain number + time unit)
+            match = line.match(/^(\d+\.)\s*(.+?)\s*[-–—]\s*(\d+\s*(?:sec(?:ond)?s?|min(?:ute)?s?))\s*$/i);
             if (match) {
               const name = match[2].trim();
               const duration = match[3].trim();
@@ -2047,9 +2062,13 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
                   j++;
                 }
 
+                // Detect bilateral exercises (need to switch sides)
+                const isBilateral = /\b(each side|per side|both sides|switch (sides|legs|arms)|alternate|other (side|leg|arm))\b/i.test(line + " " + explanation);
+                
                 exercises.push({
                   name: name,
                   duration: duration,
+                  bilateral: isBilateral,
                   explanation:
                     explanation ||
                     "Perform this exercise with controlled movements and proper form.",
@@ -2059,6 +2078,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
                   name,
                   "-",
                   duration,
+                  "Bilateral:",
+                  isBilateral,
                   "Explanation:",
                   explanation
                 );
@@ -2066,7 +2087,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             }
 
             // Pattern 2: "- Exercise Name - 2 minutes" (bullet point)
-            match = line.match(/^[\-\•\*]\s*(.+?)\s*[-–—]\s*(.+)$/i);
+            // Match bullet, then name, then dash followed by duration (must contain number + time unit)
+            match = line.match(/^[\-\•\*]\s*(.+?)\s*[-–—]\s*(\d+\s*(?:sec(?:ond)?s?|min(?:ute)?s?))\s*$/i);
             if (match) {
               const name = match[1].trim();
               const duration = match[2].trim();
@@ -2085,9 +2107,13 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
                   j++;
                 }
 
+                // Detect bilateral exercises (need to switch sides)
+                const isBilateral = /\b(each side|per side|both sides|switch (sides|legs|arms)|alternate|other (side|leg|arm))\b/i.test(line + " " + explanation);
+                
                 exercises.push({
                   name: name,
                   duration: duration,
+                  bilateral: isBilateral,
                   explanation:
                     explanation ||
                     "Perform this exercise with controlled movements and proper form.",
@@ -2097,6 +2123,8 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
                   name,
                   "-",
                   duration,
+                  "Bilateral:",
+                  isBilateral,
                   "Explanation:",
                   explanation
                 );
@@ -2185,6 +2213,29 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
         // Global routine timer functionality
         const activeRoutineTimers = {};
+        
+        // Helper function to play beep sound
+        function playBeep() {
+          try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = "sine";
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 1);
+          } catch (e) {
+            console.log("Beep failed:", e);
+          }
+        }
 
         window.parseDurationToSeconds = function (duration) {
           const match = duration.match(/(\d+)\s*(min|minute|sec|second)s?/i);
@@ -2231,7 +2282,7 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
         window.skipExercise = function (routineId) {
           const state = activeRoutineTimers[routineId];
-          if (!state || state.paused) return;
+          if (!state) return;
 
           // Clear the current interval to stop the timer and prevent beeps
           if (state.interval) {
@@ -2244,6 +2295,14 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           if (currentExercise) {
             currentExercise.card.classList.remove("active");
             currentExercise.card.classList.add("completed");
+            // Remove side indicator if present
+            const badge = currentExercise.card.querySelector(".side-indicator");
+            if (badge) badge.remove();
+          }
+
+          // Clear bilateral state for skipped exercise
+          if (state.bilateralState && state.bilateralState[state.currentIndex]) {
+            delete state.bilateralState[state.currentIndex];
           }
 
           // Move to next
@@ -2256,7 +2315,30 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           }
 
           activeRoutineTimers[routineId] = state;
-          startNextExercise(routineId);
+          
+          // If paused, just prepare the next exercise but don't start
+          if (state.paused) {
+            // Update UI to show next exercise
+            const timerContainer = document.getElementById(routineId);
+            const currentName = document.getElementById(`current-${routineId}`);
+            const progressText = document.getElementById(`progress-text-${routineId}`);
+            const nextExercise = state.exercises[state.currentIndex];
+            
+            currentName.textContent = nextExercise.name;
+            progressText.textContent = `Exercise ${state.currentIndex + 1} of ${state.exercises.length}`;
+            
+            // Highlight next exercise
+            state.exercises.forEach((ex, idx) => {
+              ex.card.classList.remove("active", "completed");
+              if (idx < state.currentIndex) {
+                ex.card.classList.add("completed");
+              } else if (idx === state.currentIndex) {
+                ex.card.classList.add("active");
+              }
+            });
+          } else {
+            startNextExercise(routineId);
+          }
         };
 
         window.startRoutineTimer = function (routineId) {
@@ -2325,7 +2407,19 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           }
 
           const currentExercise = state.exercises[state.currentIndex];
+          const isBilateral = currentExercise.card.getAttribute("data-bilateral") === "true";
           let remainingSeconds = currentExercise.duration;
+          
+          // For bilateral exercises, track which side we're on
+          if (!state.bilateralState) {
+            state.bilateralState = {};
+          }
+          if (isBilateral && !state.bilateralState[state.currentIndex]) {
+            state.bilateralState[state.currentIndex] = { side: 1, halfDuration: Math.floor(currentExercise.duration / 2) };
+            remainingSeconds = state.bilateralState[state.currentIndex].halfDuration;
+          } else if (isBilateral) {
+            remainingSeconds = state.bilateralState[state.currentIndex].halfDuration;
+          }
 
           // Update UI
           const timerContainer = document.getElementById(routineId);
@@ -2348,7 +2442,14 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             }
           });
 
-          currentName.textContent = currentExercise.name;
+          // Update exercise name with side indicator for bilateral exercises
+          if (isBilateral && state.bilateralState[state.currentIndex]) {
+            const sideNum = state.bilateralState[state.currentIndex].side;
+            currentName.textContent = currentExercise.name + ` (Side ${sideNum})`;
+          } else {
+            currentName.textContent = currentExercise.name;
+          }
+          
           progressText.textContent = `Exercise ${state.currentIndex + 1} of ${
             state.exercises.length
           }`;
@@ -2375,33 +2476,56 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             const overallProgress =
               (state.elapsedTotal / state.totalDuration) * 100;
             routineProgress.style.width = overallProgress + "%";
+            
+            // Check if bilateral exercise needs to switch sides
+            if (isBilateral && remainingSeconds <= 0 && state.bilateralState[state.currentIndex] && state.bilateralState[state.currentIndex].side === 1) {
+              // Pause and prompt to switch sides
+              clearInterval(state.interval);
+              state.interval = null;
+              
+              // Play beep
+              playBeep();
+              
+              // Show switch sides notification
+              const notification = document.createElement("div");
+              notification.className = "param-notification";
+              notification.style.background = "rgba(236, 72, 153, 0.95)";
+              notification.innerHTML = '<i class="fa-solid fa-repeat mr-2"></i>Switch to other side!';
+              document.body.appendChild(notification);
+              
+              setTimeout(() => {
+                if (notification.parentNode) notification.remove();
+              }, 3000);
+              
+              // Update to second side
+              state.bilateralState[state.currentIndex].side = 2;
+              
+              // Wait 3 seconds then start second half automatically
+              setTimeout(() => {
+                if (!state.paused && activeRoutineTimers[routineId]) {
+                  startNextExercise(routineId);
+                }
+              }, 3000);
+              
+              return;
+            }
 
             if (remainingSeconds <= 0) {
               clearInterval(state.interval);
               state.interval = null;
+              
+              // For bilateral exercises on first side, don't complete yet
+              if (isBilateral && state.bilateralState[state.currentIndex] && state.bilateralState[state.currentIndex].side === 1) {
+                return; // Already handled in the switch sides logic above
+              }
 
-              // Play 1-second beep
-              try {
-                const audioContext = new (window.AudioContext ||
-                  window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-
-                oscillator.frequency.value = 800; // 800Hz tone
-                oscillator.type = "sine";
-
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(
-                  0.01,
-                  audioContext.currentTime + 1
-                );
-
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 1);
-              } catch (e) {}
+              // Play completion beep
+              playBeep();
+              
+              // Clear bilateral state for completed exercise
+              if (isBilateral && state.bilateralState[state.currentIndex]) {
+                delete state.bilateralState[state.currentIndex];
+              }
 
               // Mark as completed
               currentExercise.card.classList.remove("active");
