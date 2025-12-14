@@ -26,52 +26,56 @@
       };
     </script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
       :root {
         font-family: "Inter", sans-serif;
       }
 
-      /* Floating Orbs */
+      /* Floating Orbs with enhanced animation */
       .bg-orb {
         position: fixed;
         border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.5;
-        animation: float-orb 20s ease-in-out infinite;
+        filter: blur(100px);
+        opacity: 0.6;
+        animation: float-orb 25s ease-in-out infinite;
         pointer-events: none;
         z-index: 0;
       }
 
       .bg-orb-1 {
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(236, 72, 153, 0.4), transparent);
-        top: -50px;
-        left: -100px;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(236, 72, 153, 0.5), transparent);
+        top: -100px;
+        left: -150px;
       }
 
       .bg-orb-2 {
-        width: 250px;
-        height: 250px;
-        background: radial-gradient(circle, rgba(79, 70, 229, 0.4), transparent);
-        bottom: -50px;
-        right: -80px;
-        animation-delay: 5s;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(79, 70, 229, 0.5), transparent);
+        bottom: -80px;
+        right: -120px;
+        animation-delay: 7s;
+      }
+
+      .bg-orb-3 {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(14, 165, 233, 0.4), transparent);
+        top: 50%;
+        right: 10%;
+        animation-delay: 14s;
       }
 
       @keyframes float-orb {
         0%, 100% { transform: translate(0, 0) scale(1); }
-        25% { transform: translate(20px, -30px) scale(1.1); }
-        50% { transform: translate(-20px, 30px) scale(0.9); }
-        75% { transform: translate(30px, 20px) scale(1.05); }
+        25% { transform: translate(30px, -40px) scale(1.15); }
+        50% { transform: translate(-30px, 40px) scale(0.85); }
+        75% { transform: translate(40px, 30px) scale(1.05); }
       }
 
-      /* Wizard Container */
-      .wizard-container {
-        background: transparent;
-      }
-
-      /* Hide all scrollbars */
+      /* Hide scrollbars */
       ::-webkit-scrollbar {
         display: none;
       }
@@ -80,117 +84,484 @@
         scrollbar-width: none;
       }
 
+      /* Wizard Steps Container */
+      .wizard-step {
+        opacity: 0;
+        transform: translateX(100px);
+        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+      }
+
+      .wizard-step.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+        position: relative;
+      }
+
+      .wizard-step.exiting {
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+
+      /* Progress Bar */
+      .progress-bar {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #ec4899, #4f46e5);
+        transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+      }
+
+      /* Step Indicators */
+      .step-indicator {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        transition: all 0.4s ease;
+        position: relative;
+      }
+
+      .step-indicator.completed {
+        border-color: #ec4899;
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+      }
+
+      .step-indicator.active {
+        border-color: #ec4899;
+        background: rgba(236, 72, 153, 0.2);
+        box-shadow: 0 0 30px rgba(236, 72, 153, 0.6);
+        animation: pulse-ring 2s infinite;
+      }
+
+      @keyframes pulse-ring {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
+        50% { box-shadow: 0 0 0 15px rgba(236, 72, 153, 0); }
+      }
+
+      /* Sport Cards Enhanced */
+      .sport-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .sport-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(236, 72, 153, 0.15), transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .sport-card:hover {
+        border-color: rgba(236, 72, 153, 0.6);
+        background: rgba(236, 72, 153, 0.08);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(236, 72, 153, 0.3);
+      }
+
+      .sport-card:hover::before {
+        opacity: 1;
+      }
+
+      .sport-card.selected {
+        border-color: #ec4899;
+        background: rgba(236, 72, 153, 0.15);
+        box-shadow: 0 0 40px rgba(236, 72, 153, 0.5), inset 0 0 40px rgba(236, 72, 153, 0.1);
+        transform: scale(1.05);
+      }
+
+      .sport-card.selected::before {
+        opacity: 1;
+      }
+
+      .sport-card i {
+        transition: all 0.3s ease;
+      }
+
+      .sport-card:hover i {
+        transform: scale(1.2) rotate(5deg);
+      }
+
+      .sport-card.selected i {
+        transform: scale(1.3);
+      }
+
       /* Flip swim icon */
       .swim-icon {
         transform: scaleX(-1);
       }
 
-      /* Sport Selection Cards */
-      .sport-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-        cursor: pointer;
+      .sport-card:hover .swim-icon {
+        transform: scaleX(-1) scale(1.2) rotate(5deg);
       }
 
-      .sport-card:hover {
-        border-color: rgba(236, 72, 153, 0.5);
-        background: rgba(236, 72, 153, 0.1);
-        transform: translateY(-4px);
+      .sport-card.selected .swim-icon {
+        transform: scaleX(-1) scale(1.3);
       }
 
-      .sport-card.selected {
-        border-color: #ec4899;
-        background: rgba(236, 72, 153, 0.2);
-        box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
-      }
-
-      /* Calendar View Styling */
-      .calendar-day {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        min-height: 120px;
-        transition: all 0.2s ease;
-      }
-
-      .calendar-day:hover {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(236, 72, 153, 0.3);
-      }
-
-      .calendar-day.has-workout {
-        border-color: rgba(236, 72, 153, 0.4);
-        background: rgba(236, 72, 153, 0.05);
-      }
-
-      .workout-badge {
-        font-size: 10px;
-        padding: 2px 6px;
-        border-radius: 4px;
-        background: rgba(236, 72, 153, 0.2);
-        border: 1px solid rgba(236, 72, 153, 0.4);
-      }
-
-      /* Gradient Button */
+      /* Gradient Buttons */
       .gradient-button {
-        background-image: linear-gradient(to right, #4F46E5 0%, #EC4899 51%, #4F46E5 100%);
-        background-size: 200% auto;
-        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .gradient-button::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #ec4899 0%, #4f46e5 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .gradient-button:hover::before {
+        opacity: 1;
       }
 
       .gradient-button:hover {
-        background-position: right center;
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+        box-shadow: 0 12px 40px rgba(236, 72, 153, 0.5);
       }
 
-      /* Range Slider */
+      .gradient-button span,
+      .gradient-button i {
+        position: relative;
+        z-index: 1;
+      }
+
+      .gradient-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Secondary Button */
+      .secondary-button {
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .secondary-button:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(236, 72, 153, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* Enhanced Input Fields */
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        background: rgba(0, 0, 0, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      textarea:focus {
+        background: rgba(0, 0, 0, 0.6);
+        border-color: #ec4899;
+        box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1), 0 0 20px rgba(236, 72, 153, 0.3);
+        transform: translateY(-2px);
+      }
+
+      /* Range Slider Enhanced */
       input[type="range"] {
         -webkit-appearance: none;
         appearance: none;
         width: 100%;
-        height: 6px;
-        border-radius: 3px;
-        background: linear-gradient(to right, #ec4899 0%, #4f46e5 100%);
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.1);
         outline: none;
+        position: relative;
       }
 
       input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         background: linear-gradient(135deg, #ec4899, #4f46e5);
         cursor: pointer;
-        box-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
+        box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.2), 0 4px 20px rgba(236, 72, 153, 0.6);
+        transition: all 0.3s ease;
+      }
+
+      input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 6px rgba(236, 72, 153, 0.3), 0 6px 30px rgba(236, 72, 153, 0.8);
       }
 
       input[type="range"]::-moz-range-thumb {
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         background: linear-gradient(135deg, #ec4899, #4f46e5);
         cursor: pointer;
         border: none;
-        box-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
+        box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.2), 0 4px 20px rgba(236, 72, 153, 0.6);
+        transition: all 0.3s ease;
+      }
+
+      input[type="range"]::-moz-range-thumb:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 6px rgba(236, 72, 153, 0.3), 0 6px 30px rgba(236, 72, 153, 0.8);
+      }
+
+      /* Slider Fill Effect */
+      input[type="range"] {
+        background: linear-gradient(to right, #ec4899 0%, #ec4899 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 100%);
+        background-size: 200% 100%;
       }
 
       /* Plan Display */
       .plan-content {
-        line-height: 1.8;
+        line-height: 1.9;
       }
 
-      .plan-content h2, .plan-content h3 {
+      /* Week Card Styling */
+      .week-card {
+        background: linear-gradient(
+          135deg,
+          rgba(79, 70, 229, 0.05),
+          rgba(236, 72, 153, 0.05)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 0;
+        margin: 16px 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .week-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: linear-gradient(180deg, #ec4899, #4f46e5);
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+      }
+
+      .week-card:hover {
+        border-color: rgba(236, 72, 153, 0.3);
+        box-shadow: 0 4px 16px rgba(236, 72, 153, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .week-card:hover::before {
+        opacity: 1;
+      }
+
+      .week-card.expanded {
+        border-color: rgba(236, 72, 153, 0.4);
+        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.25);
+      }
+
+      /* Workout Card Styling */
+      .workout-card {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 16px;
+        margin: 8px 0;
+        transition: all 0.3s ease;
+      }
+
+      .workout-card:hover {
+        background: rgba(0, 0, 0, 0.4);
+        border-color: rgba(236, 72, 153, 0.2);
+        transform: translateX(4px);
+      }
+
+      .week-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease, padding 0.3s ease;
+        opacity: 0;
+        padding: 0 24px;
+      }
+
+      .week-content.expanded {
+        max-height: 3000px;
+        opacity: 1;
+        padding: 24px;
+      }
+
+      .week-chevron {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        color: #94a3b8;
+        opacity: 0.7;
+      }
+
+      .week-card:hover .week-chevron {
+        color: #ec4899;
+        opacity: 1;
+      }
+
+      .week-chevron.rotated {
+        transform: rotate(180deg);
+        color: #ec4899;
+        opacity: 1;
+      }
+
+      .week-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 16px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.2),
+          rgba(79, 70, 229, 0.2)
+        );
+        border: 1px solid rgba(236, 72, 153, 0.3);
+        color: #f472b6;
+        font-weight: 800;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .workout-type-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+
+      .workout-type-easy {
+        background: rgba(34, 197, 94, 0.2);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        color: #4ade80;
+      }
+
+      .workout-type-moderate {
+        background: rgba(251, 191, 36, 0.2);
+        border: 1px solid rgba(251, 191, 36, 0.3);
+        color: #fbbf24;
+      }
+
+      .workout-type-hard {
+        background: rgba(239, 68, 68, 0.2);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #f87171;
+      }
+
+      .workout-type-recovery {
+        background: rgba(59, 130, 246, 0.2);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #60a5fa;
+      }
+
+      .plan-section-header {
+        background: linear-gradient(
+          135deg,
+          rgba(79, 70, 229, 0.1),
+          rgba(236, 72, 153, 0.1)
+        );
+        border: 1px solid rgba(236, 72, 153, 0.2);
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin: 24px 0 16px 0;
+      }
+
+      .plan-section-header h2 {
         color: #ec4899;
         font-weight: 800;
+        font-size: 18px;
         text-transform: uppercase;
-        margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
+        letter-spacing: 1px;
+        margin: 0;
       }
 
-      .plan-content strong {
-        color: #ffffff;
+      .workout-detail-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 4px 0;
+        font-size: 13px;
+      }
+
+      .workout-icon {
+        width: 20px;
+        text-align: center;
+        color: #ec4899;
+        opacity: 0.8;
+      }
+
+      /* Card Glow Effect */
+      .card-glow {
+        box-shadow: 0 0 40px rgba(236, 72, 153, 0.1);
+      }
+
+      /* Fade In Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      /* Loading Spinner */
+      .spinner {
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #ec4899;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 0.8s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
       }
     </style>
   </head>
@@ -199,187 +570,320 @@
     <!-- Floating background orbs -->
     <div class="bg-orb bg-orb-1"></div>
     <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
 
     <!-- Wizard Container -->
-    <div id="wizard-overlay" class="wizard-container fixed inset-0 z-10 flex items-center justify-center">
-      <div class="wizard-content w-full h-full flex flex-col px-32 py-12">
-        <h1 class="text-4xl font-black text-white uppercase tracking-wider mb-2 text-center">
-          <i class="fa-solid fa-calendar-days text-neon-pink mr-3"></i>
-          Create Your Training Plan
-        </h1>
-        <p class="text-slate-400 text-center mb-8">Customize your plan to reach your goals</p>
+    <div id="wizard-overlay" class="fixed inset-0 z-10 flex items-center justify-center p-8">
+      <div class="w-full max-w-6xl h-full flex flex-col">
+        
+        <!-- Wizard Header -->
+        <div class="text-center mb-8 fade-in">
+          <h1 class="text-5xl font-black text-white uppercase tracking-wider mb-3">
+            <i class="fa-solid fa-dumbbell text-neon-pink mr-3"></i>
+            Training Plan
+          </h1>
+          <p class="text-lg text-slate-400">Let's build your perfect training journey</p>
+        </div>
 
-        <div class="flex-grow overflow-y-auto">
-          <!-- Plan Name -->
-          <div class="mb-8">
-            <label class="block text-sm font-bold text-slate-300 uppercase tracking-wider mb-2">
-              Plan Name
-            </label>
-            <input
-              type="text"
-              id="plan-name"
-              placeholder="e.g., Marathon Prep 2025, Summer Triathlon Training"
-              class="w-full p-3 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition outline-none"
-            />
+        <!-- Progress Indicators -->
+        <div class="mb-8 fade-in">
+          <div class="flex items-center justify-between max-w-2xl mx-auto mb-4">
+            <div class="flex flex-col items-center">
+              <div class="step-indicator active" data-step="1">
+                <i class="fas fa-flag-checkered text-sm"></i>
+              </div>
+              <span class="text-xs mt-2 font-semibold text-white">Basics</span>
+            </div>
+            <div class="flex-1 h-0.5 bg-white/10 mx-4"></div>
+            <div class="flex flex-col items-center">
+              <div class="step-indicator" data-step="2">
+                <i class="fas fa-bullseye text-sm"></i>
+              </div>
+              <span class="text-xs mt-2 font-semibold text-slate-400">Goals</span>
+            </div>
+            <div class="flex-1 h-0.5 bg-white/10 mx-4"></div>
+            <div class="flex flex-col items-center">
+              <div class="step-indicator" data-step="3">
+                <i class="fas fa-clock text-sm"></i>
+              </div>
+              <span class="text-xs mt-2 font-semibold text-slate-400">Schedule</span>
+            </div>
+            <div class="flex-1 h-0.5 bg-white/10 mx-4"></div>
+            <div class="flex flex-col items-center">
+              <div class="step-indicator" data-step="4">
+                <i class="fas fa-check text-sm"></i>
+              </div>
+              <span class="text-xs mt-2 font-semibold text-slate-400">Review</span>
+            </div>
           </div>
+          <div class="progress-bar max-w-2xl mx-auto">
+            <div class="progress-fill" id="progress-fill" style="width: 25%"></div>
+          </div>
+        </div>
 
-          <!-- Sport Selection -->
-          <div class="mb-8">
-            <label class="block text-sm font-bold text-slate-300 uppercase tracking-wider mb-4">
-              Select Your Sport
-            </label>
-            <div class="grid grid-cols-4 gap-4">
-              <div class="sport-card rounded-xl p-5 text-center" data-sport="running">
-                <i class="fas fa-running text-3xl text-neon-pink mb-2"></i>
-                <p class="text-sm font-semibold">Running</p>
-              </div>
-              <div class="sport-card rounded-xl p-5 text-center" data-sport="cycling">
-                <i class="fas fa-biking text-3xl text-neon-indigo mb-2"></i>
-                <p class="text-sm font-semibold">Cycling</p>
-              </div>
-              <div class="sport-card rounded-xl p-5 text-center" data-sport="swimming">
-              <i class="fas fa-person-swimming swim-icon text-3xl text-cyan-400 mb-2"></i>
-                <p class="text-sm font-semibold">Swimming</p>
-              </div>
-              <div class="sport-card rounded-xl p-5 text-center" data-sport="triathlon">
-                <i class="fas fa-medal text-3xl text-yellow-400 mb-2"></i>
-                <p class="text-sm font-semibold">Triathlon</p>
+        <!-- Steps Container -->
+        <div class="flex-1 overflow-y-auto mb-6 relative">
+          
+          <!-- Step 1: Basics -->
+          <div class="wizard-step active" data-step="1">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+              <h2 class="text-3xl font-black text-white mb-3 flex items-center">
+                <i class="fas fa-flag-checkered text-neon-pink mr-3"></i>
+                Let's Start with the Basics
+              </h2>
+              <p class="text-slate-400 mb-10">Tell us about your training plan and sport preference</p>
+              
+              <div class="space-y-8">
+                <!-- Plan Name -->
+                <div>
+                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-3">
+                    What should we call your training plan?
+                  </label>
+                  <input
+                    type="text"
+                    id="plan-name"
+                    placeholder="e.g., Marathon Prep 2025, Summer Triathlon Training"
+                    class="w-full p-4 rounded-2xl text-white text-lg focus:outline-none"
+                  />
+                </div>
+
+                <!-- Sport Selection -->
+                <div>
+                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-4">
+                    Choose Your Sport
+                  </label>
+                  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="sport-card rounded-2xl p-6 text-center" data-sport="running">
+                      <i class="fas fa-running text-5xl text-neon-pink mb-3"></i>
+                      <p class="text-base font-bold">Running</p>
+                    </div>
+                    <div class="sport-card rounded-2xl p-6 text-center" data-sport="cycling">
+                      <i class="fas fa-biking text-5xl text-neon-indigo mb-3"></i>
+                      <p class="text-base font-bold">Cycling</p>
+                    </div>
+                    <div class="sport-card rounded-2xl p-6 text-center" data-sport="swimming">
+                      <i class="fas fa-person-swimming swim-icon text-5xl text-cyan-400 mb-3"></i>
+                      <p class="text-base font-bold">Swimming</p>
+                    </div>
+                    <div class="sport-card rounded-2xl p-6 text-center" data-sport="triathlon">
+                      <i class="fas fa-medal text-5xl text-yellow-400 mb-3"></i>
+                      <p class="text-base font-bold">Triathlon</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Two Column Layout for Inputs -->
-          <div class="grid lg:grid-cols-2 gap-8 mb-8">
-            <!-- Left Column -->
-            <div class="space-y-7">
-              <!-- Current Performance -->
-              <div>
-                <label class="block text-sm font-bold text-slate-300 uppercase tracking-wider mb-2">
-                  Current Performance
-                </label>
-                <input
-                  type="text"
-                  id="current-time"
-                  placeholder="e.g., 45:00 for 10K"
-                  class="w-full p-3 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition outline-none"
-                />
-                <p class="text-xs text-slate-500 mt-1">Enter your current best time or distance</p>
-              </div>
-
-              <!-- Sessions Per Week -->
-              <div>
-                <div class="flex justify-between items-center mb-3">
-                  <label class="text-sm font-bold text-slate-300 uppercase tracking-wider">
-                    Training Sessions Per Week
+          <!-- Step 2: Goals -->
+          <div class="wizard-step" data-step="2">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+              <h2 class="text-3xl font-black text-white mb-3 flex items-center">
+                <i class="fas fa-bullseye text-neon-pink mr-3"></i>
+                Set Your Goals
+              </h2>
+              <p class="text-slate-400 mb-10">Define where you are and where you want to be</p>
+              
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-3">
+                    Current Performance
                   </label>
-                  <span id="sessions-display" class="text-base text-neon-pink font-bold">4 sessions</span>
+                  <input
+                    type="text"
+                    id="current-time"
+                    placeholder="e.g., 45:00 for 10K"
+                    class="w-full p-4 rounded-2xl text-white text-lg focus:outline-none"
+                  />
+                  <p class="text-sm text-slate-500 mt-2">Your current best time or distance</p>
                 </div>
-                <input
-                  type="range"
-                  id="sessions-slider"
-                  min="2"
-                  max="7"
-                  value="4"
-                  class="w-full"
-                />
-                <div class="flex justify-between text-xs text-slate-500 mt-1">
-                  <span>2</span>
-                  <span>3</span>
-                  <span>4</span>
-                  <span>5</span>
-                  <span>6</span>
-                  <span>7</span>
-                </div>
-              </div>
 
-              <!-- Available Time -->
-              <div>
-                <div class="flex justify-between items-center mb-3">
-                  <label class="text-sm font-bold text-slate-300 uppercase tracking-wider">
-                    Available Training Time Per Week
+                <div>
+                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-3">
+                    Goal Performance
                   </label>
-                  <span id="time-display" class="text-base text-neon-pink font-bold">6 hours</span>
-                </div>
-                <input
-                  type="range"
-                  id="time-slider"
-                  min="2"
-                  max="20"
-                  value="6"
-                  class="w-full"
-                />
-                <div class="flex justify-between text-xs text-slate-500 mt-1">
-                  <span>2h</span>
-                  <span>8h</span>
-                  <span>14h</span>
-                  <span>20h</span>
+                  <input
+                    type="text"
+                    id="goal-time"
+                    placeholder="e.g., 40:00 for 10K"
+                    class="w-full p-4 rounded-2xl text-white text-lg focus:outline-none"
+                  />
+                  <p class="text-sm text-slate-500 mt-2">Your target time or distance</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Right Column -->
-            <div class="space-y-7">
-              <!-- Goal Performance -->
-              <div>
-                <label class="block text-sm font-bold text-slate-300 uppercase tracking-wider mb-2">
-                  Goal Performance
-                </label>
-                <input
-                  type="text"
-                  id="goal-time"
-                  placeholder="e.g., 40:00 for 10K"
-                  class="w-full p-3 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition outline-none"
-                />
-                <p class="text-xs text-slate-500 mt-1">Enter your target time or distance</p>
+          <!-- Step 3: Schedule -->
+          <div class="wizard-step" data-step="3">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+              <h2 class="text-3xl font-black text-white mb-3 flex items-center">
+                <i class="fas fa-clock text-neon-pink mr-3"></i>
+                Plan Your Schedule
+              </h2>
+              <p class="text-slate-400 mb-10">How much time can you commit to training?</p>
+              
+              <div class="space-y-10">
+                <!-- Plan Duration -->
+                <div>
+                  <div class="flex justify-between items-center mb-4">
+                    <label class="text-base font-bold text-white uppercase tracking-wider">
+                      Plan Duration
+                    </label>
+                    <span id="duration-display" class="text-2xl text-neon-pink font-black">8 weeks</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="duration-slider"
+                    min="4"
+                    max="26"
+                    value="8"
+                    class="w-full"
+                  />
+                  <div class="flex justify-between text-sm text-slate-500 mt-2">
+                    <span>4 weeks</span>
+                    <span>12 weeks</span>
+                    <span>20 weeks</span>
+                    <span>26 weeks</span>
+                  </div>
+                </div>
+
+                <!-- Sessions Per Week -->
+                <div>
+                  <div class="flex justify-between items-center mb-4">
+                    <label class="text-base font-bold text-white uppercase tracking-wider">
+                      Training Sessions Per Week
+                    </label>
+                    <span id="sessions-display" class="text-2xl text-neon-pink font-black">4 sessions</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="sessions-slider"
+                    min="1"
+                    max="10"
+                    value="4"
+                    class="w-full"
+                  />
+                  <div class="flex justify-between text-sm text-slate-500 mt-2">
+                    <span>1</span>
+                    <span>3</span>
+                    <span>5</span>
+                    <span>7</span>
+                    <span>10</span>
+                  </div>
+                </div>
+
+                <!-- Available Time -->
+                <div>
+                  <div class="flex justify-between items-center mb-4">
+                    <label class="text-base font-bold text-white uppercase tracking-wider">
+                      Available Training Time Per Week
+                    </label>
+                    <span id="time-display" class="text-2xl text-neon-pink font-black">6 hours</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="time-slider"
+                    min="2"
+                    max="20"
+                    value="6"
+                    class="w-full"
+                  />
+                  <div class="flex justify-between text-sm text-slate-500 mt-2">
+                    <span>2h</span>
+                    <span>8h</span>
+                    <span>14h</span>
+                    <span>20h</span>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
 
-              <!-- Training Plan Duration -->
-              <div>
-                <div class="flex justify-between items-center mb-3">
-                  <label class="text-sm font-bold text-slate-300 uppercase tracking-wider">
-                    Plan Duration
+          <!-- Step 4: Review -->
+          <div class="wizard-step" data-step="4">
+            <div class="max-w-4xl mx-auto bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 p-12 card-glow">
+              <h2 class="text-3xl font-black text-white mb-3 flex items-center">
+                <i class="fas fa-check text-neon-pink mr-3"></i>
+                Review & Customize
+              </h2>
+              <p class="text-slate-400 mb-10">Add any final details to personalize your plan</p>
+              
+              <div class="space-y-6">
+                <!-- Summary -->
+                <div class="bg-gradient-to-br from-neon-pink/10 to-neon-indigo/10 rounded-2xl p-6 border border-white/10">
+                  <h3 class="text-lg font-bold text-white mb-4 uppercase tracking-wider">Your Plan Summary</h3>
+                  <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span class="text-slate-400">Plan Name:</span>
+                      <span class="text-white font-semibold ml-2" id="summary-name">-</span>
+                    </div>
+                    <div>
+                      <span class="text-slate-400">Sport:</span>
+                      <span class="text-white font-semibold ml-2" id="summary-sport">-</span>
+                    </div>
+                    <div>
+                      <span class="text-slate-400">Current:</span>
+                      <span class="text-white font-semibold ml-2" id="summary-current">-</span>
+                    </div>
+                    <div>
+                      <span class="text-slate-400">Goal:</span>
+                      <span class="text-white font-semibold ml-2" id="summary-goal">-</span>
+                    </div>
+                    <div>
+                      <span class="text-slate-400">Duration:</span>
+                      <span class="text-white font-semibold ml-2" id="summary-duration">-</span>
+                    </div>
+                    <div>
+                      <span class="text-slate-400">Frequency:</span>
+                      <span class="text-white font-semibold ml-2" id="summary-sessions">-</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div>
+                  <label class="block text-sm font-bold text-white uppercase tracking-wider mb-3">
+                    Additional Information (Optional)
                   </label>
-                  <span id="duration-display" class="text-base text-neon-pink font-bold">8 weeks</span>
+                  <textarea
+                    id="additional-info"
+                    placeholder="Any injuries, training preferences, race dates, or specific constraints..."
+                    rows="4"
+                    class="w-full p-4 rounded-2xl text-white text-base focus:outline-none resize-none"
+                  ></textarea>
                 </div>
-                <input
-                  type="range"
-                  id="duration-slider"
-                  min="4"
-                  max="16"
-                  value="8"
-                  class="w-full"
-                />
-                <div class="flex justify-between text-xs text-slate-500 mt-1">
-                  <span>4</span>
-                  <span>8</span>
-                  <span>12</span>
-                  <span>16</span>
-                </div>
-              </div>
-
-              <!-- Additional Info -->
-              <div>
-                <label class="block text-sm font-bold text-slate-300 uppercase tracking-wider mb-2">
-                  Additional Information (Optional)
-                </label>
-                <textarea
-                  id="additional-info"
-                  placeholder="Any injuries, preferences, or constraints..."
-                  rows="3"
-                  class="w-full p-3 rounded-xl bg-black/50 border border-white/10 text-white focus:ring-2 focus:ring-neon-pink focus:border-transparent transition outline-none resize-none"
-                ></textarea>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Create Button (Fixed at bottom) -->
-        <button
-          id="create-plan-btn"
-          class="gradient-button w-full px-6 py-4 rounded-xl text-white text-lg font-black uppercase tracking-wider mt-8"
-        >
-          Create My Training Plan
-        </button>
+        <!-- Navigation Buttons -->
+        <div class="flex justify-end gap-4 max-w-4xl mx-auto w-full fade-in">
+          <button
+            id="prev-btn"
+            class="secondary-button px-6 py-3 rounded-xl font-semibold uppercase tracking-wider flex items-center justify-center text-sm"
+            style="display: none;"
+          >
+            <i class="fas fa-arrow-left mr-2"></i>
+            <span>Back</span>
+          </button>
+          <button
+            id="next-btn"
+            class="gradient-button px-6 py-3 rounded-xl font-semibold uppercase tracking-wider disabled:opacity-50 flex items-center text-sm"
+          >
+            <span>Next Step</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </button>
+          <button
+            id="create-plan-btn"
+            class="gradient-button px-8 py-3 rounded-xl font-semibold uppercase tracking-wider flex items-center text-sm"
+            style="display: none;"
+          >
+            <span>Create My Plan</span>
+            <i class="fas fa-magic ml-2"></i>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -438,6 +942,14 @@
     <script>
       let selectedSport = null;
       let trainingPlanData = null;
+      let currentStep = 1;
+      const totalSteps = 4;
+
+      // Initialize wizard
+      function initWizard() {
+        updateStepUI();
+        updateNavigationButtons();
+      }
 
       // Sport selection
       document.querySelectorAll('.sport-card').forEach(card => {
@@ -445,40 +957,197 @@
           document.querySelectorAll('.sport-card').forEach(c => c.classList.remove('selected'));
           card.classList.add('selected');
           selectedSport = card.dataset.sport;
+          updateNavigationButtons();
         });
       });
 
-      // Sessions slider
+      // Sliders
       const sessionsSlider = document.getElementById('sessions-slider');
       const sessionsDisplay = document.getElementById('sessions-display');
       sessionsSlider.addEventListener('input', (e) => {
         const value = e.target.value;
         sessionsDisplay.textContent = `${value} session${value > 1 ? 's' : ''}`;
+        updateSliderFill(sessionsSlider);
       });
 
-      // Duration slider
       const durationSlider = document.getElementById('duration-slider');
       const durationDisplay = document.getElementById('duration-display');
       durationSlider.addEventListener('input', (e) => {
         const value = e.target.value;
         durationDisplay.textContent = `${value} week${value > 1 ? 's' : ''}`;
+        updateSliderFill(durationSlider);
       });
 
-      // Time slider
       const timeSlider = document.getElementById('time-slider');
       const timeDisplay = document.getElementById('time-display');
       timeSlider.addEventListener('input', (e) => {
         const value = e.target.value;
         timeDisplay.textContent = `${value} hour${value > 1 ? 's' : ''}`;
+        updateSliderFill(timeSlider);
       });
 
-      // Create Plan Button
-      document.getElementById('create-plan-btn').addEventListener('click', async () => {
-        if (!selectedSport) {
-          alert('Please select a sport');
-          return;
+      // Update slider fill visual
+      function updateSliderFill(slider) {
+        const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+        slider.style.background = `linear-gradient(to right, #ec4899 0%, #4f46e5 ${value}%, rgba(255, 255, 255, 0.1) ${value}%, rgba(255, 255, 255, 0.1) 100%)`;
+      }
+
+      // Initialize slider fills
+      updateSliderFill(sessionsSlider);
+      updateSliderFill(durationSlider);
+      updateSliderFill(timeSlider);
+
+      // Navigation
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const createBtn = document.getElementById('create-plan-btn');
+
+      nextBtn.addEventListener('click', () => {
+        if (validateStep(currentStep)) {
+          goToStep(currentStep + 1);
+        }
+      });
+
+      prevBtn.addEventListener('click', () => {
+        goToStep(currentStep - 1);
+      });
+
+      function goToStep(step) {
+        if (step < 1 || step > totalSteps) return;
+
+        // Animate out current step
+        const currentStepEl = document.querySelector(`.wizard-step[data-step="${currentStep}"]`);
+        currentStepEl.classList.add('exiting');
+        
+        setTimeout(() => {
+          currentStepEl.classList.remove('active', 'exiting');
+          
+          // Animate in new step
+          currentStep = step;
+          const newStepEl = document.querySelector(`.wizard-step[data-step="${currentStep}"]`);
+          newStepEl.classList.add('active');
+          
+          updateStepUI();
+          updateNavigationButtons();
+          
+          if (currentStep === 4) {
+            updateSummary();
+          }
+        }, 300);
+      }
+
+      function updateStepUI() {
+        // Update progress bar
+        const progress = (currentStep / totalSteps) * 100;
+        document.getElementById('progress-fill').style.width = `${progress}%`;
+
+        // Update step indicators
+        document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+          const step = index + 1;
+          const label = indicator.nextElementSibling;
+          
+          indicator.classList.remove('active', 'completed');
+          label.classList.remove('text-white', 'text-slate-400');
+          
+          if (step < currentStep) {
+            indicator.classList.add('completed');
+            indicator.innerHTML = '<i class="fas fa-check text-sm"></i>';
+            label.classList.add('text-white');
+          } else if (step === currentStep) {
+            indicator.classList.add('active');
+            label.classList.add('text-white');
+          } else {
+            label.classList.add('text-slate-400');
+          }
+        });
+      }
+
+      function updateNavigationButtons() {
+        // Show/hide prev button
+        prevBtn.style.display = currentStep === 1 ? 'none' : 'flex';
+        
+        // Show/hide next vs create button
+        if (currentStep === totalSteps) {
+          nextBtn.style.display = 'none';
+          createBtn.style.display = 'flex';
+        } else {
+          nextBtn.style.display = 'flex';
+          createBtn.style.display = 'none';
         }
 
+        // Enable/disable next button based on validation
+        nextBtn.disabled = !canProceed(currentStep);
+      }
+
+      function canProceed(step) {
+        switch(step) {
+          case 1:
+            const planName = document.getElementById('plan-name').value.trim();
+            return selectedSport !== null && planName !== '';
+          case 2:
+            return document.getElementById('current-time').value.trim() !== '' &&
+                   document.getElementById('goal-time').value.trim() !== '';
+          case 3:
+            return true; // Sliders always have values
+          case 4:
+            return true;
+          default:
+            return false;
+        }
+      }
+
+      function validateStep(step) {
+        if (!canProceed(step)) {
+          let message = '';
+          switch(step) {
+            case 1:
+              const planName = document.getElementById('plan-name').value.trim();
+              if (!planName) {
+                message = 'Please enter a plan name to continue';
+              } else if (!selectedSport) {
+                message = 'Please select a sport to continue';
+              }
+              break;
+            case 2:
+              message = 'Please fill in both current and goal performance';
+              break;
+          }
+          if (message) {
+            showNotification(message, 'error');
+          }
+          return false;
+        }
+        return true;
+      }
+
+      function updateSummary() {
+        const planName = document.getElementById('plan-name').value.trim() || 'My Training Plan';
+        const sport = selectedSport ? selectedSport.charAt(0).toUpperCase() + selectedSport.slice(1) : '-';
+        const current = document.getElementById('current-time').value.trim();
+        const goal = document.getElementById('goal-time').value.trim();
+        const duration = durationSlider.value;
+        const sessions = sessionsSlider.value;
+
+        document.getElementById('summary-name').textContent = planName;
+        document.getElementById('summary-sport').textContent = sport;
+        document.getElementById('summary-current').textContent = current;
+        document.getElementById('summary-goal').textContent = goal;
+        document.getElementById('summary-duration').textContent = `${duration} weeks`;
+        document.getElementById('summary-sessions').textContent = `${sessions} sessions/week`;
+      }
+
+      function showNotification(message, type = 'info') {
+        // Simple alert for now - can be enhanced with custom toast notifications
+        alert(message);
+      }
+
+      // Watch for input changes to enable/disable next button
+      document.getElementById('plan-name').addEventListener('input', updateNavigationButtons);
+      document.getElementById('current-time').addEventListener('input', updateNavigationButtons);
+      document.getElementById('goal-time').addEventListener('input', updateNavigationButtons);
+
+      // Create Plan Button
+      createBtn.addEventListener('click', async () => {
         const planName = document.getElementById('plan-name').value.trim();
         const currentTime = document.getElementById('current-time').value.trim();
         const goalTime = document.getElementById('goal-time').value.trim();
@@ -486,11 +1155,6 @@
         const duration = durationSlider.value;
         const availableTime = `${timeSlider.value} hours`;
         const additionalInfo = document.getElementById('additional-info').value.trim();
-
-        if (!currentTime || !goalTime) {
-          alert('Please fill in all required fields');
-          return;
-        }
 
         // Build the prompt
         const prompt = `Please create a personalized training plan with the following details:
@@ -513,8 +1177,8 @@ Please provide:
 Format the plan clearly with headers for each week and day.`;
 
         // Show loading state
-        document.getElementById('create-plan-btn').innerHTML = 'Creating Your Plan...';
-        document.getElementById('create-plan-btn').disabled = true;
+        createBtn.innerHTML = '<span class="spinner"></span><span>Creating Your Plan...</span>';
+        createBtn.disabled = true;
 
         try {
           const response = await fetch('http://127.0.0.1:5500/api/training-plan', {
@@ -551,19 +1215,186 @@ Format the plan clearly with headers for each week and day.`;
             `${selectedSport.charAt(0).toUpperCase() + selectedSport.slice(1)} • ${duration} weeks • ${sessions} sessions/week • ${availableTime}`;
 
         } catch (error) {
-          alert('Launch app.py');
-          document.getElementById('create-plan-btn').innerHTML = 'Create My Training Plan';
-          document.getElementById('create-plan-btn').disabled = false;
+          showNotification('Error: Please make sure app.py is running', 'error');
+          createBtn.innerHTML = '<span>Create My Plan</span><i class="fas fa-magic ml-2"></i>';
+          createBtn.disabled = false;
         }
       });
 
-      // Display plan in text view
+      // Display plan in text view with beautiful card layout
       function displayPlan(planText) {
         const textView = document.getElementById('text-view');
-        const formattedText = planText
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        textView.innerHTML = '';
+        
+        // Try to parse the plan into structured data
+        const parsedPlan = parsePlanText(planText);
+        
+        if (parsedPlan.weeks && parsedPlan.weeks.length > 0) {
+          // Render structured plan with cards
+          renderStructuredPlan(parsedPlan, textView);
+        } else {
+          // Fallback: render with basic formatting
+          renderBasicPlan(planText, textView);
+        }
+      }
+
+      function parsePlanText(text) {
+        const plan = { intro: '', weeks: [], tips: '' };
+        const lines = text.split('\n');
+        let currentWeek = null;
+        let currentDay = null;
+        let currentSection = 'intro';
+        
+        for (let line of lines) {
+          line = line.trim();
+          if (!line) continue;
+          
+          // Check for week header
+          const weekMatch = line.match(/\*\*Week\s+(\d+)/i);
+          if (weekMatch) {
+            if (currentWeek) plan.weeks.push(currentWeek);
+            currentWeek = { number: weekMatch[1], days: [], description: '' };
+            currentDay = null;
+            currentSection = 'week';
+            continue;
+          }
+          
+          // Check for day header
+          const dayMatch = line.match(/\*\*(Day|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*(\d*)/i);
+          if (dayMatch && currentWeek) {
+            if (currentDay) currentWeek.days.push(currentDay);
+            currentDay = { name: line.replace(/\*\*/g, ''), workouts: [] };
+            continue;
+          }
+          
+          // Check for tips section
+          if (line.match(/\*\*Tips|\*\*Advice|\*\*Notes|\*\*Important/i)) {
+            if (currentWeek) plan.weeks.push(currentWeek);
+            currentWeek = null;
+            currentDay = null;
+            currentSection = 'tips';
+            continue;
+          }
+          
+          // Add content to appropriate section
+          if (currentSection === 'intro' && !currentWeek) {
+            plan.intro += line + ' ';
+          } else if (currentDay) {
+            currentDay.workouts.push(line);
+          } else if (currentWeek) {
+            currentWeek.description += line + ' ';
+          } else if (currentSection === 'tips') {
+            plan.tips += line + ' ';
+          }
+        }
+        
+        if (currentDay && currentWeek) currentWeek.days.push(currentDay);
+        if (currentWeek) plan.weeks.push(currentWeek);
+        
+        return plan;
+      }
+
+      function renderStructuredPlan(plan, container) {
+        // Render intro if exists
+        if (plan.intro.trim()) {
+          const introDiv = document.createElement('div');
+          introDiv.className = 'plan-section-header mb-6';
+          introDiv.innerHTML = `
+            <h2><i class="fas fa-bullseye mr-2"></i>Your Training Plan Overview</h2>
+            <p class="text-slate-300 text-sm mt-2 leading-relaxed">${formatText(plan.intro)}</p>
+          `;
+          container.appendChild(introDiv);
+        }
+        
+        // Render weeks
+        plan.weeks.forEach((week, index) => {
+          const weekCard = document.createElement('div');
+          weekCard.className = 'week-card';
+          weekCard.innerHTML = `
+            <div class="flex items-center justify-between px-6 py-4 cursor-pointer" onclick="toggleWeek(this)">
+              <div class="flex items-center gap-4">
+                <span class="week-badge">Week ${week.number}</span>
+                <div>
+                  <h3 class="text-white font-bold text-lg">Week ${week.number}</h3>
+                  ${week.description ? `<p class="text-slate-400 text-sm mt-1">${formatText(week.description).substring(0, 100)}...</p>` : ''}
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-slate-400 text-sm">${week.days.length} days</span>
+                <i class="fas fa-chevron-down week-chevron text-lg"></i>
+              </div>
+            </div>
+            <div class="week-content">
+              ${week.description ? `<div class="mb-4 p-4 bg-black/20 rounded-lg border border-white/5"><p class="text-slate-300 text-sm leading-relaxed">${formatText(week.description)}</p></div>` : ''}
+              <div class="space-y-3">
+                ${week.days.map(day => `
+                  <div class="workout-card">
+                    <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
+                      <i class="fas fa-calendar-day text-neon-pink"></i>
+                      ${day.name.replace(/\*\*/g, '')}
+                    </h4>
+                    <div class="space-y-2 pl-7">
+                      ${day.workouts.map(workout => {
+                        const intensity = detectIntensity(workout);
+                        return `
+                          <div class="workout-detail-row">
+                            <i class="fas fa-circle text-xs workout-icon"></i>
+                            <span class="text-slate-300 flex-grow">${formatText(workout)}</span>
+                            ${intensity ? `<span class="workout-type-badge workout-type-${intensity}">${intensity}</span>` : ''}
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+          container.appendChild(weekCard);
+        });
+        
+        // Render tips if exists
+        if (plan.tips.trim()) {
+          const tipsDiv = document.createElement('div');
+          tipsDiv.className = 'plan-section-header mt-6';
+          tipsDiv.innerHTML = `
+            <h2><i class="fas fa-lightbulb mr-2"></i>Training Tips & Advice</h2>
+            <p class="text-slate-300 text-sm mt-2 leading-relaxed">${formatText(plan.tips)}</p>
+          `;
+          container.appendChild(tipsDiv);
+        }
+      }
+
+      function renderBasicPlan(text, container) {
+        const formattedDiv = document.createElement('div');
+        formattedDiv.className = 'text-slate-300 leading-relaxed space-y-4';
+        formattedDiv.innerHTML = formatText(text);
+        container.appendChild(formattedDiv);
+      }
+
+      function formatText(text) {
+        return text
+          .replace(/\*\*(.+?)\*\*/g, '<strong class="text-white font-bold">$1</strong>')
           .replace(/\n/g, '<br>');
-        textView.innerHTML = formattedText;
+      }
+
+      function detectIntensity(text) {
+        const lower = text.toLowerCase();
+        if (lower.includes('easy') || lower.includes('recovery') || lower.includes('light')) return 'easy';
+        if (lower.includes('hard') || lower.includes('intense') || lower.includes('vigorous')) return 'hard';
+        if (lower.includes('moderate') || lower.includes('steady') || lower.includes('tempo')) return 'moderate';
+        if (lower.includes('rest') || lower.includes('off')) return 'recovery';
+        return null;
+      }
+
+      function toggleWeek(element) {
+        const weekCard = element.parentElement;
+        const content = weekCard.querySelector('.week-content');
+        const chevron = weekCard.querySelector('.week-chevron');
+        
+        weekCard.classList.toggle('expanded');
+        content.classList.toggle('expanded');
+        chevron.classList.toggle('rotated');
       }
 
       // View toggle buttons
@@ -600,9 +1431,31 @@ Format the plan clearly with headers for each week and day.`;
       document.getElementById('new-plan-btn').addEventListener('click', () => {
         document.getElementById('wizard-overlay').classList.remove('hidden');
         document.getElementById('main-content').classList.add('hidden');
-        document.getElementById('create-plan-btn').innerHTML = '<i class="fas fa-magic mr-2"></i>Create My Training Plan';
-        document.getElementById('create-plan-btn').disabled = false;
+        
+        // Reset wizard
+        currentStep = 1;
+        selectedSport = null;
+        document.getElementById('plan-name').value = '';
+        document.getElementById('current-time').value = '';
+        document.getElementById('goal-time').value = '';
+        document.getElementById('additional-info').value = '';
+        document.querySelectorAll('.sport-card').forEach(c => c.classList.remove('selected'));
+        
+        // Reset wizard UI
+        document.querySelectorAll('.wizard-step').forEach(step => {
+          step.classList.remove('active', 'exiting');
+        });
+        document.querySelector('.wizard-step[data-step="1"]').classList.add('active');
+        
+        updateStepUI();
+        updateNavigationButtons();
+        
+        createBtn.innerHTML = '<span>Create My Plan</span><i class="fas fa-magic ml-2"></i>';
+        createBtn.disabled = false;
       });
+
+      // Initialize wizard on load
+      initWizard();
     </script>
   </body>
 </html>
