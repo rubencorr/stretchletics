@@ -553,17 +553,18 @@
         animation: messageSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       }
 
-      /* Exercise card styling */
+      /* Exercise card styling - Modern redesign */
       .exercise-card {
-        background: rgba(79, 70, 229, 0.08);
-        border: 1px solid rgba(79, 70, 229, 0.2);
-        border-radius: 10px;
-        padding: 14px;
-        margin: 10px 0;
-        transition: all 0.3s ease;
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(236, 72, 153, 0.05));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 0;
+        margin: 8px 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
         cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
       .exercise-card::before {
         content: "";
@@ -571,37 +572,51 @@
         left: 0;
         top: 0;
         height: 100%;
-        width: 4px;
-        background: linear-gradient(to bottom, #ec4899, #4f46e5);
+        width: 3px;
+        background: linear-gradient(180deg, #ec4899, #4f46e5);
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
       }
       .exercise-card:hover {
-        background: rgba(79, 70, 229, 0.15);
-        border-color: rgba(236, 72, 153, 0.4);
-        transform: translateX(4px);
+        border-color: rgba(236, 72, 153, 0.3);
+        box-shadow: 0 4px 16px rgba(236, 72, 153, 0.2);
+        transform: translateY(-2px);
+      }
+      .exercise-card:hover::before {
+        opacity: 1;
       }
       .exercise-card.expanded {
-        background: rgba(79, 70, 229, 0.18);
-        border-color: rgba(236, 72, 153, 0.5);
+        border-color: rgba(236, 72, 153, 0.4);
+        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.25);
       }
       .exercise-explanation {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease, opacity 0.3s ease,
-          margin-top 0.3s ease;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                    opacity 0.3s ease,
+                    padding 0.3s ease;
         opacity: 0;
+        padding: 0 20px;
       }
       .exercise-explanation.expanded {
-        max-height: 300px;
+        max-height: 400px;
         opacity: 1;
-        margin-top: 12px;
+        padding: 0 20px 16px 20px;
       }
       .exercise-chevron {
-        transition: transform 0.3s ease;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        color: #94a3b8;
+        font-size: 12px;
+        opacity: 0.7;
+      }
+      .exercise-card:hover .exercise-chevron {
         color: #ec4899;
-        font-size: 14px;
+        opacity: 1;
       }
       .exercise-chevron.rotated {
         transform: rotate(180deg);
+        color: #ec4899;
+        opacity: 1;
       }
 
       /* Timer styling */
@@ -742,46 +757,61 @@
         gap: 8px;
       }
       .exercise-card.active {
-        background: rgba(236, 72, 153, 0.2);
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(79, 70, 229, 0.1));
         border-color: #ec4899;
         border-width: 2px;
-        transform: translateX(8px);
-        box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
+        transform: scale(1.02);
+        box-shadow: 0 6px 24px rgba(236, 72, 153, 0.4), 
+                    0 0 0 1px rgba(236, 72, 153, 0.2);
+        z-index: 10;
+      }
+      .exercise-card.active::before {
+        width: 4px;
+        opacity: 1;
+        box-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
       }
       .exercise-card.completed {
-        opacity: 0.6;
-        background: rgba(34, 197, 94, 0.1);
-        border-color: rgba(34, 197, 94, 0.3);
+        opacity: 0.5;
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(16, 185, 129, 0.05));
+        border-color: rgba(34, 197, 94, 0.2);
+        transform: scale(0.98);
+      }
+      .exercise-card.completed::before {
+        background: linear-gradient(180deg, #22c55e, #16a34a);
       }
       .exercise-card.completed .exercise-number {
-        background: linear-gradient(135deg, #22c55e, #16a34a);
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(16, 185, 129, 0.3));
+        border-color: rgba(34, 197, 94, 0.4);
+        color: #22c55e;
       }
 
       .exercise-number {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #ec4899, #4f46e5);
-        color: white;
-        font-weight: 900;
-        font-size: 13px;
-        margin-right: 12px;
-        flex-shrink: 0;
-      }
-      .exercise-duration {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 10px;
-        border-radius: 12px;
-        background: rgba(236, 72, 153, 0.2);
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(79, 70, 229, 0.2));
         border: 1px solid rgba(236, 72, 153, 0.3);
-        font-size: 11px;
-        font-weight: 700;
         color: #f472b6;
+        font-weight: 800;
+        font-size: 14px;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
       }
+      .exercise-card:hover .exercise-number {
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(79, 70, 229, 0.3));
+        border-color: rgba(236, 72, 153, 0.5);
+        transform: scale(1.05);
+      }
+      .exercise-card.active .exercise-number {
+        background: linear-gradient(135deg, #ec4899, #4f46e5);
+        border-color: #ec4899;
+        color: white;
+        box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+      }
+
 
       /* Quick action buttons */
       .quick-action-btn {
@@ -1564,8 +1594,11 @@
 
                 card.setAttribute("data-exercise-id", exerciseId);
                 card.setAttribute("data-duration", durationSeconds);
-                card.setAttribute("data-bilateral", exercise.bilateral || false);
-                
+                card.setAttribute(
+                  "data-bilateral",
+                  exercise.bilateral || false
+                );
+
                 // Format duration display for bilateral exercises
                 let displayDuration = exercise.duration;
                 if (exercise.bilateral) {
@@ -1577,27 +1610,36 @@
                     displayDuration = `2x${halfSeconds} sec`;
                   }
                 }
-                
+
                 card.innerHTML = `
-                  <div class="flex items-center gap-3">
-                    <span class="exercise-number">${index + 1}</span>
-                    <div class="flex-grow">
-                      <h4 class="text-white font-bold text-sm">${
+                  <div class="flex items-center gap-4 px-4 py-4">
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                      <span class="exercise-number">${index + 1}</span>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                      <h4 class="text-white font-semibold text-[15px] leading-tight truncate">${
                         exercise.name
                       }</h4>
+                      <p class="text-slate-400 text-xs mt-0.5 flex items-center gap-1">
+                        <i class="fa-solid fa-clock text-[10px]"></i>
+                        <span>${displayDuration}</span>
+                        ${exercise.bilateral ? '<span class="text-neon-pink ml-1">• Both sides</span>' : ''}
+                      </p>
                     </div>
-                    <span class="exercise-duration mr-2">
-                      ${displayDuration}
-                    </span>
-                    <i class="fa-solid fa-chevron-down exercise-chevron"></i>
+                    <i class="fa-solid fa-chevron-down exercise-chevron flex-shrink-0"></i>
                   </div>
                   <div class="exercise-explanation" data-explanation="${exerciseId}">
-                    <div class="pl-11 pr-2 text-xs text-slate-300 leading-relaxed">
-                      <p class="mb-2"><strong class="text-neon-pink">How to perform:</strong></p>
-                      <p>${
-                        exercise.explanation ||
-                        "Click the exercise name for detailed instructions on proper form and technique."
-                      }</p>
+                    <div class="text-xs text-slate-300 leading-relaxed">
+                      <div class="bg-black/20 rounded-lg p-3 border border-white/5">
+                        <p class="text-neon-pink font-semibold mb-2 flex items-center gap-2">
+                          <i class="fa-solid fa-circle-info text-xs"></i>
+                          How to perform
+                        </p>
+                        <p class="text-slate-300">${
+                          exercise.explanation ||
+                          "Click the exercise card to expand and view detailed instructions on proper form and technique."
+                        }</p>
+                      </div>
                     </div>
                   </div>
                 `;
@@ -2039,7 +2081,9 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
             // Pattern 1: "1. Exercise Name - 2 minutes"
             // Match number, then name, then dash followed by duration (must contain number + time unit)
-            match = line.match(/^(\d+\.)\s*(.+?)\s*[-–—]\s*(\d+\s*(?:sec(?:ond)?s?|min(?:ute)?s?))\s*$/i);
+            match = line.match(
+              /^(\d+\.)\s*(.+?)\s*[-–—]\s*(\d+\s*(?:sec(?:ond)?s?|min(?:ute)?s?))\s*$/i
+            );
             if (match) {
               const name = match[2].trim();
               const duration = match[3].trim();
@@ -2063,8 +2107,11 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
                 }
 
                 // Detect bilateral exercises (need to switch sides)
-                const isBilateral = /\b(each side|per side|both sides|switch (sides|legs|arms)|alternate|other (side|leg|arm))\b/i.test(line + " " + explanation);
-                
+                const isBilateral =
+                  /\b(each side|per side|both sides|switch (sides|legs|arms)|alternate|other (side|leg|arm))\b/i.test(
+                    line + " " + explanation
+                  );
+
                 exercises.push({
                   name: name,
                   duration: duration,
@@ -2088,7 +2135,9 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
             // Pattern 2: "- Exercise Name - 2 minutes" (bullet point)
             // Match bullet, then name, then dash followed by duration (must contain number + time unit)
-            match = line.match(/^[\-\•\*]\s*(.+?)\s*[-–—]\s*(\d+\s*(?:sec(?:ond)?s?|min(?:ute)?s?))\s*$/i);
+            match = line.match(
+              /^[\-\•\*]\s*(.+?)\s*[-–—]\s*(\d+\s*(?:sec(?:ond)?s?|min(?:ute)?s?))\s*$/i
+            );
             if (match) {
               const name = match[1].trim();
               const duration = match[2].trim();
@@ -2108,8 +2157,11 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
                 }
 
                 // Detect bilateral exercises (need to switch sides)
-                const isBilateral = /\b(each side|per side|both sides|switch (sides|legs|arms)|alternate|other (side|leg|arm))\b/i.test(line + " " + explanation);
-                
+                const isBilateral =
+                  /\b(each side|per side|both sides|switch (sides|legs|arms)|alternate|other (side|leg|arm))\b/i.test(
+                    line + " " + explanation
+                  );
+
                 exercises.push({
                   name: name,
                   duration: duration,
@@ -2213,11 +2265,12 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
 
         // Global routine timer functionality
         const activeRoutineTimers = {};
-        
+
         // Helper function to play beep sound
         function playBeep() {
           try {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const audioContext = new (window.AudioContext ||
+              window.webkitAudioContext)();
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
 
@@ -2228,7 +2281,10 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             oscillator.type = "sine";
 
             gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+            gainNode.gain.exponentialRampToValueAtTime(
+              0.01,
+              audioContext.currentTime + 1
+            );
 
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 1);
@@ -2301,7 +2357,10 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           }
 
           // Clear bilateral state for skipped exercise
-          if (state.bilateralState && state.bilateralState[state.currentIndex]) {
+          if (
+            state.bilateralState &&
+            state.bilateralState[state.currentIndex]
+          ) {
             delete state.bilateralState[state.currentIndex];
           }
 
@@ -2315,18 +2374,22 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           }
 
           activeRoutineTimers[routineId] = state;
-          
+
           // If paused, just prepare the next exercise but don't start
           if (state.paused) {
             // Update UI to show next exercise
             const timerContainer = document.getElementById(routineId);
             const currentName = document.getElementById(`current-${routineId}`);
-            const progressText = document.getElementById(`progress-text-${routineId}`);
+            const progressText = document.getElementById(
+              `progress-text-${routineId}`
+            );
             const nextExercise = state.exercises[state.currentIndex];
-            
+
             currentName.textContent = nextExercise.name;
-            progressText.textContent = `Exercise ${state.currentIndex + 1} of ${state.exercises.length}`;
-            
+            progressText.textContent = `Exercise ${state.currentIndex + 1} of ${
+              state.exercises.length
+            }`;
+
             // Highlight next exercise
             state.exercises.forEach((ex, idx) => {
               ex.card.classList.remove("active", "completed");
@@ -2407,18 +2470,24 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           }
 
           const currentExercise = state.exercises[state.currentIndex];
-          const isBilateral = currentExercise.card.getAttribute("data-bilateral") === "true";
+          const isBilateral =
+            currentExercise.card.getAttribute("data-bilateral") === "true";
           let remainingSeconds = currentExercise.duration;
-          
+
           // For bilateral exercises, track which side we're on
           if (!state.bilateralState) {
             state.bilateralState = {};
           }
           if (isBilateral && !state.bilateralState[state.currentIndex]) {
-            state.bilateralState[state.currentIndex] = { side: 1, halfDuration: Math.floor(currentExercise.duration / 2) };
-            remainingSeconds = state.bilateralState[state.currentIndex].halfDuration;
+            state.bilateralState[state.currentIndex] = {
+              side: 1,
+              halfDuration: Math.floor(currentExercise.duration / 2),
+            };
+            remainingSeconds =
+              state.bilateralState[state.currentIndex].halfDuration;
           } else if (isBilateral) {
-            remainingSeconds = state.bilateralState[state.currentIndex].halfDuration;
+            remainingSeconds =
+              state.bilateralState[state.currentIndex].halfDuration;
           }
 
           // Update UI
@@ -2445,11 +2514,12 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
           // Update exercise name with side indicator for bilateral exercises
           if (isBilateral && state.bilateralState[state.currentIndex]) {
             const sideNum = state.bilateralState[state.currentIndex].side;
-            currentName.textContent = currentExercise.name + ` (Side ${sideNum})`;
+            currentName.textContent =
+              currentExercise.name + ` (Side ${sideNum})`;
           } else {
             currentName.textContent = currentExercise.name;
           }
-          
+
           progressText.textContent = `Exercise ${state.currentIndex + 1} of ${
             state.exercises.length
           }`;
@@ -2476,52 +2546,62 @@ ${restrictions ? `- Restrictions/Injuries: ${restrictions}` : ""}`;
             const overallProgress =
               (state.elapsedTotal / state.totalDuration) * 100;
             routineProgress.style.width = overallProgress + "%";
-            
+
             // Check if bilateral exercise needs to switch sides
-            if (isBilateral && remainingSeconds <= 0 && state.bilateralState[state.currentIndex] && state.bilateralState[state.currentIndex].side === 1) {
+            if (
+              isBilateral &&
+              remainingSeconds <= 0 &&
+              state.bilateralState[state.currentIndex] &&
+              state.bilateralState[state.currentIndex].side === 1
+            ) {
               // Pause and prompt to switch sides
               clearInterval(state.interval);
               state.interval = null;
-              
+
               // Play beep
               playBeep();
-              
+
               // Show switch sides notification
               const notification = document.createElement("div");
               notification.className = "param-notification";
               notification.style.background = "rgba(236, 72, 153, 0.95)";
-              notification.innerHTML = '<i class="fa-solid fa-repeat mr-2"></i>Switch to other side!';
+              notification.innerHTML =
+                '<i class="fa-solid fa-repeat mr-2"></i>Switch to other side!';
               document.body.appendChild(notification);
-              
+
               setTimeout(() => {
                 if (notification.parentNode) notification.remove();
               }, 3000);
-              
+
               // Update to second side
               state.bilateralState[state.currentIndex].side = 2;
-              
+
               // Wait 3 seconds then start second half automatically
               setTimeout(() => {
                 if (!state.paused && activeRoutineTimers[routineId]) {
                   startNextExercise(routineId);
                 }
               }, 3000);
-              
+
               return;
             }
 
             if (remainingSeconds <= 0) {
               clearInterval(state.interval);
               state.interval = null;
-              
+
               // For bilateral exercises on first side, don't complete yet
-              if (isBilateral && state.bilateralState[state.currentIndex] && state.bilateralState[state.currentIndex].side === 1) {
+              if (
+                isBilateral &&
+                state.bilateralState[state.currentIndex] &&
+                state.bilateralState[state.currentIndex].side === 1
+              ) {
                 return; // Already handled in the switch sides logic above
               }
 
               // Play completion beep
               playBeep();
-              
+
               // Clear bilateral state for completed exercise
               if (isBilateral && state.bilateralState[state.currentIndex]) {
                 delete state.bilateralState[state.currentIndex];
