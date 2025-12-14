@@ -1945,7 +1945,9 @@
 
 MANDATORY PARAMETERS (MUST BE FOLLOWED EXACTLY):
 - Routine Type: ${routineType}
-- TOTAL DURATION: EXACTLY ${duration} minutes (${duration * 60} seconds total - this is mandatory, verify the math)
+- TOTAL DURATION: EXACTLY ${duration} minutes (${
+            duration * 60
+          } seconds total - this is mandatory, verify the math)
 - Difficulty Level: ${difficulty}
 ${equipment.length > 0 ? `- Equipment Available: ${equipment.join(", ")}` : ""}
 ${focusAreas.length > 0 ? `- Focus Areas: ${focusAreas.join(", ")}` : ""}
