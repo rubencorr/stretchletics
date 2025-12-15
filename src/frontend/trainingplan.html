@@ -1098,6 +1098,152 @@
         color: white;
       }
 
+      /* Export Dropdown */
+      .export-dropdown-container {
+        position: relative;
+      }
+
+      .export-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: linear-gradient(135deg, rgba(16, 20, 29, 0.98), rgba(5, 5, 5, 0.98));
+        border: 2px solid rgba(236, 72, 153, 0.3);
+        border-radius: 16px;
+        padding: 8px;
+        min-width: 240px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(236, 72, 153, 0.3);
+        z-index: 100;
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .export-dropdown.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+      }
+
+      .export-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 6px;
+      }
+
+      .export-option:last-child {
+        margin-bottom: 0;
+      }
+
+      .export-option:hover {
+        background: rgba(236, 72, 153, 0.15);
+        border-color: rgba(236, 72, 153, 0.4);
+        transform: translateX(4px);
+      }
+
+      .export-option i {
+        width: 20px;
+        text-align: center;
+        color: #ec4899;
+      }
+
+      .export-option-text {
+        flex: 1;
+      }
+
+      .export-option-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      .export-option-desc {
+        font-size: 11px;
+        color: #94a3b8;
+      }
+
+      /* Export Dropdown */
+      .export-dropdown-container {
+        position: relative;
+      }
+
+      .export-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: linear-gradient(135deg, rgba(16, 20, 29, 0.98), rgba(5, 5, 5, 0.98));
+        border: 2px solid rgba(236, 72, 153, 0.3);
+        border-radius: 16px;
+        padding: 8px;
+        min-width: 240px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(236, 72, 153, 0.3);
+        z-index: 100;
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .export-dropdown.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+      }
+
+      .export-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 6px;
+      }
+
+      .export-option:last-child {
+        margin-bottom: 0;
+      }
+
+      .export-option:hover {
+        background: rgba(236, 72, 153, 0.15);
+        border-color: rgba(236, 72, 153, 0.4);
+        transform: translateX(4px);
+      }
+
+      .export-option i {
+        width: 20px;
+        text-align: center;
+        color: #ec4899;
+      }
+
+      .export-option-text {
+        flex: 1;
+      }
+
+      .export-option-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      .export-option-desc {
+        font-size: 11px;
+        color: #94a3b8;
+      }
+
       .workout-full-description {
         margin-top: 16px;
         padding-top: 16px;
@@ -1183,6 +1329,124 @@
       @keyframes spin {
         to { transform: rotate(360deg); }
       }
+
+      /* Toast Notifications */
+      .toast-container {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .toast {
+        min-width: 320px;
+        background: linear-gradient(135deg, rgba(16, 20, 29, 0.98), rgba(5, 5, 5, 0.98));
+        border-radius: 16px;
+        padding: 16px 20px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        backdrop-filter: blur(20px);
+      }
+
+      .toast.hiding {
+        animation: slideOutRight 0.3s ease-in forwards;
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(100%);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideOutRight {
+        to {
+          opacity: 0;
+          transform: translateX(120%);
+        }
+      }
+
+      .toast-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 18px;
+      }
+
+      .toast.success .toast-icon {
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.2));
+        color: #22c55e;
+        border: 2px solid rgba(34, 197, 94, 0.4);
+      }
+
+      .toast.error .toast-icon {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));
+        color: #ef4444;
+        border: 2px solid rgba(239, 68, 68, 0.4);
+      }
+
+      .toast.info .toast-icon {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+        color: #3b82f6;
+        border: 2px solid rgba(59, 130, 246, 0.4);
+      }
+
+      .toast-content {
+        flex: 1;
+      }
+
+      .toast-message {
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      /* Plan Reveal Animation */
+      @keyframes planReveal {
+        0% {
+          opacity: 0;
+          transform: scale(0.95) translateY(20px);
+        }
+        60% {
+          opacity: 1;
+          transform: scale(1.02) translateY(0);
+        }
+        100% {
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .plan-reveal {
+        animation: planReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      @keyframes celebrationPulse {
+        0%, 100% {
+          box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+        }
+        50% {
+          box-shadow: 0 0 0 30px rgba(236, 72, 153, 0);
+        }
+      }
+
+      .celebration-pulse {
+        animation: celebrationPulse 1s ease-out;
+      }
     </style>
   </head>
 
@@ -1199,7 +1463,7 @@
         <!-- Wizard Header -->
         <div class="text-center mb-8 fade-in">
           <h1 class="text-5xl font-black text-white uppercase tracking-wider mb-3">
-            <i class="fa-solid fa-dumbbell text-neon-pink mr-3"></i>
+            <i class="fa-solid fa-calendar-days text-neon-pink mr-3"></i>
             Training Plan
           </h1>
           <p class="text-lg text-slate-400">Let's build your perfect training journey</p>
@@ -1327,7 +1591,7 @@
                       <div class="goal-distance-subtitle">10 kilometers</div>
                     </div>
                     <div class="goal-distance-card" data-distance="half-marathon">
-                      <div class="goal-distance-title">21,1km</div>
+                      <div class="goal-distance-title">21.1km</div>
                       <div class="goal-distance-subtitle">Half Marathon</div>
                     </div>
                     <div class="goal-distance-card" data-distance="marathon">
@@ -1692,6 +1956,8 @@
       </div>
     </div>
 
+    <script src="./export-utils.js"></script>
+
     <script>
       let selectedSport = null;
       let trainingPlanData = null;
@@ -2035,8 +2301,44 @@
       }
 
       function showNotification(message, type = 'info') {
-        // Simple alert for now - can be enhanced with custom toast notifications
-        alert(message);
+        // Create toast container if it doesn't exist
+        let container = document.querySelector('.toast-container');
+        if (!container) {
+          container = document.createElement('div');
+          container.className = 'toast-container';
+          document.body.appendChild(container);
+        }
+
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        // Icon based on type
+        const icons = {
+          success: '<i class="fas fa-check-circle"></i>',
+          error: '<i class="fas fa-exclamation-circle"></i>',
+          info: '<i class="fas fa-info-circle"></i>'
+        };
+        
+        toast.innerHTML = `
+          <div class="toast-icon">${icons[type] || icons.info}</div>
+          <div class="toast-content">
+            <div class="toast-message">${message}</div>
+          </div>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Auto-remove after 4 seconds
+        setTimeout(() => {
+          toast.classList.add('hiding');
+          setTimeout(() => {
+            toast.remove();
+            if (container.children.length === 0) {
+              container.remove();
+            }
+          }, 300);
+        }, 4000);
       }
 
       // Watch for input changes to enable/disable next button
@@ -2128,12 +2430,34 @@ Format the plan clearly with headers for each week and day.`;
           const data = await response.json();
           trainingPlanData = data.response;
 
-          // Hide wizard, show plan
-          document.getElementById('wizard-overlay').classList.add('hidden');
-          document.getElementById('main-content').classList.remove('hidden');
-
-          // Display plan
-          displayPlan(trainingPlanData);
+          // Hide wizard with fade out
+          const wizardOverlay = document.getElementById('wizard-overlay');
+          wizardOverlay.style.opacity = '0';
+          wizardOverlay.style.transition = 'opacity 0.4s ease-out';
+          
+          setTimeout(() => {
+            wizardOverlay.classList.add('hidden');
+            wizardOverlay.style.opacity = '';
+            wizardOverlay.style.transition = '';
+            
+            // Show plan with celebration animation
+            const mainContent = document.getElementById('main-content');
+            mainContent.classList.remove('hidden');
+            mainContent.classList.add('plan-reveal');
+            
+            // Display plan
+            displayPlan(trainingPlanData);
+            
+            // Show success notification
+            setTimeout(() => {
+              showNotification('🎉 Your training plan is ready!', 'success');
+            }, 500);
+            
+            // Remove animation class after it completes
+            setTimeout(() => {
+              mainContent.classList.remove('plan-reveal');
+            }, 800);
+          }, 400);
 
           // Set title and summary
           const titleElement = document.getElementById('plan-title');
@@ -2285,17 +2609,6 @@ Format the plan clearly with headers for each week and day.`;
           `;
           container.appendChild(weekCard);
         });
-        
-        // Render tips if exists
-        if (plan.tips.trim()) {
-          const tipsDiv = document.createElement('div');
-          tipsDiv.className = 'plan-section-header mt-6';
-          tipsDiv.innerHTML = `
-            <h2><i class="fas fa-lightbulb mr-2"></i>Training Tips & Advice</h2>
-            <p class="text-slate-300 text-sm mt-2 leading-relaxed">${formatText(plan.tips)}</p>
-          `;
-          container.appendChild(tipsDiv);
-        }
       }
 
       function renderBasicPlan(text, container) {
@@ -2454,9 +2767,46 @@ Format the plan clearly with headers for each week and day.`;
                 </button>
               ` : ''}
             </div>
-            <button class="calendar-nav-btn" onclick="changeMonth(1)">
-              Next <i class="fas fa-chevron-right"></i>
-            </button>
+            <div class="flex items-center gap-3">
+              <div class="export-dropdown-container">
+                <button class="calendar-nav-btn" onclick="toggleExportDropdown()" id="export-btn">
+                  <i class="fas fa-download"></i> Export
+                </button>
+                <div class="export-dropdown" id="export-dropdown">
+                  <div class="export-option" onclick="handleExportAsFIT()">
+                    <i class="fas fa-file-code"></i>
+                    <div class="export-option-text">
+                      <div class="export-option-title">Export as FIT</div>
+                      <div class="export-option-desc">Download Garmin FIT file</div>
+                    </div>
+                  </div>
+                  <div class="export-option" onclick="handleExportAsICS()">
+                    <i class="fas fa-file-export"></i>
+                    <div class="export-option-text">
+                      <div class="export-option-title">Export as ICS</div>
+                      <div class="export-option-desc">Download calendar file</div>
+                    </div>
+                  </div>
+                  <div class="export-option" onclick="syncToTrainingPeaks()">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="export-option-text">
+                      <div class="export-option-title">TrainingPeaks</div>
+                      <div class="export-option-desc">Sync to TrainingPeaks</div>
+                    </div>
+                  </div>
+                  <div class="export-option" onclick="syncToGarminConnect()">
+                    <i class="fas fa-heartbeat"></i>
+                    <div class="export-option-text">
+                      <div class="export-option-title">Garmin Connect</div>
+                      <div class="export-option-desc">Sync to Garmin Connect</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="calendar-nav-btn" onclick="changeMonth(1)">
+                Next <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
           </div>
           <div class="calendar-grid">
             ${generateCalendarDays(plan)}
@@ -2687,6 +3037,68 @@ Format the plan clearly with headers for each week and day.`;
         currentCalendarMonth = new Date();
         const parsedPlan = parsePlanText(trainingPlanData);
         updateCalendarMonth(parsedPlan);
+      }
+
+      // Export dropdown toggle
+      function toggleExportDropdown() {
+        const dropdown = document.getElementById('export-dropdown');
+        dropdown.classList.toggle('active');
+      }
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('export-dropdown');
+        const exportBtn = document.getElementById('export-btn');
+        if (dropdown && exportBtn && !dropdown.contains(e.target) && !exportBtn.contains(e.target)) {
+          dropdown.classList.remove('active');
+        }
+      });
+
+      // Export functions - using utilities from export-utils.js
+      function handleExportAsFIT() {
+        document.getElementById('export-dropdown').classList.remove('active');
+        
+        if (!trainingPlanData) {
+          showNotification('No training plan data available', 'error');
+          return;
+        }
+
+        try {
+          const planName = document.getElementById('plan-name').value.trim() || 'training-plan';
+          exportAsFIT(trainingPlanData, planName, planStartDate, selectedSport, parsePlanText, parseWorkoutDetails);
+          showNotification('FIT file downloaded successfully!', 'success');
+        } catch (error) {
+          console.error('Error generating FIT file:', error);
+          showNotification('Error generating FIT file: ' + error.message, 'error');
+        }
+      }
+
+      function handleExportAsICS() {
+        document.getElementById('export-dropdown').classList.remove('active');
+        
+        if (!trainingPlanData) {
+          showNotification('No training plan data available', 'error');
+          return;
+        }
+
+        try {
+          const planName = document.getElementById('plan-name').value.trim() || 'training-plan';
+          exportAsICS(trainingPlanData, planName, planStartDate, parsePlanText, parseWorkoutDetails);
+          showNotification('ICS file downloaded successfully!', 'success');
+        } catch (error) {
+          console.error('Error generating ICS file:', error);
+          showNotification('Error generating ICS file: ' + error.message, 'error');
+        }
+      }
+
+      function syncToTrainingPeaks() {
+        document.getElementById('export-dropdown').classList.remove('active');
+        showNotification('TrainingPeaks sync coming soon! This will sync your plan directly to TrainingPeaks.', 'info');
+      }
+
+      function syncToGarminConnect() {
+        document.getElementById('export-dropdown').classList.remove('active');
+        showNotification('Garmin Connect sync coming soon! This will sync your plan directly to Garmin Connect.', 'info');
       }
 
       function extractWorkoutName(workouts) {

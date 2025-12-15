@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 source .venv/bin/activate
 
 # Execute the main application
-python app.py
+python src/app.py
 
 # The 'pause' command is removed as it's Windows-specific.
 # If you want the terminal to stay open after the script finishes, 
