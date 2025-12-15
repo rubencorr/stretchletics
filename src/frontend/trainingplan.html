@@ -874,6 +874,18 @@
 
       .calendar-day-cell.other-month {
         opacity: 0.3;
+        pointer-events: none;
+      }
+
+      .calendar-day-cell.other-month:hover {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(17, 24, 39, 0.8));
+        border-color: rgba(255, 255, 255, 0.08);
+        transform: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .calendar-day-cell.other-month:hover::before {
+        opacity: 0;
       }
 
       .calendar-day-cell.today {
