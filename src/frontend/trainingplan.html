@@ -1968,6 +1968,7 @@
       </div>
     </div>
 
+    <script src="./parser-utils.js"></script>
     <script src="./export-utils.js"></script>
 
     <script>
@@ -2507,6 +2508,10 @@ Format the plan clearly with headers for each week and day.`;
         }
       }
 
+      // NOTE: parsePlanText, extractWorkoutName, parseWorkoutDetails, detectIntensity, 
+      // extractWorkoutStats, and mapWorkoutsToCalendar are now defined in parser-utils.js
+      // The functions below are kept for backwards compatibility but will be overridden
+      
       function parsePlanText(text) {
         const plan = { intro: '', weeks: [], tips: '' };
         const lines = text.split('\n');
