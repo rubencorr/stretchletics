@@ -3,11 +3,19 @@
 # Navigate to the project root directory
 cd "$(dirname "$0")/.."
 
-# Load environment variables from .env if present (exports variables)
+# Load environment variables from project root `.env` and/or `config/.env` if present (exports variables)
+# We source both so variables can be defined in either location; `config/.env` can override root values.
 if [ -f .env ]; then
 	set -a
 	# shellcheck disable=SC1091
 	source .env
+	set +a
+fi
+
+if [ -f config/.env ]; then
+	set -a
+	# shellcheck disable=SC1091
+	source config/.env
 	set +a
 fi
 

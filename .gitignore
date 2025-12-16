@@ -3,3 +3,5 @@ config/.env
 *.pyc
 __pycache__/
 .venv/
+config/run.sh
+config/run.sh
