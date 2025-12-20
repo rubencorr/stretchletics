@@ -3,10 +3,12 @@ from dotenv import load_dotenv
 import os
 from pydantic import BaseModel
 
-from prompts import SYSTEM_PROMPT
+from stretchingprompts import SYSTEM_PROMPT
 
 # load environment variables from .env first
-load_dotenv()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
+load_dotenv(os.path.join(ROOT_DIR, 'config', '.env'))
 
 key = os.getenv("OPENAI_API_KEY")
 if not key:

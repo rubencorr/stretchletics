@@ -1,0 +1,7 @@
+.env
+.vscode/settings.json
+chat\__pycache__
+config/.env
+*.pyc
+__pycache__/
+.venv/
