@@ -2492,20 +2492,71 @@ Format the plan clearly with headers for each week and day.`;
       });
 
       // Display plan in text view with beautiful card layout
-      function displayPlan(planText) {
+      function displayPlan(planData) {
+        console.log('displayPlan called with:', planData);
         const textView = document.getElementById('text-view');
         textView.innerHTML = '';
         
-        // Try to parse the plan into structured data
-        const parsedPlan = parsePlanText(planText);
-        
-        if (parsedPlan.weeks && parsedPlan.weeks.length > 0) {
-          // Render structured plan with cards
+        // Check if we have structured workout data
+        if (planData && planData.workouts && Array.isArray(planData.workouts)) {
+          console.log('Using structured workout format, count:', planData.workouts.length);
+          // New structured format from API
+          const parsedPlan = convertWorkoutsToWeeks(planData.workouts);
+          console.log('Parsed plan for rendering:', parsedPlan);
           renderStructuredPlan(parsedPlan, textView);
+        } else if (typeof planData === 'string') {
+          console.log('Using legacy string format');
+          // Legacy text format - parse it
+          const parsedPlan = parsePlanText(planData);
+          if (parsedPlan.weeks && parsedPlan.weeks.length > 0) {
+            renderStructuredPlan(parsedPlan, textView);
+          } else {
+            renderBasicPlan(planData, textView);
+          }
         } else {
-          // Fallback: render with basic formatting
-          renderBasicPlan(planText, textView);
+          console.log('Unknown plan data format:', typeof planData);
+          // Fallback
+          textView.innerHTML = '<p class="text-slate-400">No training plan data available</p>';
         }
+      }
+
+      // Convert structured workouts array to week-based format
+      function convertWorkoutsToWeeks(workouts) {
+        console.log('Converting workouts to weeks:', workouts);
+        const plan = { intro: '', weeks: [], tips: '' };
+        const weekMap = new Map();
+        
+        // Group workouts by week
+        workouts.forEach(workout => {
+          if (!weekMap.has(workout.week_number)) {
+            weekMap.set(workout.week_number, {
+              number: workout.week_number,
+              days: [],
+              description: ''
+            });
+          }
+          
+          const week = weekMap.get(workout.week_number);
+          week.days.push({
+            name: workout.day_of_week,
+            workouts: [{
+              type: workout.name,
+              details: workout.detail,
+              distance: workout.distance,
+              duration: workout.duration,
+              minHr: workout.min_heart_rate,
+              maxHr: workout.max_heart_rate,
+              pace: workout.pace,
+              intensity: workout.difficulty
+            }]
+          });
+        });
+        
+        // Convert map to array and sort by week number
+        plan.weeks = Array.from(weekMap.values()).sort((a, b) => a.number - b.number);
+        
+        console.log('Converted plan:', plan);
+        return plan;
       }
 
       // NOTE: parsePlanText, extractWorkoutName, parseWorkoutDetails, detectIntensity, 
@@ -2569,14 +2620,13 @@ Format the plan clearly with headers for each week and day.`;
       }
 
       function renderStructuredPlan(plan, container) {
+        console.log('Rendering structured plan:', plan);
+        
         // Render intro if exists
-        if (plan.intro.trim()) {
+        if (plan.intro && plan.intro.trim()) {
           const introDiv = document.createElement('div');
           introDiv.className = 'plan-section-header mb-6';
-          introDiv.innerHTML = `
-            <h2><i class="fas fa-bullseye mr-2"></i>Your Training Plan Overview</h2>
-            <p class="text-slate-300 text-sm mt-2 leading-relaxed">${formatText(plan.intro)}</p>
-          `;
+          introDiv.innerHTML = '<h2><i class="fas fa-bullseye mr-2"></i>Your Training Plan Overview</h2><p class="text-slate-300 text-sm mt-2 leading-relaxed">' + formatText(plan.intro) + '</p>';
           container.appendChild(introDiv);
         }
         
@@ -2584,46 +2634,74 @@ Format the plan clearly with headers for each week and day.`;
         plan.weeks.forEach((week, index) => {
           const weekCard = document.createElement('div');
           weekCard.className = 'week-card';
-          weekCard.innerHTML = `
-            <div class="flex items-center justify-between px-6 py-4 cursor-pointer" onclick="toggleWeek(this)">
-              <div class="flex items-center gap-4">
-                <span class="week-badge">Week ${week.number}</span>
-                <div>
-                  <h3 class="text-white font-bold text-lg">Week ${week.number}</h3>
-                  ${week.description ? `<p class="text-slate-400 text-sm mt-1">${formatText(week.description).substring(0, 100)}...</p>` : ''}
-                </div>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-slate-400 text-sm">${week.days.length} days</span>
-                <i class="fas fa-chevron-down week-chevron text-lg"></i>
-              </div>
-            </div>
-            <div class="week-content">
-              ${week.description ? `<div class="mb-4 p-4 bg-black/20 rounded-lg border border-white/5"><p class="text-slate-300 text-sm leading-relaxed">${formatText(week.description)}</p></div>` : ''}
-              <div class="space-y-3">
-                ${week.days.map(day => `
-                  <div class="workout-card">
-                    <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
-                      <i class="fas fa-calendar-day text-neon-pink"></i>
-                      ${day.name.replace(/\*\*/g, '')}
-                    </h4>
-                    <div class="space-y-2 pl-7">
-                      ${day.workouts.map(workout => {
-                        const intensity = detectIntensity(workout);
-                        return `
-                          <div class="workout-detail-row">
-                            <i class="fas fa-circle text-xs workout-icon"></i>
-                            <span class="text-slate-300 flex-grow">${formatText(workout)}</span>
-                            ${intensity ? `<span class="workout-type-badge workout-type-${intensity}">${intensity}</span>` : ''}
-                          </div>
-                        `;
-                      }).join('')}
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `;
+          
+          // Build days HTML
+          let daysHtml = '';
+          week.days.forEach(day => {
+            let workoutsHtml = '';
+            day.workouts.forEach(workout => {
+              if (typeof workout === 'object' && workout !== null) {
+                const intensity = workout.intensity || workout.difficulty || detectIntensity(workout.type || '');
+                const stats = [];
+                if (workout.distance) stats.push(workout.distance + ' km');
+                if (workout.duration) stats.push(workout.duration + ' min');
+                if (workout.minHr && workout.maxHr) stats.push('HR: ' + workout.minHr + '-' + workout.maxHr + ' bpm');
+                if (workout.pace) {
+                  if (typeof workout.pace === 'number') {
+                    const mins = Math.floor(workout.pace);
+                    const secs = Math.round((workout.pace - mins) * 60);
+                    stats.push(mins + ':' + secs.toString().padStart(2, '0') + '/km');
+                  } else {
+                    stats.push(workout.pace + '/km');
+                  }
+                }
+                
+                workoutsHtml += '<div class="workout-detail-row">' +
+                  '<i class="fas fa-circle text-xs workout-icon"></i>' +
+                  '<div class="flex-grow">' +
+                  '<span class="text-white font-semibold">' + (workout.type || workout.name || 'Workout') + '</span>' +
+                  (stats.length > 0 ? '<span class="text-slate-400 ml-2">' + stats.join(' • ') + '</span>' : '') +
+                  (workout.details ? '<p class="text-slate-400 text-sm mt-1">' + workout.details + '</p>' : '') +
+                  '</div>' +
+                  (intensity ? '<span class="workout-type-badge workout-type-' + intensity.toLowerCase() + '">' + intensity + '</span>' : '') +
+                  '</div>';
+              } else {
+                const intensity = detectIntensity(workout);
+                workoutsHtml += '<div class="workout-detail-row">' +
+                  '<i class="fas fa-circle text-xs workout-icon"></i>' +
+                  '<span class="text-slate-300 flex-grow">' + formatText(workout) + '</span>' +
+                  (intensity ? '<span class="workout-type-badge workout-type-' + intensity + '">' + intensity + '</span>' : '') +
+                  '</div>';
+              }
+            });
+            
+            daysHtml += '<div class="workout-card">' +
+              '<h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">' +
+              '<i class="fas fa-calendar-day text-neon-pink"></i>' +
+              day.name.replace(/\*\*/g, '') +
+              '</h4>' +
+              '<div class="space-y-2 pl-7">' + workoutsHtml + '</div>' +
+              '</div>';
+          });
+          
+          weekCard.innerHTML = '<div class="flex items-center justify-between px-6 py-4 cursor-pointer" onclick="toggleWeek(this)">' +
+            '<div class="flex items-center gap-4">' +
+            '<span class="week-badge">Week ' + week.number + '</span>' +
+            '<div>' +
+            '<h3 class="text-white font-bold text-lg">Week ' + week.number + '</h3>' +
+            (week.description ? '<p class="text-slate-400 text-sm mt-1">' + formatText(week.description).substring(0, 100) + '...</p>' : '') +
+            '</div>' +
+            '</div>' +
+            '<div class="flex items-center gap-3">' +
+            '<span class="text-slate-400 text-sm">' + week.days.length + ' days</span>' +
+            '<i class="fas fa-chevron-down week-chevron text-lg"></i>' +
+            '</div>' +
+            '</div>' +
+            '<div class="week-content">' +
+            (week.description ? '<div class="mb-4 p-4 bg-black/20 rounded-lg border border-white/5"><p class="text-slate-300 text-sm leading-relaxed">' + formatText(week.description) + '</p></div>' : '') +
+            '<div class="space-y-3">' + daysHtml + '</div>' +
+            '</div>';
+          
           container.appendChild(weekCard);
         });
       }
@@ -2641,8 +2719,27 @@ Format the plan clearly with headers for each week and day.`;
           .replace(/\n/g, '<br>');
       }
 
-      function detectIntensity(text) {
-        const lower = text.toLowerCase();
+      function detectIntensity(workoutItem) {
+        // Handle null/undefined
+        if (!workoutItem) return null;
+        
+        // Handle object format (structured data)
+        if (typeof workoutItem === 'object') {
+          // Check for explicit difficulty/intensity fields first
+          if (workoutItem.intensity) return workoutItem.intensity.toLowerCase();
+          if (workoutItem.difficulty) return workoutItem.difficulty.toLowerCase();
+          
+          // Fall back to checking name/type text
+          const text = (workoutItem.name || workoutItem.type || '').toLowerCase();
+          if (text.includes('easy') || text.includes('recovery') || text.includes('light')) return 'easy';
+          if (text.includes('hard') || text.includes('intense') || text.includes('vigorous')) return 'hard';
+          if (text.includes('moderate') || text.includes('steady') || text.includes('tempo')) return 'moderate';
+          if (text.includes('rest') || text.includes('off')) return 'recovery';
+          return null;
+        }
+        
+        // Handle string format (legacy)
+        const lower = workoutItem.toLowerCase();
         if (lower.includes('easy') || lower.includes('recovery') || lower.includes('light')) return 'easy';
         if (lower.includes('hard') || lower.includes('intense') || lower.includes('vigorous')) return 'hard';
         if (lower.includes('moderate') || lower.includes('steady') || lower.includes('tempo')) return 'moderate';
@@ -2685,19 +2782,32 @@ Format the plan clearly with headers for each week and day.`;
       });
 
       // Generate calendar view
-      function generateCalendarView(planText) {
+      function generateCalendarView(planData) {
         const calendarView = document.getElementById('calendar-view');
         
         try {
-          console.log('Generating calendar view with planText length:', planText ? planText.length : 0);
+          console.log('Generating calendar view with planData:', planData);
           
-          if (!planText) {
-            console.error('No plan text provided');
+          if (!planData) {
+            console.error('No plan data provided');
             calendarView.innerHTML = '<div class="text-center text-slate-400 p-8"><p class="text-lg">Unable to generate calendar view</p><p class="text-sm mt-2">Use Text View to see your complete training plan.</p></div>';
             return;
           }
           
-          const parsedPlan = parsePlanText(planText);
+          // Convert to structured format
+          let parsedPlan;
+          if (planData.workouts && Array.isArray(planData.workouts)) {
+            // New structured format
+            parsedPlan = convertWorkoutsToWeeks(planData.workouts);
+          } else if (typeof planData === 'string') {
+            // Legacy text format
+            parsedPlan = parsePlanText(planData);
+          } else {
+            console.error('Invalid plan data format');
+            calendarView.innerHTML = '<div class="text-center text-slate-400 p-8"><p class="text-lg">Unable to generate calendar view</p><p class="text-sm mt-2">Use Text View to see your complete training plan.</p></div>';
+            return;
+          }
+          
           console.log('Parsed plan:', parsedPlan);
           console.log('Number of weeks:', parsedPlan.weeks ? parsedPlan.weeks.length : 0);
           
@@ -3021,6 +3131,14 @@ Format the plan clearly with headers for each week and day.`;
         let duration = 0;
         
         workouts.forEach(workout => {
+          // Handle structured workout objects
+          if (typeof workout === 'object' && workout !== null) {
+            if (workout.distance) distance += workout.distance;
+            if (workout.duration) duration += workout.duration;
+            return;
+          }
+          
+          // Handle string workouts (legacy)
           const lower = workout.toLowerCase();
           
           // Extract distance (km or miles)
@@ -3046,14 +3164,24 @@ Format the plan clearly with headers for each week and day.`;
 
       function changeMonth(direction) {
         currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + direction);
-        const parsedPlan = parsePlanText(trainingPlanData);
+        const parsedPlan = getParsedPlan(trainingPlanData);
         updateCalendarMonth(parsedPlan);
       }
 
       function jumpToCurrentMonth() {
         currentCalendarMonth = new Date();
-        const parsedPlan = parsePlanText(trainingPlanData);
+        const parsedPlan = getParsedPlan(trainingPlanData);
         updateCalendarMonth(parsedPlan);
+      }
+      
+      // Helper to parse plan data in either format
+      function getParsedPlan(planData) {
+        if (planData && planData.workouts && Array.isArray(planData.workouts)) {
+          return convertWorkoutsToWeeks(planData.workouts);
+        } else if (typeof planData === 'string') {
+          return parsePlanText(planData);
+        }
+        return { intro: '', weeks: [], tips: '' };
       }
 
       // Export dropdown toggle
@@ -3121,9 +3249,15 @@ Format the plan clearly with headers for each week and day.`;
       function extractWorkoutName(workouts) {
         if (!workouts || workouts.length === 0) return '';
         
-        // Take first workout and extract just the session type/name (before stats)
+        // Take first workout
         let firstWorkout = workouts[0];
         
+        // Handle object format
+        if (typeof firstWorkout === 'object' && firstWorkout !== null) {
+          return firstWorkout.type || firstWorkout.name || 'Workout';
+        }
+        
+        // Handle string format (legacy)
         // Remove markdown asterisks
         firstWorkout = firstWorkout.replace(/\*\*/g, '').trim();
         
@@ -3166,6 +3300,34 @@ Format the plan clearly with headers for each week and day.`;
         
         console.log('Parsing workout:', workout); // Debug log
         
+        // Handle object format (structured data from API)
+        if (typeof workout === 'object' && workout !== null) {
+          details.name = workout.name || workout.type || '';
+          details.distance = workout.distance ? workout.distance + 'km' : '';
+          // Check both naming conventions (min_heart_rate from API, minHr from convertWorkoutsToWeeks)
+          const minHr = workout.min_heart_rate || workout.minHr;
+          const maxHr = workout.max_heart_rate || workout.maxHr;
+          if (minHr && maxHr) {
+            details.heartRate = minHr + '-' + maxHr + ' bpm';
+          } else if (workout.heart_rate) {
+            details.heartRate = workout.heart_rate;
+          }
+          // Format pace as min/km if it's a number
+          if (workout.pace) {
+            if (typeof workout.pace === 'number') {
+              const mins = Math.floor(workout.pace);
+              const secs = Math.round((workout.pace - mins) * 60);
+              details.pace = mins + ':' + secs.toString().padStart(2, '0') + '/km';
+            } else {
+              details.pace = workout.pace;
+            }
+          }
+          details.description = workout.detail || workout.details || workout.description || '';
+          console.log('Parsed structured details:', details);
+          return details;
+        }
+        
+        // Handle string format (legacy)
         // Extract name (before colon or bullet, or first meaningful text)
         const nameMatch = workout.match(/^([^:•]+)/);
         if (nameMatch) {
@@ -3237,9 +3399,15 @@ Format the plan clearly with headers for each week and day.`;
         modal.onclick = (e) => e.stopPropagation();
         
         // Helper function to extract brief summary (first 1-2 sentences)
-        const getBriefSummary = (text) => {
+        const getBriefSummary = (workout) => {
+          // Handle object format (structured data)
+          if (typeof workout === 'object' && workout !== null) {
+            return workout.detail || workout.details || workout.description || '';
+          }
+          
+          // Handle string format (legacy)
           // Remove the stats that are already displayed
-          let summary = text.replace(/\*\*/g, '').trim();
+          let summary = workout.replace(/\*\*/g, '').trim();
           // Remove distance, HR, and pace info
           summary = summary.replace(/\d+(?:\.\d+)?\s*(?:km|k|kilometers?|miles?|mi)(?!\s*\/)/gi, '');
           summary = summary.replace(/(?:HR|Heart\s*Rate)[:\s]*[\d\-]+\s*(?:bpm|%)?/gi, '');

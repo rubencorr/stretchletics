@@ -1,33 +1,45 @@
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+import sys
+import argparse
 from pydantic import BaseModel
+from typing import Optional, List
+
+# Add project root to path for imports
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
+sys.path.insert(0, ROOT_DIR)
 
 from src.training_plans.prompts import SYSTEM_PROMPT
 
-# load environment variables from .env first
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
-load_dotenv(os.path.join(ROOT_DIR, 'config', '.env'))
+load_dotenv()
 
 key = os.getenv("OPENAI_API_KEY")
 if not key:
     raise SystemExit(
-        "OpenAI API key not found. Set the OPENAI_API_KEY environment variable or add OPENAI_KEY in a .env file."
+        "OpenAI API key not found. "
+        "Set the OPENAI_API_KEY environment variable or add OPENAI_KEY in a .env file."
     )
 
 client = OpenAI(api_key=key)
 
 
+class Workout(BaseModel):
+    week_number: int
+    day_of_week: str
+    name: str
+    distance: Optional[float] = None  # in km, use this OR duration
+    duration: Optional[float] = None  # in minutes, use this OR distance
+    min_heart_rate: Optional[int] = None  # use heart rate OR pace
+    max_heart_rate: Optional[int] = None
+    pace: Optional[float] = None  # min/km, use this OR heart rate
+    detail: str
+    difficulty: str  # Easy, Moderate, or Hard
+
+
 class WorkoutPlan(BaseModel):
-    names: list[str]
-    distances: list[float]
-    durations: list[float]
-    min_heart_rates: list[int]
-    max_heart_rates: list[int]
-    paces: list[float]
-    details: list[str]
-    tags: list[str]
+    workouts: List[Workout]
 
 
 def get_routine_response(user_message: str):
@@ -41,7 +53,7 @@ def get_routine_response(user_message: str):
         The AI-generated response
     """
     response = client.responses.parse(
-        model="gpt-5-nano",
+        model="gpt-5.2",
         input=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_message},
@@ -52,8 +64,28 @@ def get_routine_response(user_message: str):
     return response.output_parsed
 
 
-# Main execution for testing
 if __name__ == "__main__":
-    test_message = "I need a training plan for my legs."
-    output = get_routine_response(test_message)
-    print()
+    parser = argparse.ArgumentParser(description="Generate training plan")
+    parser.add_argument("--sport", default="running")
+    parser.add_argument("--current-time", default="45:00 10K")
+    parser.add_argument("--goal-time", default="40:00 10K")
+    parser.add_argument("--sessions", type=int, default=3)
+    parser.add_argument("--available-time", type=int, default=5)
+    parser.add_argument("--plan-length", type=int, default=10)
+    parser.add_argument(
+        "--additional-info", default="I have access to a gym and running track."
+    )
+    args = parser.parse_args()
+
+    prompt = f"""
+Create a training plan:
+Sport: {args.sport}
+Current: {args.current_time}
+Goal: {args.goal_time}
+Sessions/week: {args.sessions}
+Time available: {args.available_time} hours/week
+Info: {args.additional_info}
+Length: {args.plan_length} weeks
+"""
+
+    output = get_routine_response(prompt)

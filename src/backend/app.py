@@ -1,62 +1,84 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
-from src.training_plans.generator import get_routine_response
-from trainingplan import get_training_plan_response
-from dotenv import load_dotenv
+import sys
 
 # Get the directory where app.py is located
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(BASE_DIR)
 ROOT_DIR = os.path.dirname(PARENT_DIR)
 
-# Load .env from config folder
-load_dotenv(os.path.join(ROOT_DIR, 'config', '.env'))
+# Add project root to path for imports
+sys.path.insert(0, ROOT_DIR)
 
-app = Flask(__name__, template_folder=os.path.join(PARENT_DIR, 'frontend'), static_folder=os.path.join(PARENT_DIR, 'frontend'))
+from src.training_plans.generator import get_routine_response
+from dotenv import load_dotenv
+
+# Load .env from config folder
+load_dotenv(os.path.join(ROOT_DIR, "config", ".env"))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(PARENT_DIR, "frontend"),
+    static_folder=os.path.join(PARENT_DIR, "frontend"),
+)
 
 # Enable CORS for all routes
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-@app.route('/')
+
+@app.route("/")
 def home():
-    return send_from_directory(app.template_folder, 'chat.html')
+    return send_from_directory(app.template_folder, "chat.html")
 
-@app.route('/media/<path:filename>')
+
+@app.route("/media/<path:filename>")
 def serve_media(filename):
-    return send_from_directory(os.path.join(PARENT_DIR, 'media'), filename)
+    return send_from_directory(os.path.join(PARENT_DIR, "media"), filename)
 
-@app.route('/api/chat', methods=['POST'])
+
+@app.route("/api/chat", methods=["POST"])
 def chat():
     try:
         data = request.json
-        user_message = data.get('message', '').strip()
-        
+        user_message = data.get("message", "").strip()
+
         if not user_message:
-            return jsonify({'error': 'No message provided'}), 400
-        
+            return jsonify({"error": "No message provided"}), 400
+
         # Get response from chat.py
         response = get_routine_response(user_message)
-        
-        return jsonify({'response': response})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
-@app.route('/api/training-plan', methods=['POST'])
+        return jsonify({"response": response})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/training-plan", methods=["POST"])
 def training_plan():
     try:
         data = request.json
-        user_message = data.get('message', '').strip()
-        
-        if not user_message:
-            return jsonify({'error': 'No message provided'}), 400
-        
-        # Get training plan response
-        response = get_training_plan_response(user_message)
-        
-        return jsonify({'response': response})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        user_message = data.get("message", "").strip()
 
-if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5500)
+        if not user_message:
+            return jsonify({"error": "No message provided"}), 400
+
+        # Get structured training plan response
+        workout_plan = get_routine_response(user_message)
+
+        # Convert Pydantic model to dict for JSON response
+        return jsonify(
+            {
+                "response": {
+                    "workouts": [
+                        workout.model_dump() for workout in workout_plan.workouts
+                    ]
+                }
+            }
+        )
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="127.0.0.1", port=5500)
