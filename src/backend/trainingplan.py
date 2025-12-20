@@ -2,7 +2,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
-from trainingprompts import TRAINING_PLAN_SYSTEM_PROMPT
+from src.training_plans.prompts import TRAINING_PLAN_SYSTEM_PROMPT
 
 # load environment variables from .env first
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

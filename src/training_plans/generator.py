@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 from pydantic import BaseModel
 
-from stretchingprompts import SYSTEM_PROMPT
+from src.training_plans.prompts import SYSTEM_PROMPT
 
 # load environment variables from .env first
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

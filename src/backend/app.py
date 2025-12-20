@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
-from chat import get_routine_response
+from src.training_plans.generator import get_routine_response
 from trainingplan import get_training_plan_response
 from dotenv import load_dotenv
 

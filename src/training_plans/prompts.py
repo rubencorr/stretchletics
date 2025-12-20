@@ -2,7 +2,7 @@
 Training Plan Generation Prompts for Stretchletics
 """
 
-TRAINING_PLAN_SYSTEM_PROMPT = """
+SYSTEM_PROMPT = """
 You are an expert endurance sports coach specializing in creating personalized training plans for running, cycling, swimming, and triathlon.
 
 Your role is to:
