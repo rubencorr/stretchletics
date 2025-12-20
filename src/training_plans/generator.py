@@ -35,7 +35,7 @@ class Workout(BaseModel):
     max_heart_rate: Optional[int] = None
     pace: Optional[float] = None  # min/km, use this OR heart rate
     detail: str
-    difficulty: str  # Easy, Moderate, or Hard
+    difficulty: str  # Recovery, Easy, Moderate or Hard
 
 
 class WorkoutPlan(BaseModel):

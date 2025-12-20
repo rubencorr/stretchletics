@@ -2987,12 +2987,13 @@ Format the plan clearly with headers for each week and day.`;
           
           const workoutName = workout ? extractWorkoutName(workout) : '';
           const intensity = (workout && workout[0]) ? detectIntensity(workout[0]) : null;
-          
+          const displayIntensity = intensity ? (intensity.toLowerCase() === 'recovery' ? 'Recovery' : intensity.charAt(0).toUpperCase() + intensity.slice(1)) : null;
           // Check if this is today
           const today = new Date();
           const isToday = currentDate.getDate() === today.getDate() && 
                           currentDate.getMonth() === today.getMonth() && 
                           currentDate.getFullYear() === today.getFullYear();
+          const isWithinPlan = planStartDate && planEndDate && currentDate >= planStartDate && currentDate <= planEndDate;
           
           html += `
             <div class="calendar-day-cell ${workout ? 'has-workout' : ''} ${isToday ? 'today' : ''}"
@@ -3001,8 +3002,8 @@ Format the plan clearly with headers for each week and day.`;
               <div class="calendar-day-number">${dayOfMonth}</div>
               ${workout ? `
                 <div class="calendar-workout-name">${workoutName}</div>
-                ${intensity ? `<div class="workout-type-badge workout-type-${intensity}" style="font-size: 8px; padding: 2px 6px; margin-top: 4px; display: inline-block;">${intensity}</div>` : ''}
-              ` : '<div class="calendar-workout-name" style="color: #64748b; font-size: 10px; font-weight: 600;">Rest Day</div>'}
+                ${displayIntensity ? `<div class="workout-type-badge workout-type-${intensity}" style="font-size: 8px; padding: 2px 6px; margin-top: 4px; display: inline-block;">${displayIntensity}</div>` : ''}
+              ` : (isWithinPlan ? `<div class="calendar-workout-name" style="color: #64748b; font-size: 10px; font-weight: 600;">Recovery</div><div class="workout-type-badge workout-type-recovery" style="font-size: 8px; padding: 2px 6px; margin-top: 4px; display: inline-block;">Recovery</div>` : '')}
             </div>
           `;
           
@@ -3060,12 +3061,14 @@ Format the plan clearly with headers for each week and day.`;
             
             const workoutName = workout ? extractWorkoutName(workout) : '';
             const intensity = (workout && workout[0]) ? detectIntensity(workout[0]) : null;
+            const displayIntensity = intensity ? (intensity.toLowerCase() === 'recovery' ? 'Recovery' : intensity.charAt(0).toUpperCase() + intensity.slice(1)) : null;
             
             // Check if this is today
             const today = new Date();
             const isToday = currentDate.getDate() === today.getDate() && 
                             currentDate.getMonth() === today.getMonth() && 
                             currentDate.getFullYear() === today.getFullYear();
+            const isWithinPlan = planStartDate && planEndDate && currentDate >= planStartDate && currentDate <= planEndDate;
             
             html += `
               <div class="calendar-day-cell ${workout ? 'has-workout' : ''} other-month ${isToday ? 'today' : ''}"
@@ -3074,8 +3077,8 @@ Format the plan clearly with headers for each week and day.`;
                 <div class="calendar-day-number">${nextDayOfMonth}</div>
                 ${workout ? `
                   <div class="calendar-workout-name">${workoutName}</div>
-                  ${intensity ? `<div class="workout-type-badge workout-type-${intensity}" style="font-size: 8px; padding: 2px 6px; margin-top: 4px; display: inline-block;">${intensity}</div>` : ''}
-                ` : '<div class="calendar-workout-name" style="color: #64748b; font-size: 10px; font-weight: 600;">Rest Day</div>'}
+                  ${displayIntensity ? `<div class="workout-type-badge workout-type-${intensity}" style="font-size: 8px; padding: 2px 6px; margin-top: 4px; display: inline-block;">${displayIntensity}</div>` : ''}
+                ` : (isWithinPlan ? `<div class="calendar-workout-name" style="color: #64748b; font-size: 10px; font-weight: 600;">Recovery</div><div class="workout-type-badge workout-type-recovery" style="font-size: 8px; padding: 2px 6px; margin-top: 4px; display: inline-block;">Recovery</div>` : '')}
               </div>
             `;
             
