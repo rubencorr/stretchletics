@@ -1934,6 +1934,9 @@
           >
             <i class="fas fa-plus mr-2"></i>New Plan
           </button>
+          <button id="save-plan-btn" class="px-5 py-2.5 rounded-xl bg-green-600 text-white hover:bg-green-700 transition text-sm font-semibold">
+            <i class="fas fa-save mr-2"></i>Save
+          </button>
           <a
             href="user.html"
             class="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-neon-pink/50 hover:bg-neon-pink/10 transition text-sm font-semibold"
@@ -1968,8 +1971,87 @@
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+    <script src="./supabaseClient.js"></script>
     <script src="./parser-utils.js"></script>
+    <script src="./calendar-utils.js"></script>
     <script src="./export-utils.js"></script>
+    <script>
+      // Bind the save button to call supabaseClient.savePlan and then redirect to user.html
+      document.getElementById('save-plan-btn')?.addEventListener('click', async function (e) {
+        const btn = e.currentTarget;
+        const originalHtml = btn ? btn.innerHTML : null;
+        try {
+          if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Saving...'; }
+          // Prefer structured plan data from the current editor state (trainingPlanData) if available
+          let parsed;
+          if (typeof trainingPlanData !== 'undefined' && trainingPlanData) {
+            parsed = getParsedPlan(trainingPlanData);
+          } else if (document.getElementById('plan-textarea')) {
+            parsed = getParsedPlan(document.getElementById('plan-textarea').value);
+          } else {
+            parsed = getParsedPlan('');
+          }
+
+          // Prevent accidental saving of empty plans — confirm if there are no weeks
+          if (!parsed || !parsed.weeks || parsed.weeks.length === 0) {
+            const proceed = confirm('This plan looks empty. Do you still want to save it?');
+            if (!proceed) return;
+          }
+
+          const title = (document.getElementById('plan-name')?.value || '').trim() || parsed.name || 'Training Plan';
+          // Save the structured object when possible so the backend stores jsonb content
+          const planContent = (typeof trainingPlanData !== 'undefined' && trainingPlanData) ? trainingPlanData : (document.getElementById('plan-textarea') ? document.getElementById('plan-textarea').value : parsed);
+          const metadata = { created_at: new Date().toISOString() };
+          const result = await window.supabaseClient.savePlan(title, planContent, metadata);
+          if (result && result.error) {
+            const msg = result.error.message || JSON.stringify(result.error);
+            alert('Error saving plan: ' + msg);
+            return;
+          }
+          // store the last saved id for easy navigation back to the plan
+          if (result && result.data) {
+            const row = Array.isArray(result.data) ? result.data[0] : result.data;
+            if (row && row.id) {
+              localStorage.setItem('last_saved_plan_id', String(row.id));
+            }
+          }
+
+          // small inline notification (no navigation)
+          const old = document.getElementById('save-notice');
+          if (old) old.remove();
+          const notice = document.createElement('div');
+          notice.id = 'save-notice';
+          notice.className = 'mt-2 text-sm text-green-700 flex items-center gap-2';
+          notice.innerHTML = '<i class="fas fa-check text-green-600"></i><span>Saved</span>';
+          // append near header actions if available, otherwise near the save button
+          const target = document.querySelector('.header-actions') || document.getElementById('save-plan-btn')?.parentNode || document.body;
+          target.appendChild(notice);
+
+          // briefly animate and then remove notice
+          setTimeout(() => { try { notice.remove(); } catch(e){} }, 3000);
+        } catch (err) {
+          console.error('Save failed', err);
+          alert('Save failed: ' + (err.message || err));
+        } finally {
+          if (btn) { btn.disabled = false; if (originalHtml) btn.innerHTML = originalHtml; }
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+    <script src="./supabaseClient.js"></script>
+
+    <script>
+      // Removed duplicate save handler: saving is handled inline without redirect to dashboard.
+      // The previous handler saved twice (causing a second empty 'Training Plan' save and redirected the page).
+      // Keeping this commented so future changes are explicit and avoid duplicate saves.
+      // If you want a separate 'Save and Go to Dashboard' action, we can add an explicit button for that.
+      (function () {
+        // no-op placeholder
+      })();
+        });
+      })();
+    </script>
 
     <script>
       let selectedSport = null;
@@ -2461,7 +2543,7 @@ Format the plan clearly with headers for each week and day.`;
             // Display plan
             displayPlan(trainingPlanData);
             
-            // Show success notification
+              // Show success notification
             setTimeout(() => {
               showNotification('🎉 Your training plan is ready!', 'success');
             }, 500);
@@ -2853,19 +2935,21 @@ Format the plan clearly with headers for each week and day.`;
       }
 
       function renderCalendar(container, plan) {
-        container.innerHTML = '';
-        
-        // Create calendar navigation
-        const calendarContainer = document.createElement('div');
-        calendarContainer.className = 'calendar-container';
-        
-        const monthDisplay = document.createElement('div');
-        monthDisplay.id = 'calendar-month-display';
-        
-        calendarContainer.appendChild(monthDisplay);
-        container.appendChild(calendarContainer);
-        
-        updateCalendarMonth(plan);
+        // Use shared calendar renderer so preview and wizard show exactly the same calendar
+        const start = planStartDate || new Date();
+        if (typeof renderWizardCalendar === 'function') {
+          renderWizardCalendar(container, plan, start);
+        } else {
+          // Fallback to previous behaviour
+          container.innerHTML = '';
+          const calendarContainer = document.createElement('div');
+          calendarContainer.className = 'calendar-container';
+          const monthDisplay = document.createElement('div');
+          monthDisplay.id = 'calendar-month-display';
+          calendarContainer.appendChild(monthDisplay);
+          container.appendChild(calendarContainer);
+          updateCalendarMonth(plan);
+        }
       }
 
       function updateCalendarMonth(plan) {
@@ -3552,6 +3636,154 @@ Format the plan clearly with headers for each week and day.`;
 
       // Initialize wizard on load
       initWizard();
+
+      // If a plan was imported (from user dashboard), load it and show calendar
+      try {
+        const imported = localStorage.getItem('imported_plan');
+        if (imported) {
+          localStorage.removeItem('imported_plan');
+          try {
+            trainingPlanData = JSON.parse(imported);
+          } catch (e) {
+            trainingPlanData = imported;
+          }
+          // Display and switch to calendar view
+          displayPlan(trainingPlanData);
+          setTimeout(() => {
+            document.getElementById('calendar-view-btn').click();
+            // Ensure calendar generated
+            const parsed = getParsedPlan(trainingPlanData);
+            generateCalendarView(parsed);
+          }, 200);
+        }
+      } catch (e) { console.warn('Import plan load error', e); }
+
+      // Preview mode: if opened in an iframe with ?preview=true, load plan from localStorage.preview_plan and render exactly like the wizard
+      (function handlePreviewMode(){
+        try {
+          const params = new URLSearchParams(window.location.search);
+          if (params.get('preview') === 'true') {
+            const raw = localStorage.getItem('preview_plan');
+            if (!raw) { console.warn('Preview mode requested but no preview_plan found in localStorage'); return; }
+
+            let parsed = null;
+            try { parsed = JSON.parse(raw); } catch (e) { parsed = raw; }
+
+            // Normalize into { weeks: [...] } structure where weeks[].days[].workouts is an array
+            function normalizePlan(p) {
+              if (!p) return null;
+              // If it's a string, parse text
+              if (typeof p === 'string') {
+                return parsePlanText(p);
+              }
+
+              // If it's an array of weeks
+              if (Array.isArray(p)) return { weeks: p };
+
+              // If it already has weeks
+              if (p.weeks && Array.isArray(p.weeks)) {
+                p.weeks.forEach(w => {
+                  if (!w.days || !Array.isArray(w.days)) {
+                    // try convert if days is missing but w has workouts
+                    if (w.workouts && Array.isArray(w.workouts)) {
+                      w.days = w.workouts.map((wk, idx) => ({ name: 'Day ' + (idx+1), workouts: Array.isArray(wk) ? wk : [wk] }));
+                    } else {
+                      w.days = [];
+                    }
+                  }
+                  w.days.forEach(d => {
+                    if (!d.workouts) {
+                      // if day is plain string, wrap
+                      if (typeof d === 'string') d.workouts = [d];
+                      else d.workouts = d.workouts ? (Array.isArray(d.workouts) ? d.workouts : [d.workouts]) : [];
+                    }
+                  });
+                });
+                return p;
+              }
+
+              // Nested plan object
+              if (p.plan && p.plan.weeks) return normalizePlan(p.plan);
+
+              // Wrapper with text
+              if (p.text && typeof p.text === 'string') return parsePlanText(p.text);
+
+              // Try to extract arrays that look like weeks
+              for (const k of Object.keys(p)) {
+                if (p[k] && p[k].weeks && Array.isArray(p[k].weeks)) return normalizePlan(p[k]);
+                if (Array.isArray(p[k]) && p[k].length && p[k][0] && (p[k][0].days || p[k][0].workouts)) return { weeks: p[k] };
+              }
+
+              return null;
+            }
+
+            const planObj = normalizePlan(parsed);
+            if (!planObj || !planObj.weeks || planObj.weeks.length === 0) {
+              // As a last attempt, auto-parse raw text heuristics
+              const auto = tryAutoParseRaw(typeof raw === 'string' ? raw : JSON.stringify(raw));
+              if (auto) {
+                window._lastPreviewedParsedPlan = auto;
+                renderWizardCalendar(document.getElementById('calendar-view') || document.getElementById('calendar-view'), auto, new Date());
+                document.getElementById('calendar-view-btn')?.click();
+                document.head.querySelectorAll('style.preview-mode-temp').forEach(el => el.remove());
+                const st = document.createElement('style'); st.className = 'preview-mode-temp';
+                st.textContent = 'body.preview-mode .header, body.preview-mode .header-actions, body.preview-mode .wizard-step, body.preview-mode .wizard-controls { display: none !important; } body.preview-mode main { max-width: 100% !important; padding: 6px !important; }';
+                document.head.appendChild(st);
+                document.body.classList.add('preview-mode');
+                try { localStorage.removeItem('preview_plan'); } catch(e){}
+                return;
+              }
+
+              // If still no structure, show raw feedback in the iframe (fallback to wizard import UI)
+              console.warn('Preview: could not normalize plan - opening wizard import fallback');
+              try { localStorage.setItem('imported_plan', typeof raw === 'string' ? raw : JSON.stringify(raw)); } catch(e){}
+              // open directly into calendar view of wizard
+              document.getElementById('calendar-view-btn')?.click();
+              // leave preview_mode class so chrome is hidden
+              const st = document.createElement('style'); st.className = 'preview-mode-temp';
+              st.textContent = 'body.preview-mode .header, body.preview-mode .header-actions, body.preview-mode .wizard-step, body.preview-mode .wizard-controls { display: none !important; } body.preview-mode main { max-width: 100% !important; padding: 6px !important; }';
+              document.head.appendChild(st);
+              document.body.classList.add('preview-mode');
+              try { localStorage.removeItem('preview_plan'); } catch(e){}
+              return;
+            }
+
+            // We have a normalized planObj — render using the exact wizard calendar renderer
+            trainingPlanData = planObj;
+            displayPlan(trainingPlanData);
+
+            // Determine start date from parsed metadata if possible
+            let start = new Date();
+            try {
+              if (parsed && parsed.plan_start) start = new Date(parsed.plan_start);
+              else if (parsed && parsed.metadata && parsed.metadata.plan_start) start = new Date(parsed.metadata.plan_start);
+              else if (parsed && parsed.metadata && parsed.metadata.start_date) start = new Date(parsed.metadata.start_date);
+            } catch (e) { start = new Date(); }
+
+            // Switch to calendar view and render the wizard calendar (ensures identical UI)
+            const btn = document.getElementById('calendar-view-btn');
+            if (btn) btn.click();
+            setTimeout(() => {
+              const target = document.getElementById('calendar-view') || document.querySelector('.calendar-container');
+              if (typeof renderWizardCalendar === 'function') {
+                renderWizardCalendar(target, trainingPlanData, start);
+              } else {
+                // fallback to older method
+                const parsedP = getParsedPlan(trainingPlanData);
+                generateCalendarView(parsedP);
+              }
+            }, 200);
+
+            // apply preview-only styles and cleanup
+            const st = document.createElement('style'); st.className = 'preview-mode-temp';
+            st.textContent = 'body.preview-mode .header, body.preview-mode .header-actions, body.preview-mode .wizard-step, body.preview-mode .wizard-controls { display: none !important; } body.preview-mode main { max-width: 100% !important; padding: 6px !important; }';
+            document.head.appendChild(st);
+            document.body.classList.add('preview-mode');
+
+            try { localStorage.removeItem('preview_plan'); } catch (e) {}
+          }
+        } catch (e) { console.warn('Preview mode handling failed', e); }
+      })();
     </script>
   </body>
 </html>

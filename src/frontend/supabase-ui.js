@@ -62,11 +62,16 @@
 
     const planNameEl = document.getElementById('plan-name');
     const planName = planNameEl ? planNameEl.value.trim() || 'training-plan' : 'training-plan';
-    const planText = trainingPlanData || document.getElementById('text-view').innerText || '';
+    let planText = trainingPlanData || document.getElementById('text-view').innerText || '';
+    // Ensure we store content as a string (JSON for structured plans)
+    if (planText && typeof planText === 'object') {
+      try { planText = JSON.stringify(planText); } catch (e) { planText = String(planText); }
+    }
 
     // Prepare metadata (basic)
     const metadata = {
-      sport: selectedSport || null,
+      sport: (typeof selectedSport !== 'undefined') ? selectedSport : null,
+      plan_start: (typeof planStartDate !== 'undefined' && planStartDate) ? new Date(planStartDate).toISOString() : null,
       saved_at: new Date().toISOString(),
     };
 
@@ -150,7 +155,9 @@
     signOutFlow,
     savePlanFlow,
     loadPlansFlow,
-    updateAuthUI
+    updateAuthUI,
+    // Expose ensureSupabaseConfig so pages can prompt for keys before calling client methods
+    ensureSupabaseConfig
   };
 
   // Initialize on DOMContentLoaded

@@ -57,11 +57,26 @@
     const user = userResp.data.user;
     if (!user) throw new Error('Not authenticated');
 
+    // Ensure the `content` column (jsonb) receives valid JSON.
+    let contentJson;
+    if (typeof planText === 'string') {
+      try {
+        contentJson = JSON.parse(planText);
+      } catch (e) {
+        // If planText is plain text, wrap it so it can be stored in jsonb
+        contentJson = { text: planText };
+      }
+    } else {
+      contentJson = planText;
+    }
+
+    // Put arbitrary metadata inside the `metadata` jsonb column to avoid accidentally
+    // creating unknown top-level columns in the `plans` table.
     const row = {
       user_id: user.id,
       name: planName,
-      content: planText,
-      ...metadata
+      content: contentJson,
+      metadata: metadata || {}
     };
 
     const { data, error } = await client
@@ -85,6 +100,19 @@
     return { data, error };
   }
 
+  async function deletePlan(planId) {
+    const client = getClient();
+    if (!client) throw new Error('Supabase client not initialized');
+    const userResp = await client.auth.getUser();
+    const user = userResp.data.user;
+    if (!user) throw new Error('Not authenticated');
+    const { data, error } = await client
+      .from('plans')
+      .delete()
+      .match({ id: planId, user_id: user.id });
+    return { data, error };
+  }
+
   window.supabaseClient = {
     getClient,
     signInWithMagicLink,
@@ -94,5 +122,6 @@
     getUser,
     savePlan,
     loadPlans,
+    deletePlan,
   }; 
 })();
