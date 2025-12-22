@@ -123,5 +123,49 @@
     savePlan,
     loadPlans,
     deletePlan,
+    // Update user profile metadata (e.g., avatar_url)
+    async updateProfile(metadata = {}) {
+      const client = getClient();
+      if (!client) throw new Error('Supabase client not initialized');
+      try {
+        // Preferred API: auth.updateUser({ data: { ... } })
+        if (client.auth && typeof client.auth.updateUser === 'function') {
+          return await client.auth.updateUser({ data: metadata });
+        }
+        // Fallback for older/newer variants
+        if (client.auth && typeof client.auth.update === 'function') {
+          return await client.auth.update({ data: metadata });
+        }
+        throw new Error('Update user API not available on supabase client');
+      } catch (e) {
+        console.error('updateProfile failed', e);
+        throw e;
+      }
+    }
+    ,
+    // Update the user's public display name (stored in user metadata)
+    async updateDisplayName(name) {
+      if (!name) throw new Error('Name required');
+      return await this.updateProfile({ full_name: name, name });
+    },
+    // Update the user's email address via the auth API. Note: Supabase may
+    // trigger a confirmation email when changing the address.
+    async updateEmail(email) {
+      if (!email) throw new Error('Email required');
+      const client = getClient();
+      if (!client) throw new Error('Supabase client not initialized');
+      try {
+        if (client.auth && typeof client.auth.updateUser === 'function') {
+          return await client.auth.updateUser({ email });
+        }
+        if (client.auth && typeof client.auth.update === 'function') {
+          return await client.auth.update({ email });
+        }
+        throw new Error('Update email API not available on supabase client');
+      } catch (e) {
+        console.error('updateEmail failed', e);
+        throw e;
+      }
+    }
   }; 
 })();

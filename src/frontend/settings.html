@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Stretchletics - Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              pink: '#EC4899',
+              indigo: '#6366f1',
+              dark: '#0f172a',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        },
+      },
+    };
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #050505; }
+    
+    /* Dynamic Background */
+    .bg-gradient-mesh {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+      background: 
+        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+    }
+
+    /* Glassmorphism Cards */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Custom Input Styling */
+    .custom-input {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    .custom-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+      outline: none;
+    }
+
+    /* Toggle Switch */
+    .toggle-checkbox:checked {
+      right: 0;
+      border-color: #6366f1;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #6366f1;
+    }
+    
+    /* Avatar Hover Overlay */
+    .avatar-container:hover .avatar-overlay { opacity: 1; }
+
+    /* Toast Animation */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; padding: 12px 24px;
+      border-radius: 8px; color: white; font-weight: 500; z-index: 50;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+    .toast.success { background: #10b981; }
+    .toast.error { background: #ef4444; }
+
+    /* Modal Animation */
+    .modal-backdrop {
+      opacity: 0; visibility: hidden; transition: all 0.2s ease;
+    }
+    .modal-backdrop.open {
+      opacity: 1; visibility: visible;
+    }
+    .modal-content {
+      transform: scale(0.95); transition: all 0.2s ease;
+    }
+    .modal-backdrop.open .modal-content {
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body class="text-slate-300 antialiased min-h-screen">
+  <div class="bg-gradient-mesh"></div>
+
+  <header class="w-full border-b border-white/5 bg-black/20 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="../media/logo_round.png" class="h-8 w-8 rounded-full" onerror="this.src='https://via.placeholder.com/32'"/>
+        <span class="font-bold text-white tracking-tight">Stretchletics</span>
+      </div>
+      <a href="user.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">
+        <i class="fa-solid fa-arrow-left mr-2"></i>Dashboard
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-10 space-y-8">
+    
+    <div>
+      <h1 class="text-3xl font-bold text-white">Settings</h1>
+      <p class="text-slate-500 mt-1">Manage your account preferences and profile details.</p>
+    </div>
+
+    <section class="glass-panel rounded-2xl p-8">
+      <div class="flex flex-col md:flex-row gap-8 items-start">
+        
+        <div class="flex flex-col items-center gap-3 w-full md:w-auto">
+          <div class="avatar-container relative h-28 w-28 rounded-full cursor-pointer group">
+            <img id="settings-avatar" src="../media/logo_round.png" class="h-full w-full rounded-full object-cover border-2 border-white/10" onerror="this.src='https://via.placeholder.com/150'">
+            <label for="avatar-input" class="avatar-overlay absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 transition-opacity duration-200 cursor-pointer">
+              <i class="fas fa-camera text-white text-xl"></i>
+            </label>
+            <input id="avatar-input" type="file" accept="image/*" class="hidden">
+          </div>
+          <button id="save-avatar" class="text-xs font-medium text-brand-indigo hover:text-white transition-colors">Save Photo</button>
+        </div>
+
+        <div class="flex-1 w-full space-y-5">
+          <div class="grid md:grid-cols-2 gap-5">
+            <div class="space-y-1.5">
+              <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Display Name</label>
+              <input id="display-name-input" type="text" class="custom-input w-full p-3 rounded-lg text-white placeholder-slate-600" placeholder="e.g. Alex Doe">
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Email Address</label>
+              <input id="email-input" type="email" class="custom-input w-full p-3 rounded-lg text-white placeholder-slate-600" placeholder="you@example.com">
+              <div id="email-error" class="text-xs text-red-400 hidden mt-1">Please enter a valid email.</div>
+            </div>
+          </div>
+
+          <div class="pt-2 flex items-center justify-end gap-3">
+             <button id="preview-changes" class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">Preview</button>
+             <button id="save-profile-btn" class="px-5 py-2 bg-brand-indigo hover:bg-indigo-500 text-white rounded-lg font-medium shadow-lg shadow-indigo-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+               Save Changes
+             </button>
+          </div>
+          <p id="profile-save-msg" class="text-right text-xs text-slate-500 min-h-[16px]"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="glass-panel rounded-2xl p-8 space-y-6">
+      <h2 class="text-lg font-semibold text-white border-b border-white/5 pb-4">App Preferences</h2>
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-white font-medium">Distance Units</div>
+          <div class="text-sm text-slate-500">Choose how distance is displayed across the app.</div>
+        </div>
+        <div class="relative">
+          <select id="units-select" class="appearance-none bg-black/40 border border-white/10 text-white py-2 pl-4 pr-10 rounded-lg focus:outline-none focus:border-brand-indigo cursor-pointer">
+            <option value="km">Kilometers (km)</option>
+            <option value="mi">Miles (mi)</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+            <i class="fas fa-chevron-down text-xs"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-white font-medium">Email Notifications</div>
+          <div class="text-sm text-slate-500">Receive weekly summaries and updates.</div>
+        </div>
+        
+        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+            <input type="checkbox" name="toggle" id="notif-email" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-slate-700"/>
+            <label for="notif-email" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-800 cursor-pointer border border-white/10"></label>
+        </div>
+      </div>
+      
+      <div class="pt-4 mt-4 border-t border-white/5">
+        <div class="text-sm font-medium text-slate-400 mb-3">Linked Accounts</div>
+        <div class="flex gap-3">
+          <button class="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all">
+            <i class="fab fa-google text-slate-300"></i> <span class="text-sm">Google</span>
+          </button>
+          <button class="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all">
+            <i class="fab fa-apple text-slate-300"></i> <span class="text-sm">Apple</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="glass-panel rounded-2xl p-8 border-red-500/20 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-1 h-full bg-red-500/50"></div>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <h2 class="text-lg font-semibold text-white">Data & Privacy</h2>
+          <p class="text-sm text-slate-500 mt-1">Export your workout history or permanently delete your account.</p>
+        </div>
+        <div class="flex gap-3">
+           <button id="export-data" class="px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5 text-slate-300 text-sm font-medium transition-colors">
+             <i class="fas fa-download mr-2"></i>Export Data
+           </button>
+           <button id="delete-account" class="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 text-sm font-medium transition-colors">
+             Delete Account
+           </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="delete-modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" aria-hidden="true">
+    <div class="modal-content bg-[#10141D] border border-white/10 rounded-xl p-6 w-full max-w-md shadow-2xl">
+      <div class="flex justify-between items-start mb-4">
+        <h3 class="text-xl font-bold text-white">Delete Account</h3>
+        <button id="delete-modal-close" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="bg-red-500/10 border border-red-500/20 rounded p-3 mb-4 flex gap-3">
+        <i class="fas fa-exclamation-triangle text-red-400 mt-0.5"></i>
+        <p class="text-sm text-red-200">This action is permanent and cannot be undone. All your data will be lost.</p>
+      </div>
+
+      <p class="text-slate-400 text-sm mb-4">Type <code class="bg-black/30 px-1 py-0.5 rounded text-white border border-white/10">DELETE</code> below to confirm.</p>
+      
+      <input id="delete-confirm-input" type="text" placeholder="Type DELETE" class="custom-input w-full p-3 rounded-lg text-white mb-6">
+      
+      <div class="flex justify-end gap-3">
+        <button id="delete-cancel" class="px-4 py-2 rounded-lg text-slate-300 hover:text-white font-medium">Cancel</button>
+        <button id="confirm-delete" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-red-900/20" disabled>
+          Permanently Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showToast(message, type = 'success', timeout = 3500) {
+      const t = document.createElement('div');
+      t.className = 'toast ' + (type === 'error' ? 'error' : 'success');
+      t.innerHTML = type === 'success' ? `<i class="fas fa-check-circle mr-2"></i>${message}` : `<i class="fas fa-exclamation-circle mr-2"></i>${message}`;
+      document.body.appendChild(t);
+      // Simple fade in/out
+      t.animate([{ opacity: 0, transform: 'translateY(20px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 300, fill: 'forwards' });
+      setTimeout(() => {
+        t.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(20px)' }], { duration: 300, fill: 'forwards' }).onfinish = () => t.remove();
+      }, timeout);
+    }
+
+    /* Modal Logic */
+    (function(){
+      const deleteBtn = document.getElementById('delete-account');
+      const modal = document.getElementById('delete-modal');
+      const closeBtn = document.getElementById('delete-modal-close');
+      const cancelBtn = document.getElementById('delete-cancel');
+      const confirmBtn = document.getElementById('confirm-delete');
+      const input = document.getElementById('delete-confirm-input');
+
+      function openModal() { modal.classList.add('open'); }
+      function closeModal() { 
+        modal.classList.remove('open'); 
+        setTimeout(()=>{ input.value=''; confirmBtn.disabled = true; }, 200); 
+      }
+
+      if (deleteBtn) deleteBtn.addEventListener('click', openModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+      if (modal) modal.addEventListener('click', (e)=>{ if (e.target === modal) closeModal(); });
+
+      if (input) input.addEventListener('input', () => {
+        confirmBtn.disabled = input.value.trim() !== 'DELETE';
+      });
+
+      if (confirmBtn) confirmBtn.addEventListener('click', async () => {
+        confirmBtn.disabled = true; confirmBtn.textContent = 'Deleting...';
+        try {
+          if (window.supabaseClient && typeof window.supabaseClient.signOut === 'function') {
+            await window.supabaseClient.signOut();
+          }
+          showToast('Account simulated deletion.', 'success');
+          closeModal();
+          setTimeout(()=>{ window.location.href = 'index.html'; }, 800);
+        } catch (e) {
+          showToast('Deletion failed: ' + (e.message || e), 'error');
+        } finally { confirmBtn.disabled = false; confirmBtn.textContent = 'Permanently Delete'; }
+      });
+    })();
+
+    /* Profile Logic */
+    (function(){
+      async function init() {
+        const avatarEl = document.getElementById('settings-avatar');
+        const input = document.getElementById('avatar-input');
+        const saveAvatarBtn = document.getElementById('save-avatar');
+        const displayNameInput = document.getElementById('display-name-input');
+        const emailInput = document.getElementById('email-input');
+        const saveProfileBtn = document.getElementById('save-profile-btn');
+        const profileMsg = document.getElementById('profile-save-msg');
+        let selectedDataUrl = null;
+
+        // Load dummy data or Supabase
+        try {
+          if (window.supabaseClient) { /* ... fetch user logic ... */ } 
+        } catch (e) { console.warn('Could not load user', e); }
+
+        input.addEventListener('change', (ev) => {
+          const file = ev.target.files && ev.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            selectedDataUrl = evt.target.result;
+            avatarEl.src = selectedDataUrl;
+            updateDirty();
+          };
+          reader.readAsDataURL(file);
+        });
+
+        saveAvatarBtn.addEventListener('click', async () => {
+          if (!selectedDataUrl) { showToast('Click the image to choose a file first', 'error'); return; }
+          // Logic to save avatar
+          showToast('Avatar saved successfully', 'success');
+          profileMsg.textContent = '';
+        });
+
+        let origName = displayNameInput.value || '';
+        let origEmail = emailInput.value || '';
+        let dirty = false;
+        
+        function updateDirty() {
+          dirty = (displayNameInput.value.trim() !== origName) || (emailInput.value.trim() !== origEmail);
+          saveProfileBtn.disabled = !dirty;
+        }
+        displayNameInput.addEventListener('input', updateDirty);
+        emailInput.addEventListener('input', updateDirty);
+
+        saveProfileBtn.addEventListener('click', async () => {
+            saveProfileBtn.textContent = 'Saving...';
+            setTimeout(() => {
+                showToast('Profile updated', 'success');
+                saveProfileBtn.textContent = 'Save Changes';
+                saveProfileBtn.disabled = true;
+                origName = displayNameInput.value;
+                origEmail = emailInput.value;
+            }, 800);
+        });
+      }
+      init();
+    })();
+
+    /* Preferences Logic */
+    (function(){
+      const units = document.getElementById('units-select');
+      const notif = document.getElementById('notif-email');
+      const exportBtn = document.getElementById('export-data');
+
+      try { const u = localStorage.getItem('units'); if (u && units) units.value = u; const n = localStorage.getItem('notif-email'); if (n !== null && notif) notif.checked = (n === '1'); } catch(e){}
+
+      if (units) units.addEventListener('change', (e)=>{ localStorage.setItem('units', e.target.value); showToast('Units preference saved'); });
+      if (notif) notif.addEventListener('change', (e)=>{ localStorage.setItem('notif-email', e.target.checked ? '1':'0'); showToast(e.target.checked ? 'Notifications Enabled' : 'Notifications Disabled'); });
+
+      if (exportBtn) exportBtn.addEventListener('click', ()=>{
+        showToast('Preparing export...', 'success');
+        setTimeout(() => showToast('Download started', 'success'), 1000);
+      });
+    })();
+  </script>
+</body>
+</html>
