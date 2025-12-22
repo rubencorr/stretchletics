@@ -181,12 +181,24 @@
       @keyframes dropdownIn { from { opacity: 0; transform: translateY(-6px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
       @keyframes dropdownOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-6px) scale(0.98); } }
 
-      #profile-dropdown { transform-origin: top right; will-change: transform, opacity; }
-      .profile-dropdown-open { animation: dropdownIn 180ms cubic-bezier(.2,.9,.3,1) forwards; }
-      .profile-dropdown-close { animation: dropdownOut 140ms cubic-bezier(.2,.9,.3,1) forwards; }
+      #profile-dropdown { transform-origin: top right; will-change: transform, opacity; opacity: 0; transform: translateY(-6px); transition: opacity 160ms ease, transform 160ms ease; }
+      .profile-dropdown-open { opacity: 1; transform: translateY(0) scale(1); }
+      .profile-dropdown-close { opacity: 0; transform: translateY(-6px) scale(0.98); }
 
       /* rotate chevron smoothly */
       .profile-chevron-open { transform: rotate(180deg); transition: transform 160ms ease; }
+
+      /* profile button focus / ring when open */
+      .profile-open-ring { box-shadow: 0 0 0 6px rgba(236,72,153,0.08); transform: translateY(-1px); }
+
+      /* persistent settings button */
+      .settings-btn { transition: transform 180ms ease, background 180ms ease; display: inline-flex; align-items:center; justify-content:center; }
+      .settings-btn:hover { transform: rotate(12deg) scale(1.06); background: rgba(255,255,255,0.04); }
+      .settings-btn:focus { outline: none; box-shadow: 0 0 0 4px rgba(99,102,241,0.12); border-radius: 9999px; }
+
+      /* small animation for avatar */
+      #hero-avatar { transition: transform 260ms ease, box-shadow 260ms ease; }
+      #hero-avatar:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 12px 30px rgba(79,70,229,0.12); }
 
       /* overlay fade for modals */
       @keyframes overlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -208,33 +220,62 @@
   <div class="bg-orb-2"></div>
 
   <main class="relative z-10 w-full max-w-6xl px-6 py-12">
-    <!-- Header: greeting + profile -->
-    <div class="mb-8">
-      <div class="flex items-center justify-between max-w-6xl mx-auto px-6">
-        <div class="text-left">
-          <div id="greeting" class="text-lg text-slate-300">Good to see you, <span id="greeting-name" class="font-semibold text-white">Athlete</span> 👋</div>
-          <div id="greeting-sub" class="text-sm text-slate-500">Here's your dashboard — quick access to your plans and tools.</div>
-        </div>
 
-        <div class="relative" id="profile-container">
-          <button id="profile-btn" aria-haspopup="true" aria-expanded="false" class="flex items-center gap-3 bg-black/20 px-3 py-2 rounded-full hover:ring-2 hover:ring-neon-pink/30 focus:outline-none">
-            <img id="profile-pic" src="../media/logo_round.png" alt="Profile" class="h-10 w-10 rounded-full object-cover">
-            <div class="text-left">
-              <div id="profile-name" class="font-semibold text-white">User</div>
-              <div id="profile-email" class="text-xs text-slate-400">not signed in</div>
+    <!-- Hero / Dashboard Overview -->
+    <section class="relative mb-10">
+      <div class="rounded-3xl overflow-hidden bg-gradient-to-br from-[#0f172a] to-[#0b1220] p-8 shadow-2xl">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex-1">
+            <div class="text-sm text-slate-400 mb-2">Welcome back</div>
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
+              Hi, <span id="greeting-name" class="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300">Athlete</span> 👋
+            </h1>
+            <p id="greeting-sub" class="mt-3 text-slate-400 max-w-xl">Your flexibility coach is ready — review your progress, continue plans, or start a new routine.</p>
+
+
+
+
+          </div>
+
+          <div class="w-full md:w-80 flex-shrink-0">
+            <div class="relative flex items-start justify-end mb-3">
+              <div class="relative" id="profile-container-top">
+                <div class="flex items-center gap-3">
+                  <!-- persistent settings button -->
+                  <a id="settings-btn" href="settings.html" class="settings-btn inline-flex items-center justify-center h-10 w-10 rounded-full text-slate-300" title="Settings" aria-label="Settings">
+                    <i class="fas fa-cog text-xl"></i>
+                  </a>
+                  <!-- Visible logout button -->
+                  <button id="logout-btn" class="ml-3 px-3 py-2 rounded bg-red-600 text-white hover:bg-red-700">Logout</button>
+                </div>
+              </div>
             </div>
-            <i class="fas fa-chevron-down text-slate-400"></i>
-          </button>
 
-          <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-44 bg-dark-charcoal border border-white/6 rounded-lg shadow-lg z-50">
-            <a href="settings.html" class="block px-4 py-2 text-sm text-slate-200 hover:bg-white/5">Settings</a>
-            <button id="logout-btn" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-white/5">Logout</button>
+            <div class="bg-black/40 p-4 rounded-2xl glass-card text-center">
+              <img id="hero-avatar" src="../media/logo_round.png" alt="avatar" class="h-20 w-20 rounded-full mx-auto object-cover border-2 border-white/6">
+              <div id="hero-name" class="text-white font-semibold mt-3">User</div>
+              <div class="text-sm text-slate-400">Member</div>
+
+              <div class="mt-4">
+                <!-- Progress ring -->
+                <svg id="progress-ring" width="120" height="120" viewBox="0 0 120 120" class="mx-auto">
+                  <defs></defs>
+                  <circle cx="60" cy="60" r="48" stroke="#1f2937" stroke-width="12" fill="none" />
+                  <circle id="progress-circle" cx="60" cy="60" r="48" stroke="#6366f1" stroke-width="12" stroke-linecap="round" fill="none" stroke-dasharray="301.44" stroke-dashoffset="301.44" transform="rotate(-90 60 60)" />
+                </svg>
+                <div id="progress-label" class="text-sm text-slate-400 mt-2">Weekly Progress</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Options Grid -->
+      <!-- subtle orb for wow factor -->
+      <div class="absolute -right-8 -top-12 w-48 h-48 rounded-full bg-gradient-to-tr from-indigo-600 to-pink-500 blur-3xl opacity-30 pointer-events-none"></div>
+    </section>
+
+
+
     <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
       
       <!-- Stretching Routines Card -->
@@ -298,6 +339,137 @@
 
   <!-- Supabase integration removed — parser utils only -->
   <script src="./parser-utils.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+  <script>
+    (async function(){
+      const SUPABASE_URL = 'https://gjsepjkuinolptpnbwzj.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_e-cERBdIVwQMu5TvFJyNEw_EiCpPaK7';
+      const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // Elements
+      const heroName = document.getElementById('hero-name');
+      const heroAvatar = document.getElementById('hero-avatar');
+      const greetingName = document.getElementById('greeting-name');
+      const profilePic = document.getElementById('profile-pic');
+      const profileName = document.getElementById('profile-name');
+      const profileEmail = document.getElementById('profile-email');
+      const streakEl = document.getElementById('streak');
+      const completedEl = document.getElementById('completed-count');
+      const flexEl = document.getElementById('flex-score');
+      const progressCircle = document.getElementById('progress-circle');
+
+      function animateProgress(percent) {
+        const circumference = 2 * Math.PI * 48; // r=48
+        const offset = circumference - (percent / 100) * circumference;
+        progressCircle.style.transition = 'stroke-dashoffset 900ms ease-out';
+        progressCircle.style.strokeDashoffset = offset;
+      }
+
+      // Default UI values (fallback)
+      let streak = parseInt(localStorage.getItem('streak') || '3', 10);
+      let completed = parseInt(localStorage.getItem('completedCount') || '12', 10);
+      let flexScore = parseInt(localStorage.getItem('flexScore') || '72', 10);
+
+      function renderStats() {
+        if (streakEl) streakEl.textContent = streak;
+        if (completedEl) completedEl.textContent = completed;
+        if (flexEl) flexEl.textContent = flexScore;
+        animateProgress(Math.min(100, flexScore));
+      }
+
+      function renderSparkline(svgEl, data, stroke = '#6366f1') {
+        if (!svgEl || !data || !data.length) return;
+        const w = +svgEl.getAttribute('width') || 120;
+        const h = +svgEl.getAttribute('height') || 40;
+        const max = Math.max(...data);
+        const min = Math.min(...data);
+        const range = max - min || 1;
+        const step = w / (data.length - 1);
+        let d = '';
+        data.forEach((v, i) => {
+          const x = i * step;
+          const y = h - ((v - min) / range) * (h - 6) - 3; // padding
+          d += (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
+        });
+        svgEl.innerHTML = `<path d="${d}" stroke="${stroke}" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>`;
+      }
+
+      function renderCompletionArc(el, percent) {
+        const radius = 16; // center 18 with stroke 4
+        const circumference = 2 * Math.PI * radius;
+        const length = (percent / 100) * circumference;
+        // describe arc with stroke-dasharray
+        el.setAttribute('stroke-dasharray', `${length} ${circumference - length}`);
+        // small text update
+        const rateEl = document.getElementById('completion-rate');
+        if (rateEl) rateEl.textContent = `${Math.round(percent)}%`;
+      }
+
+      async function renderAnalytics(id) {
+        // Try to fetch real metrics if a table exists, otherwise use mock data
+        try {
+          // placeholder for future metrics fetch
+          // const { data: metrics } = await client.from('metrics').select('*').eq('user_id', id);
+
+          // Mock/sample data
+          const activity = [2,3,1,2,4,3,5];
+          const flex = [52,55,54,58,60,62,72];
+          const completionPercent = 78;
+
+          // totals
+          const totalWorkouts = activity.reduce((a,b)=>a+b,0);
+          document.getElementById('activity-total').textContent = `${totalWorkouts} workouts`;
+          document.getElementById('flex-avg').textContent = `${Math.round(flex.reduce((a,b)=>a+b,0)/flex.length)}`;
+
+          renderSparkline(document.getElementById('sparkline-activity'), activity, '#ec4899');
+          renderSparkline(document.getElementById('sparkline-flex'), flex, '#6366f1');
+          renderCompletionArc(document.getElementById('completion-arc'), completionPercent);
+        } catch (err) {
+          console.warn('Could not load analytics', err);
+        }
+      }
+
+      async function loadUser() {
+        try {
+          const { data: { session } } = await client.auth.getSession();
+          if (!session) {
+            // If not signed in, keep placeholders
+            renderStats();
+            renderAnalytics();
+            return;
+          }
+          const id = session.user.id;
+
+          // Load profile
+          const { data: profile, error } = await client.from('profiles').select('*').eq('id', id).single();
+          if (!error && profile) {
+            const name = profile.full_name || (session.user.user_metadata && session.user.user_metadata.full_name) || session.user.email || 'Member';
+            if (heroName) heroName.textContent = name;
+            if (greetingName) greetingName.textContent = name.split(' ')[0];
+            if (heroAvatar && profile.avatar_url) heroAvatar.src = profile.avatar_url;
+            if (profilePic && profile.avatar_url) profilePic.src = profile.avatar_url;
+            if (profileName) profileName.textContent = name;
+            if (profileEmail) profileEmail.textContent = session.user.email || '';
+          }
+
+          // TODO: attempt to fetch real stats from the server (if a stats table exists)
+          // For now use local defaults
+          renderStats();
+          renderAnalytics(id);
+        } catch (e) {
+          console.warn('Could not initialize dashboard', e);
+          renderStats();
+          renderAnalytics();
+        }
+      }
+
+      const startBtn = document.getElementById('start-workout'); if (startBtn) startBtn.addEventListener('click', () => { window.location.href = 'chat.html'; });
+      const continueBtn = document.getElementById('continue-plan'); if (continueBtn) continueBtn.addEventListener('click', () => { window.location.href = 'trainingplan.html'; });
+
+      loadUser();
+    })();
+  </script>
 
     <!-- Plan preview modal -->
     <div id="plan-preview-modal" class="plan-preview-overlay" role="dialog" aria-modal="true" aria-hidden="true">
@@ -1021,41 +1193,42 @@
         setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(8px)'; setTimeout(() => t.remove(), 260); }, timeout);
       }
       
-      // Profile UI: populate user info and handle dropdown & logout
+      // Profile UI: populate user info and handle logout/settings
       document.addEventListener('DOMContentLoaded', async () => {
-        const profileBtn = document.getElementById('profile-btn');
-        const dropdown = document.getElementById('profile-dropdown');
         const profileName = document.getElementById('profile-name');
         const profileEmail = document.getElementById('profile-email');
         const profilePic = document.getElementById('profile-pic');
         const greetingName = document.getElementById('greeting-name');
 
-        function closeDropdown() {
-          // animate closing then hide
-          dropdown.classList.remove('profile-dropdown-open');
-          dropdown.classList.add('profile-dropdown-close');
-          const chevron = profileBtn.querySelector('i'); if (chevron) chevron.classList.remove('profile-chevron-open');
-          profileBtn.setAttribute('aria-expanded','false');
-          setTimeout(() => { dropdown.classList.add('hidden'); dropdown.classList.remove('profile-dropdown-close'); }, 160);
+        // Settings quick link (anchor exists in markup)
+        const settingsBtn = document.getElementById('settings-btn');
+        if (settingsBtn) settingsBtn.addEventListener('click', (e) => { /* anchor navigation */ });
+
+        // Logout flow (visible button)
+        const logoutBtn = document.getElementById('logout-btn');
+        const logoutModal = document.getElementById('logout-modal');
+        const logoutConfirm = document.getElementById('logout-confirm');
+        const logoutCancel = document.getElementById('logout-cancel');
+        const logoutClose = document.getElementById('logout-modal-close');
+
+        function openLogoutModal() { logoutModal.classList.remove('closing'); logoutModal.classList.add('open'); logoutModal.setAttribute('aria-hidden','false'); }
+        function closeLogoutModal() {
+          // animate fade out then remove
+          logoutModal.classList.remove('open');
+          logoutModal.classList.add('closing');
+          setTimeout(() => { logoutModal.classList.remove('closing'); logoutModal.setAttribute('aria-hidden','true'); }, 160);
         }
 
-        function openDropdown() {
-          dropdown.classList.remove('hidden');
-          // ensure clean state
-          dropdown.classList.remove('profile-dropdown-close');
-          void dropdown.offsetWidth; // force reflow to restart animation
-          dropdown.classList.add('profile-dropdown-open');
-          const chevron = profileBtn.querySelector('i'); if (chevron) chevron.classList.add('profile-chevron-open');
-          profileBtn.setAttribute('aria-expanded','true');
-        }
+        if (logoutBtn) logoutBtn.addEventListener('click', () => { openLogoutModal(); });
+        if (logoutCancel) logoutCancel.addEventListener('click', closeLogoutModal);
+        if (logoutClose) logoutClose.addEventListener('click', closeLogoutModal);
+        if (logoutModal) logoutModal.addEventListener('click', (e) => { if (e.target === logoutModal) closeLogoutModal(); });
 
-        profileBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (dropdown.classList.contains('hidden')) openDropdown(); else closeDropdown();
+        if (logoutConfirm) logoutConfirm.addEventListener('click', async () => {
+          // Supabase removed — just close and redirect
+          closeLogoutModal();
+          window.location.href = 'index.html';
         });
-
-        // Close when clicking outside
-        document.addEventListener('click', (e) => { if (!profileBtn.contains(e.target) && !dropdown.contains(e.target)) closeDropdown(); });
 
         // Logout flow
         const logoutBtn = document.getElementById('logout-btn');
@@ -1088,7 +1261,7 @@
           profileName.textContent = 'Member';
           greetingName.textContent = 'Member';
           profileEmail.textContent = 'not signed in';
-          profilePic.src = '../media/logo_round.png';
+          if (profilePic) profilePic.src = '../media/logo_round.png';
         } catch (e) { console.warn('Could not populate profile UI', e); }
       });
 
