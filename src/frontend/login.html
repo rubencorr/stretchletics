@@ -342,74 +342,16 @@
           <button id="login-button" class="gradient-button w-full px-5 py-3.5 text-lg font-black shadow-xl mt-6 text-center inline-block">LOG IN</button>
         </form>
 
-        <!-- Supabase and client -->
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
-        <script src="./supabaseClient.js"></script>
+        <!-- Authentication removed -->
         <script>
           (function () {
             const btn = document.getElementById('login-button');
-            const emailEl = document.getElementById('email');
-            const passEl = document.getElementById('password');
             const msg = document.createElement('div');
             msg.id = 'login-message';
-            msg.className = 'mt-4 text-sm text-center';
+            msg.className = 'mt-4 text-sm text-center text-yellow-400';
+            msg.textContent = 'Authentication is currently disabled in this build.';
             btn.parentNode.insertBefore(msg, btn.nextSibling);
-
-            // Add a "Send Magic Link" helper
-            const magicBtn = document.createElement('button');
-            magicBtn.type = 'button';
-            magicBtn.className = 'mt-3 w-full gradient-button py-2 text-sm';
-            magicBtn.textContent = 'Send Magic Link';
-            btn.parentNode.insertBefore(magicBtn, msg.nextSibling);
-
-            magicBtn.addEventListener('click', async () => {
-              const email = emailEl.value.trim();
-              if (!email) { msg.textContent = 'Enter your email address first'; msg.style.color = '#f59e0b'; return; }
-              msg.textContent = 'Sending magic link...';
-              try {
-                const mres = await window.supabaseClient.signInWithMagicLink(email);
-                if (mres && mres.error) { msg.textContent = 'Error sending magic link: ' + mres.error.message; msg.style.color = '#f87171'; }
-                else { msg.textContent = 'Magic link sent — check your email.'; msg.style.color = '#34d399'; }
-              } catch (err) {
-                msg.textContent = 'Unexpected error: ' + (err.message || err);
-                msg.style.color = '#f87171';
-              }
-            });
-
-            btn.addEventListener('click', async (e) => {
-              e.preventDefault();
-              msg.textContent = 'Signing in...';
-              try {
-                const res = await window.supabaseClient.signInWithPassword(emailEl.value.trim(), passEl.value);
-                if (res && res.error) {
-                  const emsg = (res.error && (res.error.message || res.error.error_description || res.error.code)) || '';
-                  if (String(emsg).toLowerCase().includes('email not confirmed') || String(emsg).toLowerCase().includes('not confirmed')) {
-                    msg.innerHTML = 'Email not confirmed. <strong>Check your email</strong> or <button id="login-magic-resend" class="ml-2 inline-block px-3 py-1 rounded bg-indigo-600 text-white text-sm">Send Magic Link</button>';
-                    const resend = document.getElementById('login-magic-resend');
-                    if (resend) {
-                      resend.addEventListener('click', async () => {
-                        msg.textContent = 'Sending magic link...';
-                        try {
-                          const mres = await window.supabaseClient.signInWithMagicLink(emailEl.value.trim());
-                          if (mres && mres.error) { msg.textContent = 'Error sending magic link: ' + mres.error.message; msg.style.color = '#f87171'; }
-                          else { msg.textContent = 'Magic link sent — check your email.'; msg.style.color = '#34d399'; }
-                        } catch (err) { msg.textContent = 'Unexpected: ' + (err.message || err); msg.style.color = '#f87171'; }
-                      });
-                    }
-                  } else {
-                    msg.textContent = 'Error: ' + res.error.message;
-                    msg.style.color = '#f87171';
-                  }
-                } else {
-                  msg.textContent = 'Signed in — redirecting...';
-                  msg.style.color = '#34d399';
-                  setTimeout(() => { window.location.href = 'user.html'; }, 800);
-                }
-              } catch (err) {
-                msg.textContent = 'Unexpected error: ' + (err.message || err);
-                msg.style.color = '#f87171';
-              }
-            });
+            btn.addEventListener('click', (e) => { e.preventDefault(); alert('Authentication is not available. Please re-enable authentication to use this feature.'); });
           })();
         </script>
 

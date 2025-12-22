@@ -368,11 +368,8 @@
           role="alert"
         ></div>
 
-        <!-- SSO Options -->
+        <!-- Registration disabled -->
         <div class="mt-8 space-y-3">
-          <!-- Include Supabase scripts and auth handler -->
-          <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
-          <script src="./supabaseClient.js"></script>
           <script>
             (function () {
               const form = document.getElementById('registration-form');
@@ -386,42 +383,9 @@
                 else msg.classList.add('text-white');
               }
 
-              form.addEventListener('submit', async (e) => {
+              form.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const fullName = document.getElementById('full-name').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-                const confirm = document.getElementById('confirm-password').value;
-                if (password !== confirm) { showMessage('Passwords do not match', 'error'); return; }
-                try {
-                  showMessage('Creating account...');
-                  const res = await window.supabaseClient.signUpWithEmail(email, password, { data: { full_name: fullName } });
-                  if (res.error) {
-                    showMessage('Error: ' + res.error.message, 'error');
-                  } else {
-                    showMessage('Account created. Please check your email for confirmation link.', 'success');
-
-                    // Provide a "Resend confirmation" button (uses magic link)
-                    const resendBtn = document.createElement('button');
-                    resendBtn.type = 'button';
-                    resendBtn.className = 'mt-3 inline-block px-3 py-2 rounded bg-indigo-600 text-white text-sm';
-                    resendBtn.textContent = 'Resend confirmation (Magic Link)';
-                    msg.appendChild(resendBtn);
-                    resendBtn.addEventListener('click', async () => {
-                      msg.textContent = 'Sending magic link...';
-                      try {
-                        const mres = await window.supabaseClient.signInWithMagicLink(email);
-                        if (mres && mres.error) showMessage('Error: ' + mres.error.message, 'error');
-                        else showMessage('Magic link sent — check your email.', 'success');
-                      } catch (err) { showMessage('Unexpected: ' + (err.message || err), 'error'); }
-                    });
-
-                    // Optionally redirect to login
-                    setTimeout(() => { window.location.href = 'login.html'; }, 2000);
-                  }
-                } catch (err) {
-                  showMessage('Unexpected error: ' + err.message, 'error');
-                }
+                showMessage('Registration is disabled — authentication has been removed.', 'error');
               });
             })();
           </script>
@@ -509,9 +473,6 @@
       </div>
     </div>
 
-    <!-- Removed Firebase-based registration logic; using Supabase auth via the inline handler above -->
-    <!-- Ensure Supabase client is available -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
-    <script src="./supabaseClient.js"></script>
+    <!-- Authentication integration removed for now -->
   </body>
 </html>

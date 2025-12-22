@@ -296,12 +296,8 @@
     </div>
   </main>
 
-  <!-- Supabase client & UI helpers -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
-  <script src="./supabaseClient.js"></script>
-  <script src="./supabase-ui.js"></script>
+  <!-- Supabase integration removed — parser utils only -->
   <script src="./parser-utils.js"></script>
-</script>
 
     <!-- Plan preview modal -->
     <div id="plan-preview-modal" class="plan-preview-overlay" role="dialog" aria-modal="true" aria-hidden="true">
@@ -913,12 +909,9 @@
         if (!el) return;
         el.innerHTML = '<p class="text-sm text-slate-500">Loading plans…</p>';
         try {
-          if (window.supabaseUI && typeof window.supabaseUI.ensureSupabaseConfig === 'function') {
-            const ok = await window.supabaseUI.ensureSupabaseConfig();
-            if (!ok) { el.innerHTML = '<p class="text-sm text-slate-500">Supabase not configured.</p>'; return; }
-          }
 
-          const res = await window.supabaseClient.loadPlans();
+
+          const res = { data: [], error: null }; // Supabase removed — stubbed response
           if (res.error) {
             const msg = res.error.message || JSON.stringify(res.error);
             const lower = String(msg).toLowerCase();
@@ -926,7 +919,7 @@
               el.innerHTML = `
                 <div class="p-4 bg-black/20 rounded-lg border border-white/5">
                   <div class="font-bold text-white mb-2">No plans table found</div>
-                  <p class="text-sm text-slate-400 mb-3">It looks like your Supabase database doesn't have the required <code>plans</code> table or the schema cache is outdated.</p>
+                  <p class="text-sm text-slate-400 mb-3">It looks like the plans storage is not configured or the schema is missing.</p>
                   <div class="flex gap-2">
                     <button id="show-migration-btn" class="px-3 py-2 bg-indigo-600 text-white rounded text-sm">Show migration instructions</button>
                     <button id="retry-plans-btn" class="px-3 py-2 bg-white/5 text-slate-300 rounded border border-white/10 text-sm">Retry</button>
@@ -934,7 +927,7 @@
                 </div>
               `;
               document.getElementById('show-migration-btn').addEventListener('click', () => {
-                alert('Run the SQL migration located at `db/migrations/0001_create_plans_and_workouts.sql` in your Supabase SQL editor to create the `plans` table. After running the migration, click Retry.');
+                alert('Run the SQL migration located at `db/migrations/0001_create_plans_and_workouts.sql` to create the `plans` table. After running the migration, click Retry.');
               });
               document.getElementById('retry-plans-btn').addEventListener('click', renderMyPlans);
               return;
@@ -965,11 +958,8 @@
             del.textContent = 'Delete';
             del.addEventListener('click', async () => {
               if (!confirm('Delete this plan?')) return;
-              try {
-                const dres = await window.supabaseClient.deletePlan(plan.id);
-                if (dres.error) { alert('Delete failed: ' + (dres.error.message||JSON.stringify(dres.error))); return; }
-                div.remove();
-              } catch (e) { alert('Delete failed: ' + e.message); }
+              // Supabase removed — deletion disabled; simulate removal locally
+              if (confirm('Delete this plan? (simulation)')) { div.remove(); }
             });
             right.appendChild(view);
             right.appendChild(del);
@@ -983,25 +973,40 @@
               setTimeout(() => { div.style.boxShadow = ''; localStorage.removeItem('last_saved_plan_id'); }, 3000);
             }
           });
-        } catch (e) { el.innerHTML = `<p class="text-sm text-red-500">Load failed: ${e.message}</p>`; }
+        } catch (e) {
+            const msg = e && e.message ? e.message : String(e);
+            el.innerHTML = `<p class="text-sm text-red-500">Load failed: ${msg}</p>`;
+            if (String(msg).toLowerCase().includes('not authenticated')) {
+              const retry = document.createElement('div');
+              retry.className = 'mt-3 flex items-center gap-3';
+              const btn = document.createElement('button');
+              btn.className = 'px-3 py-2 bg-white/5 text-slate-200 rounded text-sm';
+              btn.textContent = 'Re-check authentication';
+              // Debug helper removed — Supabase no longer available
+              el.appendChild(document.createElement('div'));
+            }
+          }
       }
 
       document.addEventListener('DOMContentLoaded', () => {
         const refresh = document.getElementById('refresh-plans-btn');
         if (refresh) refresh.addEventListener('click', renderMyPlans);
 
-        (function tryRender(attempts = 25) {
-          if (typeof window.supabaseClient !== 'undefined') {
-            renderMyPlans();
-          } else if (attempts > 0) {
-            setTimeout(() => tryRender(attempts - 1), 200);
-          } else {
-            const el = document.getElementById('my-plans-list');
-            if (el && el.innerHTML.trim() === '<p class="text-sm text-slate-500">Loading plans…</p>') {
-              el.innerHTML = '<p class="text-sm text-slate-500">No plans to show yet — click Refresh after signing in.</p>';
-            }
-          }
+        (function initRender() {
+          const refresh = document.getElementById('refresh-plans-btn');
+          if (refresh) refresh.disabled = true;
+          renderMyPlans();
         })();
+
+        // Supabase auth listeners removed — authentication has been disabled in this build.
+        // Ensure renderMyPlans is a no-op/stub for the removed feature
+        window.renderMyPlans = async function() {
+          const el = document.getElementById('my-plans-list');
+          if (!el) return;
+          el.innerHTML = '<p class="text-sm text-slate-500">Saved plans are not available — authentication and storage have been removed.</p>';
+          const refresh = document.getElementById('refresh-plans-btn');
+          if (refresh) refresh.disabled = true;
+        };
       });
 
       // Simple toast helper for lightweight notifications
@@ -1073,35 +1078,17 @@
         logoutModal.addEventListener('click', (e) => { if (e.target === logoutModal) closeLogoutModal(); });
 
         logoutConfirm.addEventListener('click', async () => {
-          try {
-            if (window.supabaseClient && typeof window.supabaseClient.signOut === 'function') {
-              await window.supabaseClient.signOut();
-            }
-          } catch (e) { console.warn('Sign out failed', e); }
+          // Supabase removed — just close and redirect
           closeLogoutModal();
-          // Redirect to home or login
           window.location.href = 'index.html';
         });
 
-        // Populate user info from supabaseClient if available
+        // Populate user info — Supabase removed, use default placeholders
         try {
-          if (window.supabaseClient && typeof window.supabaseClient.getUser === 'function') {
-            const u = await window.supabaseClient.getUser();
-            const user = u && (u.user || u) ? (u.user || u) : u;
-            if (user) {
-              const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'User';
-              const email = user.email || '';
-              const avatar = user.user_metadata?.avatar_url || user.user_metadata?.avatar || '../media/logo_round.png';
-              profileName.textContent = name;
-              greetingName.textContent = name.split(' ')[0] || name;
-              profileEmail.textContent = email || 'member';
-              profilePic.src = avatar;
-              // subtle animation on load
-              profilePic.style.transform = 'scale(0.96)';
-              profilePic.style.transition = 'transform 320ms cubic-bezier(.2,.9,.3,1)';
-              setTimeout(()=> profilePic.style.transform = 'scale(1)', 40);
-            }
-          }
+          profileName.textContent = 'Member';
+          greetingName.textContent = 'Member';
+          profileEmail.textContent = 'not signed in';
+          profilePic.src = '../media/logo_round.png';
         } catch (e) { console.warn('Could not populate profile UI', e); }
       });
 

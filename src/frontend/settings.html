@@ -282,9 +282,7 @@
       if (confirmBtn) confirmBtn.addEventListener('click', async () => {
         confirmBtn.disabled = true; confirmBtn.textContent = 'Deleting...';
         try {
-          if (window.supabaseClient && typeof window.supabaseClient.signOut === 'function') {
-            await window.supabaseClient.signOut();
-          }
+          // Supabase removed — simulate deletion
           showToast('Account simulated deletion.', 'success');
           closeModal();
           setTimeout(()=>{ window.location.href = 'index.html'; }, 800);
@@ -306,7 +304,7 @@
         const profileMsg = document.getElementById('profile-save-msg');
         let selectedDataUrl = null;
 
-        // Load dummy data or Supabase
+        // Load dummy data or storage backend (disabled)
         try {
           if (window.supabaseClient) { /* ... fetch user logic ... */ } 
         } catch (e) { console.warn('Could not load user', e); }

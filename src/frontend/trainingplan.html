@@ -1971,87 +1971,17 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
-    <script src="./supabaseClient.js"></script>
     <script src="./parser-utils.js"></script>
     <script src="./calendar-utils.js"></script>
     <script src="./export-utils.js"></script>
     <script>
-      // Bind the save button to call supabaseClient.savePlan and then redirect to user.html
-      document.getElementById('save-plan-btn')?.addEventListener('click', async function (e) {
-        const btn = e.currentTarget;
-        const originalHtml = btn ? btn.innerHTML : null;
-        try {
-          if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Saving...'; }
-          // Prefer structured plan data from the current editor state (trainingPlanData) if available
-          let parsed;
-          if (typeof trainingPlanData !== 'undefined' && trainingPlanData) {
-            parsed = getParsedPlan(trainingPlanData);
-          } else if (document.getElementById('plan-textarea')) {
-            parsed = getParsedPlan(document.getElementById('plan-textarea').value);
-          } else {
-            parsed = getParsedPlan('');
-          }
-
-          // Prevent accidental saving of empty plans — confirm if there are no weeks
-          if (!parsed || !parsed.weeks || parsed.weeks.length === 0) {
-            const proceed = confirm('This plan looks empty. Do you still want to save it?');
-            if (!proceed) return;
-          }
-
-          const title = (document.getElementById('plan-name')?.value || '').trim() || parsed.name || 'Training Plan';
-          // Save the structured object when possible so the backend stores jsonb content
-          const planContent = (typeof trainingPlanData !== 'undefined' && trainingPlanData) ? trainingPlanData : (document.getElementById('plan-textarea') ? document.getElementById('plan-textarea').value : parsed);
-          const metadata = { created_at: new Date().toISOString() };
-          const result = await window.supabaseClient.savePlan(title, planContent, metadata);
-          if (result && result.error) {
-            const msg = result.error.message || JSON.stringify(result.error);
-            alert('Error saving plan: ' + msg);
-            return;
-          }
-          // store the last saved id for easy navigation back to the plan
-          if (result && result.data) {
-            const row = Array.isArray(result.data) ? result.data[0] : result.data;
-            if (row && row.id) {
-              localStorage.setItem('last_saved_plan_id', String(row.id));
-            }
-          }
-
-          // small inline notification (no navigation)
-          const old = document.getElementById('save-notice');
-          if (old) old.remove();
-          const notice = document.createElement('div');
-          notice.id = 'save-notice';
-          notice.className = 'mt-2 text-sm text-green-700 flex items-center gap-2';
-          notice.innerHTML = '<i class="fas fa-check text-green-600"></i><span>Saved</span>';
-          // append near header actions if available, otherwise near the save button
-          const target = document.querySelector('.header-actions') || document.getElementById('save-plan-btn')?.parentNode || document.body;
-          target.appendChild(notice);
-
-          // briefly animate and then remove notice
-          setTimeout(() => { try { notice.remove(); } catch(e){} }, 3000);
-        } catch (err) {
-          console.error('Save failed', err);
-          alert('Save failed: ' + (err.message || err));
-        } finally {
-          if (btn) { btn.disabled = false; if (originalHtml) btn.innerHTML = originalHtml; }
-        }
+      // Saving disabled — Supabase integration removed.
+      document.getElementById('save-plan-btn')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        alert('Saving plans is disabled: Supabase integration has been removed.');
       });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
-    <script src="./supabaseClient.js"></script>
-
-    <script>
-      // Removed duplicate save handler: saving is handled inline without redirect to dashboard.
-      // The previous handler saved twice (causing a second empty 'Training Plan' save and redirected the page).
-      // Keeping this commented so future changes are explicit and avoid duplicate saves.
-      // If you want a separate 'Save and Go to Dashboard' action, we can add an explicit button for that.
-      (function () {
-        // no-op placeholder
-      })();
-        });
-      })();
-    </script>
+    <!-- Duplicate Supabase/script blocks removed to avoid multiple SDK instances and parsing errors -->
 
     <script>
       let selectedSport = null;
@@ -3636,6 +3566,8 @@ Format the plan clearly with headers for each week and day.`;
 
       // Initialize wizard on load
       initWizard();
+
+      // Supabase auth listeners removed — authentication has been disabled in this build.
 
       // If a plan was imported (from user dashboard), load it and show calendar
       try {
